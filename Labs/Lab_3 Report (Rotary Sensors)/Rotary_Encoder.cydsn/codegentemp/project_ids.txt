@@ -1,0 +1,6 @@
+C:\Users\rualjim\Desktop\Rotary_Encoder.cydsn\Rotary_Encoder.cyprj|adcd4f06-2bd7-4c6b-9f41-183f16f2c060
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|20c86f2e-2e17-4f5f-8b05-921cd1723a75
+C:\Users\rualjim\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|101c179b-3d8f-4d32-a898-de5f1425ae55
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|c5203da1-f458-4c5f-8937-10fda8c85d4a
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|9eb3d5eb-c81d-4085-9aa7-9e99122179eb
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|8753c3e6-618f-4d80-820f-b5dba9bc9b59
