@@ -1,0 +1,895 @@
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"cymetadata.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	cy_metadata
+  20              		.global	cy_meta_flashprotect
+  21              		.global	cy_meta_wonvl
+  22              		.global	cy_meta_custnvl
+  23              		.global	cy_meta_configecc
+  24              		.section	.cyconfigecc,"a",%progbits
+  25              		.align	2
+  26              		.type	cy_meta_configecc, %object
+  27              		.size	cy_meta_configecc, 388
+  28              	cy_meta_configecc:
+  29 0000 01       		.byte	1
+  30 0001 4F       		.byte	79
+  31 0002 00       		.byte	0
+  32 0003 40       		.byte	64
+  33 0004 03       		.byte	3
+  34 0005 52       		.byte	82
+  35 0006 00       		.byte	0
+  36 0007 40       		.byte	64
+  37 0008 03       		.byte	3
+  38 0009 5A       		.byte	90
+  39 000a 00       		.byte	0
+  40 000b 40       		.byte	64
+  41 000c 0E       		.byte	14
+  42 000d 00       		.byte	0
+  43 000e 01       		.byte	1
+  44 000f 40       		.byte	64
+  45 0010 0C       		.byte	12
+  46 0011 01       		.byte	1
+  47 0012 01       		.byte	1
+  48 0013 40       		.byte	64
+  49 0014 06       		.byte	6
+  50 0015 03       		.byte	3
+  51 0016 01       		.byte	1
+  52 0017 40       		.byte	64
+  53 0018 05       		.byte	5
+  54 0019 05       		.byte	5
+  55 001a 01       		.byte	1
+  56 001b 40       		.byte	64
+  57 001c 04       		.byte	4
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 2
+
+
+  58 001d 07       		.byte	7
+  59 001e 01       		.byte	1
+  60 001f 40       		.byte	64
+  61 0020 02       		.byte	2
+  62 0021 0B       		.byte	11
+  63 0022 01       		.byte	1
+  64 0023 40       		.byte	64
+  65 0024 01       		.byte	1
+  66 0025 0D       		.byte	13
+  67 0026 01       		.byte	1
+  68 0027 40       		.byte	64
+  69 0028 05       		.byte	5
+  70 0029 17       		.byte	23
+  71 002a 01       		.byte	1
+  72 002b 40       		.byte	64
+  73 002c 02       		.byte	2
+  74 002d 19       		.byte	25
+  75 002e 01       		.byte	1
+  76 002f 40       		.byte	64
+  77 0030 07       		.byte	7
+  78 0031 40       		.byte	64
+  79 0032 01       		.byte	1
+  80 0033 40       		.byte	64
+  81 0034 05       		.byte	5
+  82 0035 41       		.byte	65
+  83 0036 01       		.byte	1
+  84 0037 40       		.byte	64
+  85 0038 06       		.byte	6
+  86 0039 42       		.byte	66
+  87 003a 01       		.byte	1
+  88 003b 40       		.byte	64
+  89 003c 07       		.byte	7
+  90 003d 43       		.byte	67
+  91 003e 01       		.byte	1
+  92 003f 40       		.byte	64
+  93 0040 06       		.byte	6
+  94 0041 45       		.byte	69
+  95 0042 01       		.byte	1
+  96 0043 40       		.byte	64
+  97 0044 04       		.byte	4
+  98 0045 46       		.byte	70
+  99 0046 01       		.byte	1
+ 100 0047 40       		.byte	64
+ 101 0048 05       		.byte	5
+ 102 0049 47       		.byte	71
+ 103 004a 01       		.byte	1
+ 104 004b 40       		.byte	64
+ 105 004c 09       		.byte	9
+ 106 004d 48       		.byte	72
+ 107 004e 01       		.byte	1
+ 108 004f 40       		.byte	64
+ 109 0050 0A       		.byte	10
+ 110 0051 4C       		.byte	76
+ 111 0052 01       		.byte	1
+ 112 0053 40       		.byte	64
+ 113 0054 03       		.byte	3
+ 114 0055 4D       		.byte	77
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 3
+
+
+ 115 0056 01       		.byte	1
+ 116 0057 40       		.byte	64
+ 117 0058 02       		.byte	2
+ 118 0059 50       		.byte	80
+ 119 005a 01       		.byte	1
+ 120 005b 40       		.byte	64
+ 121 005c 01       		.byte	1
+ 122 005d 51       		.byte	81
+ 123 005e 01       		.byte	1
+ 124 005f 40       		.byte	64
+ 125 0060 0A       		.byte	10
+ 126 0061 4B       		.byte	75
+ 127 0062 21       		.byte	33
+ 128 0063 08       		.byte	8
+ 129 0064 28       		.byte	40
+ 130 0065 01       		.byte	1
+ 131 0066 29       		.byte	41
+ 132 0067 01       		.byte	1
+ 133 0068 3B       		.byte	59
+ 134 0069 04       		.byte	4
+ 135 006a 3C       		.byte	60
+ 136 006b 04       		.byte	4
+ 137 006c CF       		.byte	-49
+ 138 006d 04       		.byte	4
+ 139 006e 06       		.byte	6
+ 140 006f 01       		.byte	1
+ 141 0070 0C       		.byte	12
+ 142 0071 01       		.byte	1
+ 143 0072 36       		.byte	54
+ 144 0073 01       		.byte	1
+ 145 0074 3E       		.byte	62
+ 146 0075 40       		.byte	64
+ 147 0076 58       		.byte	88
+ 148 0077 04       		.byte	4
+ 149 0078 5F       		.byte	95
+ 150 0079 01       		.byte	1
+ 151 007a 82       		.byte	-126
+ 152 007b 01       		.byte	1
+ 153 007c 8C       		.byte	-116
+ 154 007d 03       		.byte	3
+ 155 007e 92       		.byte	-110
+ 156 007f 02       		.byte	2
+ 157 0080 B0       		.byte	-80
+ 158 0081 03       		.byte	3
+ 159 0082 B8       		.byte	-72
+ 160 0083 08       		.byte	8
+ 161 0084 BE       		.byte	-66
+ 162 0085 04       		.byte	4
+ 163 0086 D8       		.byte	-40
+ 164 0087 04       		.byte	4
+ 165 0088 DF       		.byte	-33
+ 166 0089 01       		.byte	1
+ 167 008a 01       		.byte	1
+ 168 008b 80       		.byte	-128
+ 169 008c 02       		.byte	2
+ 170 008d 10       		.byte	16
+ 171 008e 04       		.byte	4
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 4
+
+
+ 172 008f 80       		.byte	-128
+ 173 0090 07       		.byte	7
+ 174 0091 40       		.byte	64
+ 175 0092 0E       		.byte	14
+ 176 0093 80       		.byte	-128
+ 177 0094 18       		.byte	24
+ 178 0095 01       		.byte	1
+ 179 0096 1E       		.byte	30
+ 180 0097 80       		.byte	-128
+ 181 0098 1F       		.byte	31
+ 182 0099 04       		.byte	4
+ 183 009a 8B       		.byte	-117
+ 184 009b 04       		.byte	4
+ 185 009c C0       		.byte	-64
+ 186 009d 95       		.byte	-107
+ 187 009e C2       		.byte	-62
+ 188 009f 10       		.byte	16
+ 189 00a0 E2       		.byte	-30
+ 190 00a1 80       		.byte	-128
+ 191 00a2 94       		.byte	-108
+ 192 00a3 80       		.byte	-128
+ 193 00a4 9D       		.byte	-99
+ 194 00a5 80       		.byte	-128
+ 195 00a6 9E       		.byte	-98
+ 196 00a7 10       		.byte	16
+ 197 00a8 9F       		.byte	-97
+ 198 00a9 40       		.byte	64
+ 199 00aa AE       		.byte	-82
+ 200 00ab 40       		.byte	64
+ 201 00ac B4       		.byte	-76
+ 202 00ad 01       		.byte	1
+ 203 00ae 9D       		.byte	-99
+ 204 00af 80       		.byte	-128
+ 205 00b0 9E       		.byte	-98
+ 206 00b1 10       		.byte	16
+ 207 00b2 9F       		.byte	-97
+ 208 00b3 40       		.byte	64
+ 209 00b4 B4       		.byte	-76
+ 210 00b5 40       		.byte	64
+ 211 00b6 EA       		.byte	-22
+ 212 00b7 08       		.byte	8
+ 213 00b8 81       		.byte	-127
+ 214 00b9 80       		.byte	-128
+ 215 00ba 9D       		.byte	-99
+ 216 00bb 80       		.byte	-128
+ 217 00bc 9E       		.byte	-98
+ 218 00bd 10       		.byte	16
+ 219 00be 9F       		.byte	-97
+ 220 00bf 40       		.byte	64
+ 221 00c0 EA       		.byte	-22
+ 222 00c1 08       		.byte	8
+ 223 00c2 EE       		.byte	-18
+ 224 00c3 10       		.byte	16
+ 225 00c4 EC       		.byte	-20
+ 226 00c5 10       		.byte	16
+ 227 00c6 86       		.byte	-122
+ 228 00c7 10       		.byte	16
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 5
+
+
+ 229 00c8 9E       		.byte	-98
+ 230 00c9 10       		.byte	16
+ 231 00ca AB       		.byte	-85
+ 232 00cb 40       		.byte	64
+ 233 00cc EC       		.byte	-20
+ 234 00cd 40       		.byte	64
+ 235 00ce EE       		.byte	-18
+ 236 00cf 04       		.byte	4
+ 237 00d0 EC       		.byte	-20
+ 238 00d1 40       		.byte	64
+ 239 00d2 EE       		.byte	-18
+ 240 00d3 04       		.byte	4
+ 241 00d4 33       		.byte	51
+ 242 00d5 80       		.byte	-128
+ 243 00d6 58       		.byte	88
+ 244 00d7 10       		.byte	16
+ 245 00d8 5B       		.byte	91
+ 246 00d9 08       		.byte	8
+ 247 00da 8B       		.byte	-117
+ 248 00db 01       		.byte	1
+ 249 00dc CC       		.byte	-52
+ 250 00dd 10       		.byte	16
+ 251 00de D4       		.byte	-44
+ 252 00df 80       		.byte	-128
+ 253 00e0 D6       		.byte	-42
+ 254 00e1 40       		.byte	64
+ 255 00e2 9F       		.byte	-97
+ 256 00e3 08       		.byte	8
+ 257 00e4 A3       		.byte	-93
+ 258 00e5 01       		.byte	1
+ 259 00e6 A7       		.byte	-89
+ 260 00e7 80       		.byte	-128
+ 261 00e8 AC       		.byte	-84
+ 262 00e9 10       		.byte	16
+ 263 00ea EE       		.byte	-18
+ 264 00eb 40       		.byte	64
+ 265 00ec 63       		.byte	99
+ 266 00ed 02       		.byte	2
+ 267 00ee A3       		.byte	-93
+ 268 00ef 01       		.byte	1
+ 269 00f0 A7       		.byte	-89
+ 270 00f1 80       		.byte	-128
+ 271 00f2 AF       		.byte	-81
+ 272 00f3 08       		.byte	8
+ 273 00f4 D6       		.byte	-42
+ 274 00f5 40       		.byte	64
+ 275 00f6 EA       		.byte	-22
+ 276 00f7 10       		.byte	16
+ 277 00f8 19       		.byte	25
+ 278 00f9 01       		.byte	1
+ 279 00fa 1A       		.byte	26
+ 280 00fb 80       		.byte	-128
+ 281 00fc 1B       		.byte	27
+ 282 00fd 02       		.byte	2
+ 283 00fe 83       		.byte	-125
+ 284 00ff 02       		.byte	2
+ 285 0100 A7       		.byte	-89
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 6
+
+
+ 286 0101 80       		.byte	-128
+ 287 0102 C6       		.byte	-58
+ 288 0103 10       		.byte	16
+ 289 0104 E0       		.byte	-32
+ 290 0105 20       		.byte	32
+ 291 0106 12       		.byte	18
+ 292 0107 40       		.byte	64
+ 293 0108 13       		.byte	19
+ 294 0109 01       		.byte	1
+ 295 010a 90       		.byte	-112
+ 296 010b 01       		.byte	1
+ 297 010c B4       		.byte	-76
+ 298 010d 01       		.byte	1
+ 299 010e C4       		.byte	-60
+ 300 010f 08       		.byte	8
+ 301 0110 EC       		.byte	-20
+ 302 0111 08       		.byte	8
+ 303 0112 90       		.byte	-112
+ 304 0113 01       		.byte	1
+ 305 0114 AE       		.byte	-82
+ 306 0115 40       		.byte	64
+ 307 0116 B7       		.byte	-73
+ 308 0117 01       		.byte	1
+ 309 0118 EE       		.byte	-18
+ 310 0119 08       		.byte	8
+ 311 011a 30       		.byte	48
+ 312 011b 02       		.byte	2
+ 313 011c 3C       		.byte	60
+ 314 011d 01       		.byte	1
+ 315 011e 90       		.byte	-112
+ 316 011f 01       		.byte	1
+ 317 0120 CC       		.byte	-52
+ 318 0121 02       		.byte	2
+ 319 0122 CE       		.byte	-50
+ 320 0123 01       		.byte	1
+ 321 0124 27       		.byte	39
+ 322 0125 01       		.byte	1
+ 323 0126 87       		.byte	-121
+ 324 0127 01       		.byte	1
+ 325 0128 AA       		.byte	-86
+ 326 0129 40       		.byte	64
+ 327 012a AB       		.byte	-85
+ 328 012b 80       		.byte	-128
+ 329 012c B5       		.byte	-75
+ 330 012d 01       		.byte	1
+ 331 012e C8       		.byte	-56
+ 332 012f 20       		.byte	32
+ 333 0130 E0       		.byte	-32
+ 334 0131 40       		.byte	64
+ 335 0132 EC       		.byte	-20
+ 336 0133 80       		.byte	-128
+ 337 0134 EE       		.byte	-18
+ 338 0135 20       		.byte	32
+ 339 0136 1F       		.byte	31
+ 340 0137 20       		.byte	32
+ 341 0138 38       		.byte	56
+ 342 0139 20       		.byte	32
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 7
+
+
+ 343 013a 90       		.byte	-112
+ 344 013b 20       		.byte	32
+ 345 013c A0       		.byte	-96
+ 346 013d 02       		.byte	2
+ 347 013e A7       		.byte	-89
+ 348 013f 20       		.byte	32
+ 349 0140 AB       		.byte	-85
+ 350 0141 20       		.byte	32
+ 351 0142 B4       		.byte	-76
+ 352 0143 12       		.byte	18
+ 353 0144 C6       		.byte	-58
+ 354 0145 01       		.byte	1
+ 355 0146 CE       		.byte	-50
+ 356 0147 08       		.byte	8
+ 357 0148 EC       		.byte	-20
+ 358 0149 02       		.byte	2
+ 359 014a 54       		.byte	84
+ 360 014b 02       		.byte	2
+ 361 014c A0       		.byte	-96
+ 362 014d 02       		.byte	2
+ 363 014e D6       		.byte	-42
+ 364 014f 04       		.byte	4
+ 365 0150 00       		.byte	0
+ 366 0151 01       		.byte	1
+ 367 0152 08       		.byte	8
+ 368 0153 01       		.byte	1
+ 369 0154 00       		.byte	0
+ 370 0155 03       		.byte	3
+ 371 0156 00       		.byte	0
+ 372 0157 00       		.byte	0
+ 373 0158 00       		.byte	0
+ 374 0159 00       		.byte	0
+ 375 015a 00       		.byte	0
+ 376 015b 00       		.byte	0
+ 377 015c 00       		.byte	0
+ 378 015d 00       		.byte	0
+ 379 015e 04       		.byte	4
+ 380 015f 00       		.byte	0
+ 381 0160 00       		.byte	0
+ 382 0161 0B       		.byte	11
+ 383 0162 0B       		.byte	11
+ 384 0163 00       		.byte	0
+ 385 0164 00       		.byte	0
+ 386 0165 00       		.byte	0
+ 387 0166 C0       		.byte	-64
+ 388 0167 00       		.byte	0
+ 389 0168 00       		.byte	0
+ 390 0169 7F       		.byte	127
+ 391 016a 7F       		.byte	127
+ 392 016b 00       		.byte	0
+ 393 016c 00       		.byte	0
+ 394 016d 00       		.byte	0
+ 395 016e 00       		.byte	0
+ 396 016f 00       		.byte	0
+ 397 0170 00       		.byte	0
+ 398 0171 28       		.byte	40
+ 399 0172 28       		.byte	40
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 8
+
+
+ 400 0173 00       		.byte	0
+ 401 0174 28       		.byte	40
+ 402 0175 00       		.byte	0
+ 403 0176 16       		.byte	22
+ 404 0177 00       		.byte	0
+ 405 0178 00       		.byte	0
+ 406 0179 01       		.byte	1
+ 407 017a 01       		.byte	1
+ 408 017b 00       		.byte	0
+ 409 017c 01       		.byte	1
+ 410 017d 00       		.byte	0
+ 411 017e 00       		.byte	0
+ 412 017f 00       		.byte	0
+ 413 0180 0C       		.byte	12
+ 414 0181 00       		.byte	0
+ 415 0182 18       		.byte	24
+ 416 0183 01       		.byte	1
+ 417              		.section	.cywolatch,"a",%progbits
+ 418              		.align	2
+ 419              		.type	cy_meta_wonvl, %object
+ 420              		.size	cy_meta_wonvl, 4
+ 421              	cy_meta_wonvl:
+ 422 0000 BC       		.byte	-68
+ 423 0001 90       		.byte	-112
+ 424 0002 AC       		.byte	-84
+ 425 0003 AF       		.byte	-81
+ 426              		.section	.cycustnvl,"a",%progbits
+ 427              		.align	2
+ 428              		.type	cy_meta_custnvl, %object
+ 429              		.size	cy_meta_custnvl, 4
+ 430              	cy_meta_custnvl:
+ 431 0000 00       		.byte	0
+ 432 0001 00       		.byte	0
+ 433 0002 40       		.byte	64
+ 434 0003 05       		.byte	5
+ 435              		.section	.cymeta,"a",%progbits
+ 436              		.align	2
+ 437              		.type	cy_metadata, %object
+ 438              		.size	cy_metadata, 12
+ 439              	cy_metadata:
+ 440 0000 00       		.byte	0
+ 441 0001 01       		.byte	1
+ 442 0002 2E       		.byte	46
+ 443 0003 12       		.byte	18
+ 444 0004 30       		.byte	48
+ 445 0005 69       		.byte	105
+ 446 0006 00       		.byte	0
+ 447 0007 01       		.byte	1
+ 448 0008 00       		.byte	0
+ 449 0009 00       		.byte	0
+ 450 000a 00       		.byte	0
+ 451 000b 00       		.byte	0
+ 452              		.section	.cyflashprotect,"a",%progbits
+ 453              		.align	2
+ 454              		.type	cy_meta_flashprotect, %object
+ 455              		.size	cy_meta_flashprotect, 256
+ 456              	cy_meta_flashprotect:
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 9
+
+
+ 457 0000 00000000 		.space	256
+ 457      00000000 
+ 457      00000000 
+ 457      00000000 
+ 457      00000000 
+ 458              		.text
+ 459              	.Letext0:
+ 460              		.file 1 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 461              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 462              		.file 3 "Generated_Source\\PSoC5\\cymetadata.c"
+ 463              		.section	.debug_info,"",%progbits
+ 464              	.Ldebug_info0:
+ 465 0000 31010000 		.4byte	0x131
+ 466 0004 0400     		.2byte	0x4
+ 467 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 468 000a 04       		.byte	0x4
+ 469 000b 01       		.uleb128 0x1
+ 470 000c 24000000 		.4byte	.LASF17
+ 471 0010 0C       		.byte	0xc
+ 472 0011 D1010000 		.4byte	.LASF18
+ 473 0015 7E010000 		.4byte	.LASF19
+ 474 0019 00000000 		.4byte	.Ldebug_line0
+ 475 001d 02       		.uleb128 0x2
+ 476 001e 01       		.byte	0x1
+ 477 001f 06       		.byte	0x6
+ 478 0020 72010000 		.4byte	.LASF0
+ 479 0024 03       		.uleb128 0x3
+ 480 0025 00000000 		.4byte	.LASF9
+ 481 0029 01       		.byte	0x1
+ 482 002a 1D       		.byte	0x1d
+ 483 002b 2F000000 		.4byte	0x2f
+ 484 002f 02       		.uleb128 0x2
+ 485 0030 01       		.byte	0x1
+ 486 0031 08       		.byte	0x8
+ 487 0032 16000000 		.4byte	.LASF1
+ 488 0036 02       		.uleb128 0x2
+ 489 0037 02       		.byte	0x2
+ 490 0038 05       		.byte	0x5
+ 491 0039 5F010000 		.4byte	.LASF2
+ 492 003d 02       		.uleb128 0x2
+ 493 003e 02       		.byte	0x2
+ 494 003f 07       		.byte	0x7
+ 495 0040 C4000000 		.4byte	.LASF3
+ 496 0044 02       		.uleb128 0x2
+ 497 0045 04       		.byte	0x4
+ 498 0046 05       		.byte	0x5
+ 499 0047 69010000 		.4byte	.LASF4
+ 500 004b 02       		.uleb128 0x2
+ 501 004c 04       		.byte	0x4
+ 502 004d 07       		.byte	0x7
+ 503 004e B2000000 		.4byte	.LASF5
+ 504 0052 02       		.uleb128 0x2
+ 505 0053 08       		.byte	0x8
+ 506 0054 05       		.byte	0x5
+ 507 0055 51010000 		.4byte	.LASF6
+ 508 0059 02       		.uleb128 0x2
+ 509 005a 08       		.byte	0x8
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 10
+
+
+ 510 005b 07       		.byte	0x7
+ 511 005c 06010000 		.4byte	.LASF7
+ 512 0060 04       		.uleb128 0x4
+ 513 0061 04       		.byte	0x4
+ 514 0062 05       		.byte	0x5
+ 515 0063 696E7400 		.ascii	"int\000"
+ 516 0067 02       		.uleb128 0x2
+ 517 0068 04       		.byte	0x4
+ 518 0069 07       		.byte	0x7
+ 519 006a F9000000 		.4byte	.LASF8
+ 520 006e 03       		.uleb128 0x3
+ 521 006f 1D010000 		.4byte	.LASF10
+ 522 0073 02       		.byte	0x2
+ 523 0074 18       		.byte	0x18
+ 524 0075 24000000 		.4byte	0x24
+ 525 0079 05       		.uleb128 0x5
+ 526 007a 91000000 		.4byte	0x91
+ 527 007e 8A000000 		.4byte	0x8a
+ 528 0082 06       		.uleb128 0x6
+ 529 0083 8A000000 		.4byte	0x8a
+ 530 0087 8301     		.2byte	0x183
+ 531 0089 00       		.byte	0
+ 532 008a 02       		.uleb128 0x2
+ 533 008b 04       		.byte	0x4
+ 534 008c 07       		.byte	0x7
+ 535 008d 48010000 		.4byte	.LASF11
+ 536 0091 07       		.uleb128 0x7
+ 537 0092 6E000000 		.4byte	0x6e
+ 538 0096 08       		.uleb128 0x8
+ 539 0097 E7000000 		.4byte	.LASF12
+ 540 009b 03       		.byte	0x3
+ 541 009c 1F       		.byte	0x1f
+ 542 009d A7000000 		.4byte	0xa7
+ 543 00a1 05       		.uleb128 0x5
+ 544 00a2 03       		.byte	0x3
+ 545 00a3 00000000 		.4byte	cy_meta_configecc
+ 546 00a7 07       		.uleb128 0x7
+ 547 00a8 79000000 		.4byte	0x79
+ 548 00ac 05       		.uleb128 0x5
+ 549 00ad 91000000 		.4byte	0x91
+ 550 00b1 BC000000 		.4byte	0xbc
+ 551 00b5 09       		.uleb128 0x9
+ 552 00b6 8A000000 		.4byte	0x8a
+ 553 00ba 03       		.byte	0x3
+ 554 00bb 00       		.byte	0
+ 555 00bc 08       		.uleb128 0x8
+ 556 00bd D7000000 		.4byte	.LASF13
+ 557 00c1 03       		.byte	0x3
+ 558 00c2 5D       		.byte	0x5d
+ 559 00c3 CD000000 		.4byte	0xcd
+ 560 00c7 05       		.uleb128 0x5
+ 561 00c8 03       		.byte	0x3
+ 562 00c9 00000000 		.4byte	cy_meta_custnvl
+ 563 00cd 07       		.uleb128 0x7
+ 564 00ce AC000000 		.4byte	0xac
+ 565 00d2 08       		.uleb128 0x8
+ 566 00d3 3A010000 		.4byte	.LASF14
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 11
+
+
+ 567 00d7 03       		.byte	0x3
+ 568 00d8 6B       		.byte	0x6b
+ 569 00d9 E3000000 		.4byte	0xe3
+ 570 00dd 05       		.uleb128 0x5
+ 571 00de 03       		.byte	0x3
+ 572 00df 00000000 		.4byte	cy_meta_wonvl
+ 573 00e3 07       		.uleb128 0x7
+ 574 00e4 AC000000 		.4byte	0xac
+ 575 00e8 05       		.uleb128 0x5
+ 576 00e9 91000000 		.4byte	0x91
+ 577 00ed F8000000 		.4byte	0xf8
+ 578 00f1 09       		.uleb128 0x9
+ 579 00f2 8A000000 		.4byte	0x8a
+ 580 00f6 FF       		.byte	0xff
+ 581 00f7 00       		.byte	0
+ 582 00f8 08       		.uleb128 0x8
+ 583 00f9 25010000 		.4byte	.LASF15
+ 584 00fd 03       		.byte	0x3
+ 585 00fe 79       		.byte	0x79
+ 586 00ff 09010000 		.4byte	0x109
+ 587 0103 05       		.uleb128 0x5
+ 588 0104 03       		.byte	0x3
+ 589 0105 00000000 		.4byte	cy_meta_flashprotect
+ 590 0109 07       		.uleb128 0x7
+ 591 010a E8000000 		.4byte	0xe8
+ 592 010e 05       		.uleb128 0x5
+ 593 010f 91000000 		.4byte	0x91
+ 594 0113 1E010000 		.4byte	0x11e
+ 595 0117 09       		.uleb128 0x9
+ 596 0118 8A000000 		.4byte	0x8a
+ 597 011c 0B       		.byte	0xb
+ 598 011d 00       		.byte	0
+ 599 011e 08       		.uleb128 0x8
+ 600 011f 0A000000 		.4byte	.LASF16
+ 601 0123 03       		.byte	0x3
+ 602 0124 A6       		.byte	0xa6
+ 603 0125 2F010000 		.4byte	0x12f
+ 604 0129 05       		.uleb128 0x5
+ 605 012a 03       		.byte	0x3
+ 606 012b 00000000 		.4byte	cy_metadata
+ 607 012f 07       		.uleb128 0x7
+ 608 0130 0E010000 		.4byte	0x10e
+ 609 0134 00       		.byte	0
+ 610              		.section	.debug_abbrev,"",%progbits
+ 611              	.Ldebug_abbrev0:
+ 612 0000 01       		.uleb128 0x1
+ 613 0001 11       		.uleb128 0x11
+ 614 0002 01       		.byte	0x1
+ 615 0003 25       		.uleb128 0x25
+ 616 0004 0E       		.uleb128 0xe
+ 617 0005 13       		.uleb128 0x13
+ 618 0006 0B       		.uleb128 0xb
+ 619 0007 03       		.uleb128 0x3
+ 620 0008 0E       		.uleb128 0xe
+ 621 0009 1B       		.uleb128 0x1b
+ 622 000a 0E       		.uleb128 0xe
+ 623 000b 10       		.uleb128 0x10
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 12
+
+
+ 624 000c 17       		.uleb128 0x17
+ 625 000d 00       		.byte	0
+ 626 000e 00       		.byte	0
+ 627 000f 02       		.uleb128 0x2
+ 628 0010 24       		.uleb128 0x24
+ 629 0011 00       		.byte	0
+ 630 0012 0B       		.uleb128 0xb
+ 631 0013 0B       		.uleb128 0xb
+ 632 0014 3E       		.uleb128 0x3e
+ 633 0015 0B       		.uleb128 0xb
+ 634 0016 03       		.uleb128 0x3
+ 635 0017 0E       		.uleb128 0xe
+ 636 0018 00       		.byte	0
+ 637 0019 00       		.byte	0
+ 638 001a 03       		.uleb128 0x3
+ 639 001b 16       		.uleb128 0x16
+ 640 001c 00       		.byte	0
+ 641 001d 03       		.uleb128 0x3
+ 642 001e 0E       		.uleb128 0xe
+ 643 001f 3A       		.uleb128 0x3a
+ 644 0020 0B       		.uleb128 0xb
+ 645 0021 3B       		.uleb128 0x3b
+ 646 0022 0B       		.uleb128 0xb
+ 647 0023 49       		.uleb128 0x49
+ 648 0024 13       		.uleb128 0x13
+ 649 0025 00       		.byte	0
+ 650 0026 00       		.byte	0
+ 651 0027 04       		.uleb128 0x4
+ 652 0028 24       		.uleb128 0x24
+ 653 0029 00       		.byte	0
+ 654 002a 0B       		.uleb128 0xb
+ 655 002b 0B       		.uleb128 0xb
+ 656 002c 3E       		.uleb128 0x3e
+ 657 002d 0B       		.uleb128 0xb
+ 658 002e 03       		.uleb128 0x3
+ 659 002f 08       		.uleb128 0x8
+ 660 0030 00       		.byte	0
+ 661 0031 00       		.byte	0
+ 662 0032 05       		.uleb128 0x5
+ 663 0033 01       		.uleb128 0x1
+ 664 0034 01       		.byte	0x1
+ 665 0035 49       		.uleb128 0x49
+ 666 0036 13       		.uleb128 0x13
+ 667 0037 01       		.uleb128 0x1
+ 668 0038 13       		.uleb128 0x13
+ 669 0039 00       		.byte	0
+ 670 003a 00       		.byte	0
+ 671 003b 06       		.uleb128 0x6
+ 672 003c 21       		.uleb128 0x21
+ 673 003d 00       		.byte	0
+ 674 003e 49       		.uleb128 0x49
+ 675 003f 13       		.uleb128 0x13
+ 676 0040 2F       		.uleb128 0x2f
+ 677 0041 05       		.uleb128 0x5
+ 678 0042 00       		.byte	0
+ 679 0043 00       		.byte	0
+ 680 0044 07       		.uleb128 0x7
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 13
+
+
+ 681 0045 26       		.uleb128 0x26
+ 682 0046 00       		.byte	0
+ 683 0047 49       		.uleb128 0x49
+ 684 0048 13       		.uleb128 0x13
+ 685 0049 00       		.byte	0
+ 686 004a 00       		.byte	0
+ 687 004b 08       		.uleb128 0x8
+ 688 004c 34       		.uleb128 0x34
+ 689 004d 00       		.byte	0
+ 690 004e 03       		.uleb128 0x3
+ 691 004f 0E       		.uleb128 0xe
+ 692 0050 3A       		.uleb128 0x3a
+ 693 0051 0B       		.uleb128 0xb
+ 694 0052 3B       		.uleb128 0x3b
+ 695 0053 0B       		.uleb128 0xb
+ 696 0054 49       		.uleb128 0x49
+ 697 0055 13       		.uleb128 0x13
+ 698 0056 3F       		.uleb128 0x3f
+ 699 0057 19       		.uleb128 0x19
+ 700 0058 02       		.uleb128 0x2
+ 701 0059 18       		.uleb128 0x18
+ 702 005a 00       		.byte	0
+ 703 005b 00       		.byte	0
+ 704 005c 09       		.uleb128 0x9
+ 705 005d 21       		.uleb128 0x21
+ 706 005e 00       		.byte	0
+ 707 005f 49       		.uleb128 0x49
+ 708 0060 13       		.uleb128 0x13
+ 709 0061 2F       		.uleb128 0x2f
+ 710 0062 0B       		.uleb128 0xb
+ 711 0063 00       		.byte	0
+ 712 0064 00       		.byte	0
+ 713 0065 00       		.byte	0
+ 714              		.section	.debug_aranges,"",%progbits
+ 715 0000 14000000 		.4byte	0x14
+ 716 0004 0200     		.2byte	0x2
+ 717 0006 00000000 		.4byte	.Ldebug_info0
+ 718 000a 04       		.byte	0x4
+ 719 000b 00       		.byte	0
+ 720 000c 0000     		.2byte	0
+ 721 000e 0000     		.2byte	0
+ 722 0010 00000000 		.4byte	0
+ 723 0014 00000000 		.4byte	0
+ 724              		.section	.debug_line,"",%progbits
+ 725              	.Ldebug_line0:
+ 726 0000 3D010000 		.section	.debug_str,"MS",%progbits,1
+ 726      02003701 
+ 726      00000201 
+ 726      FB0E0D00 
+ 726      01010101 
+ 727              	.LASF9:
+ 728 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 728      6E74385F 
+ 728      7400
+ 729              	.LASF16:
+ 730 000a 63795F6D 		.ascii	"cy_metadata\000"
+ 730      65746164 
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 14
+
+
+ 730      61746100 
+ 731              	.LASF1:
+ 732 0016 756E7369 		.ascii	"unsigned char\000"
+ 732      676E6564 
+ 732      20636861 
+ 732      7200
+ 733              	.LASF17:
+ 734 0024 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 734      43313120 
+ 734      352E342E 
+ 734      31203230 
+ 734      31363036 
+ 735 0057 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 735      20726576 
+ 735      6973696F 
+ 735      6E203233 
+ 735      37373135 
+ 736 008a 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 736      66756E63 
+ 736      74696F6E 
+ 736      2D736563 
+ 736      74696F6E 
+ 737              	.LASF5:
+ 738 00b2 6C6F6E67 		.ascii	"long unsigned int\000"
+ 738      20756E73 
+ 738      69676E65 
+ 738      6420696E 
+ 738      7400
+ 739              	.LASF3:
+ 740 00c4 73686F72 		.ascii	"short unsigned int\000"
+ 740      7420756E 
+ 740      7369676E 
+ 740      65642069 
+ 740      6E7400
+ 741              	.LASF13:
+ 742 00d7 63795F6D 		.ascii	"cy_meta_custnvl\000"
+ 742      6574615F 
+ 742      63757374 
+ 742      6E766C00 
+ 743              	.LASF12:
+ 744 00e7 63795F6D 		.ascii	"cy_meta_configecc\000"
+ 744      6574615F 
+ 744      636F6E66 
+ 744      69676563 
+ 744      6300
+ 745              	.LASF8:
+ 746 00f9 756E7369 		.ascii	"unsigned int\000"
+ 746      676E6564 
+ 746      20696E74 
+ 746      00
+ 747              	.LASF7:
+ 748 0106 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 748      206C6F6E 
+ 748      6720756E 
+ 748      7369676E 
+ 748      65642069 
+ 749              	.LASF10:
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccywrmHa.s 			page 15
+
+
+ 750 011d 75696E74 		.ascii	"uint8_t\000"
+ 750      385F7400 
+ 751              	.LASF15:
+ 752 0125 63795F6D 		.ascii	"cy_meta_flashprotect\000"
+ 752      6574615F 
+ 752      666C6173 
+ 752      6870726F 
+ 752      74656374 
+ 753              	.LASF14:
+ 754 013a 63795F6D 		.ascii	"cy_meta_wonvl\000"
+ 754      6574615F 
+ 754      776F6E76 
+ 754      6C00
+ 755              	.LASF11:
+ 756 0148 73697A65 		.ascii	"sizetype\000"
+ 756      74797065 
+ 756      00
+ 757              	.LASF6:
+ 758 0151 6C6F6E67 		.ascii	"long long int\000"
+ 758      206C6F6E 
+ 758      6720696E 
+ 758      7400
+ 759              	.LASF2:
+ 760 015f 73686F72 		.ascii	"short int\000"
+ 760      7420696E 
+ 760      7400
+ 761              	.LASF4:
+ 762 0169 6C6F6E67 		.ascii	"long int\000"
+ 762      20696E74 
+ 762      00
+ 763              	.LASF0:
+ 764 0172 7369676E 		.ascii	"signed char\000"
+ 764      65642063 
+ 764      68617200 
+ 765              	.LASF19:
+ 766 017e 433A5C55 		.ascii	"C:\\Users\\poorn\\Documents\\PSoC Creator\\ESM_Labs"
+ 766      73657273 
+ 766      5C706F6F 
+ 766      726E5C44 
+ 766      6F63756D 
+ 767 01ac 5C4C6162 		.ascii	"\\Lab5_DC_Motor_Current_Control.cydsn\000"
+ 767      355F4443 
+ 767      5F4D6F74 
+ 767      6F725F43 
+ 767      75727265 
+ 768              	.LASF18:
+ 769 01d1 47656E65 		.ascii	"Generated_Source\\PSoC5\\cymetadata.c\000"
+ 769      72617465 
+ 769      645F536F 
+ 769      75726365 
+ 769      5C50536F 
+ 770              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

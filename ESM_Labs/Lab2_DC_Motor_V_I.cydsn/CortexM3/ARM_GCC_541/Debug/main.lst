@@ -1,0 +1,2619 @@
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.main,"ax",%progbits
+  20              		.align	2
+  21              		.global	main
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	main, %function
+  25              	main:
+  26              	.LFB63:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** #include "project.h"
+  13:main.c        **** #define Duty_Cycle 80
+  14:main.c        **** int main(void)
+  15:main.c        **** {
+  28              		.loc 1 15 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 120
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  33              		.cfi_def_cfa_offset 20
+  34              		.cfi_offset 4, -20
+  35              		.cfi_offset 5, -16
+  36              		.cfi_offset 6, -12
+  37              		.cfi_offset 7, -8
+  38              		.cfi_offset 14, -4
+  39 0002 9FB0     		sub	sp, sp, #124
+  40              		.cfi_def_cfa_offset 144
+  16:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+  41              		.loc 1 16 0
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 2
+
+
+  42              		.syntax unified
+  43              	@ 16 "main.c" 1
+  44 0004 62B6     		CPSIE   i
+  45              	@ 0 "" 2
+  17:main.c        ****     LCD_Start();
+  46              		.loc 1 17 0
+  47              		.thumb
+  48              		.syntax unified
+  49 0006 FFF7FEFF 		bl	LCD_Start
+  50              	.LVL0:
+  18:main.c        ****     LCD_Position(0, 0);
+  51              		.loc 1 18 0
+  52 000a 0021     		movs	r1, #0
+  53 000c 0846     		mov	r0, r1
+  54 000e FFF7FEFF 		bl	LCD_Position
+  55              	.LVL1:
+  19:main.c        ****     LCD_PrintString("Motor");
+  56              		.loc 1 19 0
+  57 0012 A248     		ldr	r0, .L18
+  58 0014 FFF7FEFF 		bl	LCD_PrintString
+  59              	.LVL2:
+  20:main.c        ****     ADC_SAR_1_Start();
+  60              		.loc 1 20 0
+  61 0018 FFF7FEFF 		bl	ADC_SAR_1_Start
+  62              	.LVL3:
+  21:main.c        ****     // ADC_SAR_2_Start();
+  22:main.c        ****     PGA_1_Start();
+  63              		.loc 1 22 0
+  64 001c FFF7FEFF 		bl	PGA_1_Start
+  65              	.LVL4:
+  23:main.c        ****     AMux_1_Start();
+  66              		.loc 1 23 0
+  67 0020 FFF7FEFF 		bl	AMux_1_Start
+  68              	.LVL5:
+  24:main.c        ****     uint16_t Vdrop, Vcounts, Rdrop, Rcounts, Current, loop_counter, Constant, Vmotor,
+  25:main.c        ****     RPM;
+  26:main.c        ****     uint16_t Varray[30], Carray[30];
+  27:main.c        ****     uint32_t Vsum, Csum;
+  28:main.c        ****     loop_counter = 0;
+  29:main.c        ****     P4_1_Write(1);
+  69              		.loc 1 29 0
+  70 0024 0120     		movs	r0, #1
+  71 0026 FFF7FEFF 		bl	P4_1_Write
+  72              	.LVL6:
+  30:main.c        ****     CyDelay(100);
+  73              		.loc 1 30 0
+  74 002a 6420     		movs	r0, #100
+  75 002c FFF7FEFF 		bl	CyDelay
+  76              	.LVL7:
+  31:main.c        ****     P4_1_Write(0);
+  77              		.loc 1 31 0
+  78 0030 0020     		movs	r0, #0
+  79 0032 FFF7FEFF 		bl	P4_1_Write
+  80              	.LVL8:
+  32:main.c        ****     CyDelay(1);
+  81              		.loc 1 32 0
+  82 0036 0120     		movs	r0, #1
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 3
+
+
+  83 0038 FFF7FEFF 		bl	CyDelay
+  84              	.LVL9:
+  33:main.c        ****     AMux_1_Select(0);
+  85              		.loc 1 33 0
+  86 003c 0020     		movs	r0, #0
+  87 003e FFF7FEFF 		bl	AMux_1_Select
+  88              	.LVL10:
+  34:main.c        ****     ADC_SAR_1_StartConvert();
+  89              		.loc 1 34 0
+  90 0042 FFF7FEFF 		bl	ADC_SAR_1_StartConvert
+  91              	.LVL11:
+  35:main.c        ****     ADC_SAR_1_IsEndConversion(ADC_SAR_1_WAIT_FOR_RESULT);
+  92              		.loc 1 35 0
+  93 0046 0020     		movs	r0, #0
+  94 0048 FFF7FEFF 		bl	ADC_SAR_1_IsEndConversion
+  95              	.LVL12:
+  36:main.c        ****     Vcounts = ADC_SAR_1_GetResult16();
+  96              		.loc 1 36 0
+  97 004c FFF7FEFF 		bl	ADC_SAR_1_GetResult16
+  98              	.LVL13:
+  37:main.c        ****     Vdrop = ADC_SAR_1_CountsTo_mVolts(Vcounts);
+  99              		.loc 1 37 0
+ 100 0050 FFF7FEFF 		bl	ADC_SAR_1_CountsTo_mVolts
+ 101              	.LVL14:
+ 102 0054 80B2     		uxth	r0, r0
+ 103              	.LVL15:
+  38:main.c        ****     Vmotor = 5000 - Vdrop;
+ 104              		.loc 1 38 0
+ 105 0056 C0F59C53 		rsb	r3, r0, #4992
+ 106 005a 0833     		adds	r3, r3, #8
+ 107 005c 9BB2     		uxth	r3, r3
+ 108              	.LVL16:
+  39:main.c        ****     Constant = 14000 / Vmotor;
+ 109              		.loc 1 39 0
+ 110 005e 43F2B065 		movw	r5, #14000
+ 111 0062 95FBF3F5 		sdiv	r5, r5, r3
+ 112              	.LVL17:
+ 113              	.L16:
+  15:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+ 114              		.loc 1 15 0
+ 115 0066 0024     		movs	r4, #0
+ 116              	.LVL18:
+ 117              	.L3:
+  40:main.c        ****     
+  41:main.c        ****     while(1)
+  42:main.c        ****     {
+  43:main.c        ****         P4_1_Write(1);
+ 118              		.loc 1 43 0
+ 119 0068 0120     		movs	r0, #1
+ 120 006a FFF7FEFF 		bl	P4_1_Write
+ 121              	.LVL19:
+  44:main.c        ****         CyDelay((Duty_Cycle*10)/100);
+ 122              		.loc 1 44 0
+ 123 006e 0820     		movs	r0, #8
+ 124 0070 FFF7FEFF 		bl	CyDelay
+ 125              	.LVL20:
+  45:main.c        ****         AMux_1_Select(1);
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 4
+
+
+ 126              		.loc 1 45 0
+ 127 0074 0120     		movs	r0, #1
+ 128 0076 FFF7FEFF 		bl	AMux_1_Select
+ 129              	.LVL21:
+  46:main.c        ****         ADC_SAR_1_StartConvert();
+ 130              		.loc 1 46 0
+ 131 007a FFF7FEFF 		bl	ADC_SAR_1_StartConvert
+ 132              	.LVL22:
+  47:main.c        ****         ADC_SAR_1_IsEndConversion(ADC_SAR_1_WAIT_FOR_RESULT);
+ 133              		.loc 1 47 0
+ 134 007e 0020     		movs	r0, #0
+ 135 0080 FFF7FEFF 		bl	ADC_SAR_1_IsEndConversion
+ 136              	.LVL23:
+  48:main.c        ****         Rcounts = ADC_SAR_1_GetResult16();
+ 137              		.loc 1 48 0
+ 138 0084 FFF7FEFF 		bl	ADC_SAR_1_GetResult16
+ 139              	.LVL24:
+  49:main.c        ****         Rdrop = (ADC_SAR_1_CountsTo_mVolts(Rcounts));
+ 140              		.loc 1 49 0
+ 141 0088 FFF7FEFF 		bl	ADC_SAR_1_CountsTo_mVolts
+ 142              	.LVL25:
+ 143 008c 80B2     		uxth	r0, r0
+ 144              	.LVL26:
+  50:main.c        ****         Current = (Rdrop*10) / 64;
+ 145              		.loc 1 50 0
+ 146 008e 00EB8000 		add	r0, r0, r0, lsl #2
+ 147              	.LVL27:
+ 148 0092 4200     		lsls	r2, r0, #1
+ 149 0094 1346     		mov	r3, r2
+ 150 0096 002A     		cmp	r2, #0
+ 151 0098 01DA     		bge	.L2
+ 152 009a 02F13F03 		add	r3, r2, #63
+ 153              	.L2:
+ 154 009e C3F38F13 		ubfx	r3, r3, #6, #16
+ 155              	.LVL28:
+  51:main.c        ****         Carray[loop_counter] = Current;
+ 156              		.loc 1 51 0
+ 157 00a2 1EAA     		add	r2, sp, #120
+ 158 00a4 02EB4406 		add	r6, r2, r4, lsl #1
+ 159 00a8 26F8783C 		strh	r3, [r6, #-120]	@ movhi
+  52:main.c        ****         P4_5_Write(1);
+ 160              		.loc 1 52 0
+ 161 00ac 0120     		movs	r0, #1
+ 162 00ae FFF7FEFF 		bl	P4_5_Write
+ 163              	.LVL29:
+  53:main.c        ****         P4_1_Write(0);
+ 164              		.loc 1 53 0
+ 165 00b2 0020     		movs	r0, #0
+ 166 00b4 FFF7FEFF 		bl	P4_1_Write
+ 167              	.LVL30:
+  54:main.c        ****         CyDelayUs(500);
+ 168              		.loc 1 54 0
+ 169 00b8 4FF4FA70 		mov	r0, #500
+ 170 00bc FFF7FEFF 		bl	CyDelayUs
+ 171              	.LVL31:
+  55:main.c        ****         AMux_1_Select(0);
+ 172              		.loc 1 55 0
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 5
+
+
+ 173 00c0 0020     		movs	r0, #0
+ 174 00c2 FFF7FEFF 		bl	AMux_1_Select
+ 175              	.LVL32:
+  56:main.c        ****         ADC_SAR_1_StartConvert();
+ 176              		.loc 1 56 0
+ 177 00c6 FFF7FEFF 		bl	ADC_SAR_1_StartConvert
+ 178              	.LVL33:
+  57:main.c        ****         ADC_SAR_1_IsEndConversion(ADC_SAR_1_WAIT_FOR_RESULT);
+ 179              		.loc 1 57 0
+ 180 00ca 0020     		movs	r0, #0
+ 181 00cc FFF7FEFF 		bl	ADC_SAR_1_IsEndConversion
+ 182              	.LVL34:
+  58:main.c        ****         Vcounts = ADC_SAR_1_GetResult16();
+ 183              		.loc 1 58 0
+ 184 00d0 FFF7FEFF 		bl	ADC_SAR_1_GetResult16
+ 185              	.LVL35:
+  59:main.c        ****         Vdrop = ADC_SAR_1_CountsTo_mVolts(Vcounts);
+ 186              		.loc 1 59 0
+ 187 00d4 FFF7FEFF 		bl	ADC_SAR_1_CountsTo_mVolts
+ 188              	.LVL36:
+ 189 00d8 80B2     		uxth	r0, r0
+ 190              	.LVL37:
+  60:main.c        ****         Vmotor = 5000 - Vdrop;
+ 191              		.loc 1 60 0
+ 192 00da C0F59C50 		rsb	r0, r0, #4992
+ 193              	.LVL38:
+ 194 00de 0830     		adds	r0, r0, #8
+ 195              	.LVL39:
+  61:main.c        ****         Varray[loop_counter] = Vmotor;
+ 196              		.loc 1 61 0
+ 197 00e0 26F83C0C 		strh	r0, [r6, #-60]	@ movhi
+  62:main.c        ****         P4_5_Write(0);
+ 198              		.loc 1 62 0
+ 199 00e4 0020     		movs	r0, #0
+ 200              	.LVL40:
+ 201 00e6 FFF7FEFF 		bl	P4_5_Write
+ 202              	.LVL41:
+  63:main.c        ****         loop_counter += 1;
+ 203              		.loc 1 63 0
+ 204 00ea 0134     		adds	r4, r4, #1
+ 205              	.LVL42:
+ 206 00ec A4B2     		uxth	r4, r4
+ 207              	.LVL43:
+  64:main.c        ****         if(loop_counter > 29)
+ 208              		.loc 1 64 0
+ 209 00ee 1D2C     		cmp	r4, #29
+ 210 00f0 BAD9     		bls	.L3
+  65:main.c        ****         {
+  66:main.c        ****             P4_6_Write(1);
+ 211              		.loc 1 66 0
+ 212 00f2 0120     		movs	r0, #1
+ 213 00f4 FFF7FEFF 		bl	P4_6_Write
+ 214              	.LVL44:
+ 215              	.LBB2:
+  67:main.c        ****             Vsum = 0;
+  68:main.c        ****             Csum = 0;
+  69:main.c        ****             for(uint8_t count = 0; count < 30; count ++)
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 6
+
+
+ 216              		.loc 1 69 0
+ 217 00f8 0023     		movs	r3, #0
+ 218              	.LBE2:
+  68:main.c        ****             for(uint8_t count = 0; count < 30; count ++)
+ 219              		.loc 1 68 0
+ 220 00fa 1946     		mov	r1, r3
+  67:main.c        ****             Vsum = 0;
+ 221              		.loc 1 67 0
+ 222 00fc 1846     		mov	r0, r3
+ 223              	.LBB3:
+ 224              		.loc 1 69 0
+ 225 00fe 0AE0     		b	.L4
+ 226              	.LVL45:
+ 227              	.L5:
+  70:main.c        ****             {
+  71:main.c        ****                 Vsum += Varray[count];
+ 228              		.loc 1 71 0 discriminator 3
+ 229 0100 1EAA     		add	r2, sp, #120
+ 230 0102 02EB4302 		add	r2, r2, r3, lsl #1
+ 231 0106 32F83C4C 		ldrh	r4, [r2, #-60]
+ 232 010a 2044     		add	r0, r0, r4
+ 233              	.LVL46:
+  72:main.c        ****                 Csum += Carray[count];
+ 234              		.loc 1 72 0 discriminator 3
+ 235 010c 32F8782C 		ldrh	r2, [r2, #-120]
+ 236 0110 1144     		add	r1, r1, r2
+ 237              	.LVL47:
+  69:main.c        ****             {
+ 238              		.loc 1 69 0 discriminator 3
+ 239 0112 0133     		adds	r3, r3, #1
+ 240              	.LVL48:
+ 241 0114 DBB2     		uxtb	r3, r3
+ 242              	.LVL49:
+ 243              	.L4:
+  69:main.c        ****             {
+ 244              		.loc 1 69 0 is_stmt 0 discriminator 1
+ 245 0116 1D2B     		cmp	r3, #29
+ 246 0118 F2D9     		bls	.L5
+ 247              	.LBE3:
+  73:main.c        ****             }
+  74:main.c        ****             Vsum /= 30;
+ 248              		.loc 1 74 0 is_stmt 1
+ 249 011a 614B     		ldr	r3, .L18+4
+ 250              	.LVL50:
+ 251 011c A3FB0020 		umull	r2, r0, r3, r0
+ 252              	.LVL51:
+  75:main.c        ****             Csum /= 30;
+ 253              		.loc 1 75 0
+ 254 0120 A3FB0131 		umull	r3, r1, r3, r1
+ 255              	.LVL52:
+  76:main.c        ****             Vmotor = (uint16_t)Vsum;
+ 256              		.loc 1 76 0
+ 257 0124 C0F30F14 		ubfx	r4, r0, #4, #16
+ 258              	.LVL53:
+  77:main.c        ****             Current = (uint16_t)Csum;
+ 259              		.loc 1 77 0
+ 260 0128 C1F30F16 		ubfx	r6, r1, #4, #16
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 7
+
+
+ 261              	.LVL54:
+  78:main.c        ****             RPM = Constant*Vmotor;
+ 262              		.loc 1 78 0
+ 263 012c 04FB05F7 		mul	r7, r4, r5
+ 264 0130 BFB2     		uxth	r7, r7
+ 265              	.LVL55:
+  79:main.c        ****             LCD_ClearDisplay();
+ 266              		.loc 1 79 0
+ 267 0132 0120     		movs	r0, #1
+ 268              	.LVL56:
+ 269 0134 FFF7FEFF 		bl	LCD_WriteControl
+ 270              	.LVL57:
+  80:main.c        ****             loop_counter = 0;
+  81:main.c        ****             LCD_Position(0, 0);
+ 271              		.loc 1 81 0
+ 272 0138 0021     		movs	r1, #0
+ 273 013a 0846     		mov	r0, r1
+ 274 013c FFF7FEFF 		bl	LCD_Position
+ 275              	.LVL58:
+  82:main.c        ****             LCD_PrintString("B:");
+ 276              		.loc 1 82 0
+ 277 0140 5848     		ldr	r0, .L18+8
+ 278 0142 FFF7FEFF 		bl	LCD_PrintString
+ 279              	.LVL59:
+  83:main.c        ****             LCD_Position(0, 2);
+ 280              		.loc 1 83 0
+ 281 0146 0221     		movs	r1, #2
+ 282 0148 0020     		movs	r0, #0
+ 283 014a FFF7FEFF 		bl	LCD_Position
+ 284              	.LVL60:
+  84:main.c        ****             if(Vmotor < 1000) LCD_PrintString("0");
+ 285              		.loc 1 84 0
+ 286 014e B4F57A7F 		cmp	r4, #1000
+ 287 0152 03D2     		bcs	.L6
+ 288              		.loc 1 84 0 is_stmt 0 discriminator 1
+ 289 0154 5448     		ldr	r0, .L18+12
+ 290 0156 FFF7FEFF 		bl	LCD_PrintString
+ 291              	.LVL61:
+ 292 015a 05E0     		b	.L7
+ 293              	.L6:
+  85:main.c        ****             else LCD_PrintU32Number(Vmotor/1000);
+ 294              		.loc 1 85 0 is_stmt 1
+ 295 015c 5348     		ldr	r0, .L18+16
+ 296 015e A0FB0430 		umull	r3, r0, r0, r4
+ 297 0162 8009     		lsrs	r0, r0, #6
+ 298 0164 FFF7FEFF 		bl	LCD_PrintU32Number
+ 299              	.LVL62:
+ 300              	.L7:
+  86:main.c        ****             LCD_Position(0, 3);
+ 301              		.loc 1 86 0
+ 302 0168 0321     		movs	r1, #3
+ 303 016a 0020     		movs	r0, #0
+ 304 016c FFF7FEFF 		bl	LCD_Position
+ 305              	.LVL63:
+  87:main.c        ****             LCD_PrintString(".");
+ 306              		.loc 1 87 0
+ 307 0170 4F48     		ldr	r0, .L18+20
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 8
+
+
+ 308 0172 FFF7FEFF 		bl	LCD_PrintString
+ 309              	.LVL64:
+  88:main.c        ****             if((Vmotor%1000) < 10)
+ 310              		.loc 1 88 0
+ 311 0176 4D4B     		ldr	r3, .L18+16
+ 312 0178 A3FB0423 		umull	r2, r3, r3, r4
+ 313 017c 9B09     		lsrs	r3, r3, #6
+ 314 017e 4FF47A72 		mov	r2, #1000
+ 315 0182 02FB1344 		mls	r4, r2, r3, r4
+ 316              	.LVL65:
+ 317 0186 A4B2     		uxth	r4, r4
+ 318 0188 092C     		cmp	r4, #9
+ 319 018a 03D8     		bhi	.L8
+  89:main.c        ****             {
+  90:main.c        ****                 LCD_PrintString("00");
+ 320              		.loc 1 90 0
+ 321 018c 4948     		ldr	r0, .L18+24
+ 322 018e FFF7FEFF 		bl	LCD_PrintString
+ 323              	.LVL66:
+ 324 0192 19E0     		b	.L9
+ 325              	.L8:
+  91:main.c        ****             }
+  92:main.c        ****             else if((Vmotor%1000) < 100)
+ 326              		.loc 1 92 0
+ 327 0194 632C     		cmp	r4, #99
+ 328 0196 0DD8     		bhi	.L10
+  93:main.c        ****             {
+  94:main.c        ****                 LCD_PrintString("0");
+ 329              		.loc 1 94 0
+ 330 0198 4348     		ldr	r0, .L18+12
+ 331 019a FFF7FEFF 		bl	LCD_PrintString
+ 332              	.LVL67:
+  95:main.c        ****                 LCD_Position(0,5);
+ 333              		.loc 1 95 0
+ 334 019e 0521     		movs	r1, #5
+ 335 01a0 0020     		movs	r0, #0
+ 336 01a2 FFF7FEFF 		bl	LCD_Position
+ 337              	.LVL68:
+  96:main.c        ****                 LCD_PrintU32Number((Vmotor%1000)/10);
+ 338              		.loc 1 96 0
+ 339 01a6 4448     		ldr	r0, .L18+28
+ 340 01a8 A0FB0430 		umull	r3, r0, r0, r4
+ 341 01ac C008     		lsrs	r0, r0, #3
+ 342 01ae FFF7FEFF 		bl	LCD_PrintU32Number
+ 343              	.LVL69:
+ 344 01b2 09E0     		b	.L9
+ 345              	.L10:
+  97:main.c        ****             }
+  98:main.c        ****             else
+  99:main.c        ****             {
+ 100:main.c        ****                 LCD_Position(0,4);
+ 346              		.loc 1 100 0
+ 347 01b4 0421     		movs	r1, #4
+ 348 01b6 0020     		movs	r0, #0
+ 349 01b8 FFF7FEFF 		bl	LCD_Position
+ 350              	.LVL70:
+ 101:main.c        ****                 LCD_PrintU32Number((Vmotor%1000)/10);
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 9
+
+
+ 351              		.loc 1 101 0
+ 352 01bc 3E48     		ldr	r0, .L18+28
+ 353 01be A0FB0430 		umull	r3, r0, r0, r4
+ 354 01c2 C008     		lsrs	r0, r0, #3
+ 355 01c4 FFF7FEFF 		bl	LCD_PrintU32Number
+ 356              	.LVL71:
+ 357              	.L9:
+ 102:main.c        ****             }
+ 103:main.c        ****             LCD_Position(0,6);
+ 358              		.loc 1 103 0
+ 359 01c8 0621     		movs	r1, #6
+ 360 01ca 0020     		movs	r0, #0
+ 361 01cc FFF7FEFF 		bl	LCD_Position
+ 362              	.LVL72:
+ 104:main.c        ****             LCD_PrintString("V");
+ 363              		.loc 1 104 0
+ 364 01d0 3A48     		ldr	r0, .L18+32
+ 365 01d2 FFF7FEFF 		bl	LCD_PrintString
+ 366              	.LVL73:
+ 105:main.c        ****             LCD_Position(0, 8);
+ 367              		.loc 1 105 0
+ 368 01d6 0821     		movs	r1, #8
+ 369 01d8 0020     		movs	r0, #0
+ 370 01da FFF7FEFF 		bl	LCD_Position
+ 371              	.LVL74:
+ 106:main.c        ****             LCD_PrintString("C:");
+ 372              		.loc 1 106 0
+ 373 01de 3848     		ldr	r0, .L18+36
+ 374 01e0 FFF7FEFF 		bl	LCD_PrintString
+ 375              	.LVL75:
+ 107:main.c        ****             LCD_Position(0, 10);
+ 376              		.loc 1 107 0
+ 377 01e4 0A21     		movs	r1, #10
+ 378 01e6 0020     		movs	r0, #0
+ 379 01e8 FFF7FEFF 		bl	LCD_Position
+ 380              	.LVL76:
+ 108:main.c        ****             if(Current < 1000)
+ 381              		.loc 1 108 0
+ 382 01ec B6F57A7F 		cmp	r6, #1000
+ 383 01f0 03D2     		bcs	.L11
+ 109:main.c        ****             {
+ 110:main.c        ****                 LCD_PrintString("0");
+ 384              		.loc 1 110 0
+ 385 01f2 2D48     		ldr	r0, .L18+12
+ 386 01f4 FFF7FEFF 		bl	LCD_PrintString
+ 387              	.LVL77:
+ 388 01f8 05E0     		b	.L12
+ 389              	.L11:
+ 111:main.c        ****             }
+ 112:main.c        ****             else
+ 113:main.c        ****             {
+ 114:main.c        ****                 LCD_PrintU32Number(Current/1000);
+ 390              		.loc 1 114 0
+ 391 01fa 2C48     		ldr	r0, .L18+16
+ 392 01fc A0FB0630 		umull	r3, r0, r0, r6
+ 393 0200 8009     		lsrs	r0, r0, #6
+ 394 0202 FFF7FEFF 		bl	LCD_PrintU32Number
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 10
+
+
+ 395              	.LVL78:
+ 396              	.L12:
+ 115:main.c        ****             }
+ 116:main.c        ****             LCD_Position(0, 11);
+ 397              		.loc 1 116 0
+ 398 0206 0B21     		movs	r1, #11
+ 399 0208 0020     		movs	r0, #0
+ 400 020a FFF7FEFF 		bl	LCD_Position
+ 401              	.LVL79:
+ 117:main.c        ****             LCD_PrintString(".");
+ 402              		.loc 1 117 0
+ 403 020e 2848     		ldr	r0, .L18+20
+ 404 0210 FFF7FEFF 		bl	LCD_PrintString
+ 405              	.LVL80:
+ 118:main.c        ****             if((Current%1000) < 10)
+ 406              		.loc 1 118 0
+ 407 0214 254B     		ldr	r3, .L18+16
+ 408 0216 A3FB0623 		umull	r2, r3, r3, r6
+ 409 021a 9B09     		lsrs	r3, r3, #6
+ 410 021c 4FF47A71 		mov	r1, #1000
+ 411 0220 01FB1366 		mls	r6, r1, r3, r6
+ 412              	.LVL81:
+ 413 0224 B6B2     		uxth	r6, r6
+ 414 0226 092E     		cmp	r6, #9
+ 415 0228 0AD8     		bhi	.L13
+ 119:main.c        ****             {
+ 120:main.c        ****                 LCD_PrintString("00");
+ 416              		.loc 1 120 0
+ 417 022a 2248     		ldr	r0, .L18+24
+ 418 022c FFF7FEFF 		bl	LCD_PrintString
+ 419              	.LVL82:
+ 121:main.c        ****                 LCD_Position(0, 14);
+ 420              		.loc 1 121 0
+ 421 0230 0E21     		movs	r1, #14
+ 422 0232 0020     		movs	r0, #0
+ 423 0234 FFF7FEFF 		bl	LCD_Position
+ 424              	.LVL83:
+ 122:main.c        ****                 LCD_PrintU32Number(Current%1000);
+ 425              		.loc 1 122 0
+ 426 0238 3046     		mov	r0, r6
+ 427 023a FFF7FEFF 		bl	LCD_PrintU32Number
+ 428              	.LVL84:
+ 429 023e 13E0     		b	.L14
+ 430              	.L13:
+ 123:main.c        ****             }
+ 124:main.c        ****             else if((Current%1000) < 100)
+ 431              		.loc 1 124 0
+ 432 0240 632E     		cmp	r6, #99
+ 433 0242 0AD8     		bhi	.L15
+ 125:main.c        ****             {
+ 126:main.c        ****                 LCD_PrintString("0");
+ 434              		.loc 1 126 0
+ 435 0244 1848     		ldr	r0, .L18+12
+ 436 0246 FFF7FEFF 		bl	LCD_PrintString
+ 437              	.LVL85:
+ 127:main.c        ****                 LCD_Position(0,13);
+ 438              		.loc 1 127 0
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 11
+
+
+ 439 024a 0D21     		movs	r1, #13
+ 440 024c 0020     		movs	r0, #0
+ 441 024e FFF7FEFF 		bl	LCD_Position
+ 442              	.LVL86:
+ 128:main.c        ****                 LCD_PrintU32Number(Current%1000);
+ 443              		.loc 1 128 0
+ 444 0252 3046     		mov	r0, r6
+ 445 0254 FFF7FEFF 		bl	LCD_PrintU32Number
+ 446              	.LVL87:
+ 447 0258 06E0     		b	.L14
+ 448              	.L15:
+ 129:main.c        ****             }
+ 130:main.c        ****             else
+ 131:main.c        ****             {
+ 132:main.c        ****                 LCD_Position(0,12);
+ 449              		.loc 1 132 0
+ 450 025a 0C21     		movs	r1, #12
+ 451 025c 0020     		movs	r0, #0
+ 452 025e FFF7FEFF 		bl	LCD_Position
+ 453              	.LVL88:
+ 133:main.c        ****                 LCD_PrintU32Number(Current%1000);
+ 454              		.loc 1 133 0
+ 455 0262 3046     		mov	r0, r6
+ 456 0264 FFF7FEFF 		bl	LCD_PrintU32Number
+ 457              	.LVL89:
+ 458              	.L14:
+ 134:main.c        ****             }
+ 135:main.c        ****             LCD_Position(0,15);
+ 459              		.loc 1 135 0
+ 460 0268 0F21     		movs	r1, #15
+ 461 026a 0020     		movs	r0, #0
+ 462 026c FFF7FEFF 		bl	LCD_Position
+ 463              	.LVL90:
+ 136:main.c        ****             LCD_PrintString("A");
+ 464              		.loc 1 136 0
+ 465 0270 1448     		ldr	r0, .L18+40
+ 466 0272 FFF7FEFF 		bl	LCD_PrintString
+ 467              	.LVL91:
+ 137:main.c        ****             LCD_Position(1,0);
+ 468              		.loc 1 137 0
+ 469 0276 0021     		movs	r1, #0
+ 470 0278 0120     		movs	r0, #1
+ 471 027a FFF7FEFF 		bl	LCD_Position
+ 472              	.LVL92:
+ 138:main.c        ****             LCD_PrintString("RPM:");
+ 473              		.loc 1 138 0
+ 474 027e 1248     		ldr	r0, .L18+44
+ 475 0280 FFF7FEFF 		bl	LCD_PrintString
+ 476              	.LVL93:
+ 139:main.c        ****             LCD_Position(1,4);
+ 477              		.loc 1 139 0
+ 478 0284 0421     		movs	r1, #4
+ 479 0286 0120     		movs	r0, #1
+ 480 0288 FFF7FEFF 		bl	LCD_Position
+ 481              	.LVL94:
+ 140:main.c        ****             LCD_PrintU32Number(RPM);
+ 482              		.loc 1 140 0
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 12
+
+
+ 483 028c 3846     		mov	r0, r7
+ 484 028e FFF7FEFF 		bl	LCD_PrintU32Number
+ 485              	.LVL95:
+ 141:main.c        ****             P4_6_Write(0);
+ 486              		.loc 1 141 0
+ 487 0292 0020     		movs	r0, #0
+ 488 0294 FFF7FEFF 		bl	P4_6_Write
+ 489              	.LVL96:
+ 490 0298 E5E6     		b	.L16
+ 491              	.L19:
+ 492 029a 00BF     		.align	2
+ 493              	.L18:
+ 494 029c 00000000 		.word	.LC0
+ 495 02a0 89888888 		.word	-2004318071
+ 496 02a4 08000000 		.word	.LC1
+ 497 02a8 0C000000 		.word	.LC2
+ 498 02ac D34D6210 		.word	274877907
+ 499 02b0 10000000 		.word	.LC3
+ 500 02b4 14000000 		.word	.LC4
+ 501 02b8 CDCCCCCC 		.word	-858993459
+ 502 02bc 18000000 		.word	.LC5
+ 503 02c0 1C000000 		.word	.LC6
+ 504 02c4 20000000 		.word	.LC7
+ 505 02c8 24000000 		.word	.LC8
+ 506              		.cfi_endproc
+ 507              	.LFE63:
+ 508              		.size	main, .-main
+ 509              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 510              		.align	2
+ 511              	.LC0:
+ 512 0000 4D6F746F 		.ascii	"Motor\000"
+ 512      7200
+ 513 0006 0000     		.space	2
+ 514              	.LC1:
+ 515 0008 423A00   		.ascii	"B:\000"
+ 516 000b 00       		.space	1
+ 517              	.LC2:
+ 518 000c 3000     		.ascii	"0\000"
+ 519 000e 0000     		.space	2
+ 520              	.LC3:
+ 521 0010 2E00     		.ascii	".\000"
+ 522 0012 0000     		.space	2
+ 523              	.LC4:
+ 524 0014 303000   		.ascii	"00\000"
+ 525 0017 00       		.space	1
+ 526              	.LC5:
+ 527 0018 5600     		.ascii	"V\000"
+ 528 001a 0000     		.space	2
+ 529              	.LC6:
+ 530 001c 433A00   		.ascii	"C:\000"
+ 531 001f 00       		.space	1
+ 532              	.LC7:
+ 533 0020 4100     		.ascii	"A\000"
+ 534 0022 0000     		.space	2
+ 535              	.LC8:
+ 536 0024 52504D3A 		.ascii	"RPM:\000"
+ 536      00
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 13
+
+
+ 537              		.text
+ 538              	.Letext0:
+ 539              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 540              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 541              		.file 4 "Generated_Source\\PSoC5/LCD.h"
+ 542              		.file 5 "Generated_Source\\PSoC5/ADC_SAR_1.h"
+ 543              		.file 6 "Generated_Source\\PSoC5/PGA_1.h"
+ 544              		.file 7 "Generated_Source\\PSoC5/AMux_1.h"
+ 545              		.file 8 "Generated_Source\\PSoC5/P4_1.h"
+ 546              		.file 9 "Generated_Source\\PSoC5/CyLib.h"
+ 547              		.file 10 "Generated_Source\\PSoC5/P4_5.h"
+ 548              		.file 11 "Generated_Source\\PSoC5/P4_6.h"
+ 549              		.file 12 "Generated_Source\\PSoC5/core_cm3.h"
+ 550              		.section	.debug_info,"",%progbits
+ 551              	.Ldebug_info0:
+ 552 0000 57080000 		.4byte	0x857
+ 553 0004 0400     		.2byte	0x4
+ 554 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 555 000a 04       		.byte	0x4
+ 556 000b 01       		.uleb128 0x1
+ 557 000c D4000000 		.4byte	.LASF53
+ 558 0010 0C       		.byte	0xc
+ 559 0011 D7020000 		.4byte	.LASF54
+ 560 0015 A3010000 		.4byte	.LASF55
+ 561 0019 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 562 001d 00000000 		.4byte	0
+ 563 0021 00000000 		.4byte	.Ldebug_line0
+ 564 0025 02       		.uleb128 0x2
+ 565 0026 08       		.byte	0x8
+ 566 0027 07       		.byte	0x7
+ 567 0028 52020000 		.4byte	.LASF0
+ 568 002c 02       		.uleb128 0x2
+ 569 002d 04       		.byte	0x4
+ 570 002e 07       		.byte	0x7
+ 571 002f 45020000 		.4byte	.LASF1
+ 572 0033 02       		.uleb128 0x2
+ 573 0034 01       		.byte	0x1
+ 574 0035 06       		.byte	0x6
+ 575 0036 96020000 		.4byte	.LASF2
+ 576 003a 03       		.uleb128 0x3
+ 577 003b 3B000000 		.4byte	.LASF5
+ 578 003f 02       		.byte	0x2
+ 579 0040 1D       		.byte	0x1d
+ 580 0041 45000000 		.4byte	0x45
+ 581 0045 02       		.uleb128 0x2
+ 582 0046 01       		.byte	0x1
+ 583 0047 08       		.byte	0x8
+ 584 0048 C6000000 		.4byte	.LASF3
+ 585 004c 02       		.uleb128 0x2
+ 586 004d 02       		.byte	0x2
+ 587 004e 05       		.byte	0x5
+ 588 004f F7020000 		.4byte	.LASF4
+ 589 0053 03       		.uleb128 0x3
+ 590 0054 EA010000 		.4byte	.LASF6
+ 591 0058 02       		.byte	0x2
+ 592 0059 2B       		.byte	0x2b
+ 593 005a 5E000000 		.4byte	0x5e
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 14
+
+
+ 594 005e 02       		.uleb128 0x2
+ 595 005f 02       		.byte	0x2
+ 596 0060 07       		.byte	0x7
+ 597 0061 54000000 		.4byte	.LASF7
+ 598 0065 03       		.uleb128 0x3
+ 599 0066 45000000 		.4byte	.LASF8
+ 600 006a 02       		.byte	0x2
+ 601 006b 3F       		.byte	0x3f
+ 602 006c 70000000 		.4byte	0x70
+ 603 0070 02       		.uleb128 0x2
+ 604 0071 04       		.byte	0x4
+ 605 0072 05       		.byte	0x5
+ 606 0073 25030000 		.4byte	.LASF9
+ 607 0077 03       		.uleb128 0x3
+ 608 0078 62010000 		.4byte	.LASF10
+ 609 007c 02       		.byte	0x2
+ 610 007d 41       		.byte	0x41
+ 611 007e 82000000 		.4byte	0x82
+ 612 0082 02       		.uleb128 0x2
+ 613 0083 04       		.byte	0x4
+ 614 0084 07       		.byte	0x7
+ 615 0085 6D010000 		.4byte	.LASF11
+ 616 0089 02       		.uleb128 0x2
+ 617 008a 08       		.byte	0x8
+ 618 008b 05       		.byte	0x5
+ 619 008c C0020000 		.4byte	.LASF12
+ 620 0090 04       		.uleb128 0x4
+ 621 0091 04       		.byte	0x4
+ 622 0092 05       		.byte	0x5
+ 623 0093 696E7400 		.ascii	"int\000"
+ 624 0097 03       		.uleb128 0x3
+ 625 0098 69020000 		.4byte	.LASF13
+ 626 009c 03       		.byte	0x3
+ 627 009d 18       		.byte	0x18
+ 628 009e 3A000000 		.4byte	0x3a
+ 629 00a2 03       		.uleb128 0x3
+ 630 00a3 0C030000 		.4byte	.LASF14
+ 631 00a7 03       		.byte	0x3
+ 632 00a8 24       		.byte	0x24
+ 633 00a9 53000000 		.4byte	0x53
+ 634 00ad 03       		.uleb128 0x3
+ 635 00ae A2020000 		.4byte	.LASF15
+ 636 00b2 03       		.byte	0x3
+ 637 00b3 2C       		.byte	0x2c
+ 638 00b4 65000000 		.4byte	0x65
+ 639 00b8 03       		.uleb128 0x3
+ 640 00b9 1C030000 		.4byte	.LASF16
+ 641 00bd 03       		.byte	0x3
+ 642 00be 30       		.byte	0x30
+ 643 00bf 77000000 		.4byte	0x77
+ 644 00c3 02       		.uleb128 0x2
+ 645 00c4 04       		.byte	0x4
+ 646 00c5 04       		.byte	0x4
+ 647 00c6 93000000 		.4byte	.LASF17
+ 648 00ca 02       		.uleb128 0x2
+ 649 00cb 08       		.byte	0x8
+ 650 00cc 04       		.byte	0x4
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 15
+
+
+ 651 00cd F5010000 		.4byte	.LASF18
+ 652 00d1 02       		.uleb128 0x2
+ 653 00d2 01       		.byte	0x1
+ 654 00d3 08       		.byte	0x8
+ 655 00d4 DE020000 		.4byte	.LASF19
+ 656 00d8 02       		.uleb128 0x2
+ 657 00d9 08       		.byte	0x8
+ 658 00da 04       		.byte	0x4
+ 659 00db 2E030000 		.4byte	.LASF20
+ 660 00df 02       		.uleb128 0x2
+ 661 00e0 04       		.byte	0x4
+ 662 00e1 07       		.byte	0x7
+ 663 00e2 CE020000 		.4byte	.LASF21
+ 664 00e6 05       		.uleb128 0x5
+ 665 00e7 34020000 		.4byte	.LASF56
+ 666 00eb 01       		.byte	0x1
+ 667 00ec 0E       		.byte	0xe
+ 668 00ed 90000000 		.4byte	0x90
+ 669 00f1 00000000 		.4byte	.LFB63
+ 670 00f5 CC020000 		.4byte	.LFE63-.LFB63
+ 671 00f9 01       		.uleb128 0x1
+ 672 00fa 9C       		.byte	0x9c
+ 673 00fb 73070000 		.4byte	0x773
+ 674 00ff 06       		.uleb128 0x6
+ 675 0100 1D000000 		.4byte	.LASF22
+ 676 0104 01       		.byte	0x1
+ 677 0105 18       		.byte	0x18
+ 678 0106 A2000000 		.4byte	0xa2
+ 679 010a 00000000 		.4byte	.LLST0
+ 680 010e 06       		.uleb128 0x6
+ 681 010f BE000000 		.4byte	.LASF23
+ 682 0113 01       		.byte	0x1
+ 683 0114 18       		.byte	0x18
+ 684 0115 A2000000 		.4byte	0xa2
+ 685 0119 1E000000 		.4byte	.LLST1
+ 686 011d 06       		.uleb128 0x6
+ 687 011e 35000000 		.4byte	.LASF24
+ 688 0122 01       		.byte	0x1
+ 689 0123 18       		.byte	0x18
+ 690 0124 A2000000 		.4byte	0xa2
+ 691 0128 3C000000 		.4byte	.LLST2
+ 692 012c 06       		.uleb128 0x6
+ 693 012d 3A030000 		.4byte	.LASF25
+ 694 0131 01       		.byte	0x1
+ 695 0132 18       		.byte	0x18
+ 696 0133 A2000000 		.4byte	0xa2
+ 697 0137 4F000000 		.4byte	.LLST3
+ 698 013b 06       		.uleb128 0x6
+ 699 013c 23000000 		.4byte	.LASF26
+ 700 0140 01       		.byte	0x1
+ 701 0141 18       		.byte	0x18
+ 702 0142 A2000000 		.4byte	0xa2
+ 703 0146 62000000 		.4byte	.LLST4
+ 704 014a 06       		.uleb128 0x6
+ 705 014b 09000000 		.4byte	.LASF27
+ 706 014f 01       		.byte	0x1
+ 707 0150 18       		.byte	0x18
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 16
+
+
+ 708 0151 A2000000 		.4byte	0xa2
+ 709 0155 8D000000 		.4byte	.LLST5
+ 710 0159 07       		.uleb128 0x7
+ 711 015a 00000000 		.4byte	.LASF28
+ 712 015e 01       		.byte	0x1
+ 713 015f 18       		.byte	0x18
+ 714 0160 A2000000 		.4byte	0xa2
+ 715 0164 01       		.uleb128 0x1
+ 716 0165 55       		.byte	0x55
+ 717 0166 06       		.uleb128 0x6
+ 718 0167 67000000 		.4byte	.LASF29
+ 719 016b 01       		.byte	0x1
+ 720 016c 18       		.byte	0x18
+ 721 016d A2000000 		.4byte	0xa2
+ 722 0171 C3000000 		.4byte	.LLST6
+ 723 0175 08       		.uleb128 0x8
+ 724 0176 52504D00 		.ascii	"RPM\000"
+ 725 017a 01       		.byte	0x1
+ 726 017b 19       		.byte	0x19
+ 727 017c A2000000 		.4byte	0xa2
+ 728 0180 01       		.uleb128 0x1
+ 729 0181 57       		.byte	0x57
+ 730 0182 07       		.uleb128 0x7
+ 731 0183 15030000 		.4byte	.LASF30
+ 732 0187 01       		.byte	0x1
+ 733 0188 1A       		.byte	0x1a
+ 734 0189 73070000 		.4byte	0x773
+ 735 018d 03       		.uleb128 0x3
+ 736 018e 91       		.byte	0x91
+ 737 018f AC7F     		.sleb128 -84
+ 738 0191 07       		.uleb128 0x7
+ 739 0192 16000000 		.4byte	.LASF31
+ 740 0196 01       		.byte	0x1
+ 741 0197 1A       		.byte	0x1a
+ 742 0198 73070000 		.4byte	0x773
+ 743 019c 03       		.uleb128 0x3
+ 744 019d 91       		.byte	0x91
+ 745 019e F07E     		.sleb128 -144
+ 746 01a0 06       		.uleb128 0x6
+ 747 01a1 91020000 		.4byte	.LASF32
+ 748 01a5 01       		.byte	0x1
+ 749 01a6 1B       		.byte	0x1b
+ 750 01a7 B8000000 		.4byte	0xb8
+ 751 01ab F8000000 		.4byte	.LLST7
+ 752 01af 06       		.uleb128 0x6
+ 753 01b0 4F000000 		.4byte	.LASF33
+ 754 01b4 01       		.byte	0x1
+ 755 01b5 1B       		.byte	0x1b
+ 756 01b6 B8000000 		.4byte	0xb8
+ 757 01ba 26010000 		.4byte	.LLST8
+ 758 01be 09       		.uleb128 0x9
+ 759 01bf 00000000 		.4byte	.Ldebug_ranges0+0
+ 760 01c3 D7010000 		.4byte	0x1d7
+ 761 01c7 06       		.uleb128 0x6
+ 762 01c8 F1020000 		.4byte	.LASF34
+ 763 01cc 01       		.byte	0x1
+ 764 01cd 45       		.byte	0x45
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 17
+
+
+ 765 01ce 97000000 		.4byte	0x97
+ 766 01d2 54010000 		.4byte	.LLST9
+ 767 01d6 00       		.byte	0
+ 768 01d7 0A       		.uleb128 0xa
+ 769 01d8 0A000000 		.4byte	.LVL0
+ 770 01dc 94070000 		.4byte	0x794
+ 771 01e0 0B       		.uleb128 0xb
+ 772 01e1 12000000 		.4byte	.LVL1
+ 773 01e5 9F070000 		.4byte	0x79f
+ 774 01e9 F8010000 		.4byte	0x1f8
+ 775 01ed 0C       		.uleb128 0xc
+ 776 01ee 01       		.uleb128 0x1
+ 777 01ef 50       		.byte	0x50
+ 778 01f0 01       		.uleb128 0x1
+ 779 01f1 30       		.byte	0x30
+ 780 01f2 0C       		.uleb128 0xc
+ 781 01f3 01       		.uleb128 0x1
+ 782 01f4 51       		.byte	0x51
+ 783 01f5 01       		.uleb128 0x1
+ 784 01f6 30       		.byte	0x30
+ 785 01f7 00       		.byte	0
+ 786 01f8 0B       		.uleb128 0xb
+ 787 01f9 18000000 		.4byte	.LVL2
+ 788 01fd AA070000 		.4byte	0x7aa
+ 789 0201 0F020000 		.4byte	0x20f
+ 790 0205 0C       		.uleb128 0xc
+ 791 0206 01       		.uleb128 0x1
+ 792 0207 50       		.byte	0x50
+ 793 0208 05       		.uleb128 0x5
+ 794 0209 03       		.byte	0x3
+ 795 020a 00000000 		.4byte	.LC0
+ 796 020e 00       		.byte	0
+ 797 020f 0A       		.uleb128 0xa
+ 798 0210 1C000000 		.4byte	.LVL3
+ 799 0214 B5070000 		.4byte	0x7b5
+ 800 0218 0A       		.uleb128 0xa
+ 801 0219 20000000 		.4byte	.LVL4
+ 802 021d C0070000 		.4byte	0x7c0
+ 803 0221 0A       		.uleb128 0xa
+ 804 0222 24000000 		.4byte	.LVL5
+ 805 0226 CB070000 		.4byte	0x7cb
+ 806 022a 0B       		.uleb128 0xb
+ 807 022b 2A000000 		.4byte	.LVL6
+ 808 022f D6070000 		.4byte	0x7d6
+ 809 0233 3D020000 		.4byte	0x23d
+ 810 0237 0C       		.uleb128 0xc
+ 811 0238 01       		.uleb128 0x1
+ 812 0239 50       		.byte	0x50
+ 813 023a 01       		.uleb128 0x1
+ 814 023b 31       		.byte	0x31
+ 815 023c 00       		.byte	0
+ 816 023d 0B       		.uleb128 0xb
+ 817 023e 30000000 		.4byte	.LVL7
+ 818 0242 E1070000 		.4byte	0x7e1
+ 819 0246 51020000 		.4byte	0x251
+ 820 024a 0C       		.uleb128 0xc
+ 821 024b 01       		.uleb128 0x1
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 18
+
+
+ 822 024c 50       		.byte	0x50
+ 823 024d 02       		.uleb128 0x2
+ 824 024e 08       		.byte	0x8
+ 825 024f 64       		.byte	0x64
+ 826 0250 00       		.byte	0
+ 827 0251 0B       		.uleb128 0xb
+ 828 0252 36000000 		.4byte	.LVL8
+ 829 0256 D6070000 		.4byte	0x7d6
+ 830 025a 64020000 		.4byte	0x264
+ 831 025e 0C       		.uleb128 0xc
+ 832 025f 01       		.uleb128 0x1
+ 833 0260 50       		.byte	0x50
+ 834 0261 01       		.uleb128 0x1
+ 835 0262 30       		.byte	0x30
+ 836 0263 00       		.byte	0
+ 837 0264 0B       		.uleb128 0xb
+ 838 0265 3C000000 		.4byte	.LVL9
+ 839 0269 E1070000 		.4byte	0x7e1
+ 840 026d 77020000 		.4byte	0x277
+ 841 0271 0C       		.uleb128 0xc
+ 842 0272 01       		.uleb128 0x1
+ 843 0273 50       		.byte	0x50
+ 844 0274 01       		.uleb128 0x1
+ 845 0275 31       		.byte	0x31
+ 846 0276 00       		.byte	0
+ 847 0277 0B       		.uleb128 0xb
+ 848 0278 42000000 		.4byte	.LVL10
+ 849 027c EC070000 		.4byte	0x7ec
+ 850 0280 8A020000 		.4byte	0x28a
+ 851 0284 0C       		.uleb128 0xc
+ 852 0285 01       		.uleb128 0x1
+ 853 0286 50       		.byte	0x50
+ 854 0287 01       		.uleb128 0x1
+ 855 0288 30       		.byte	0x30
+ 856 0289 00       		.byte	0
+ 857 028a 0A       		.uleb128 0xa
+ 858 028b 46000000 		.4byte	.LVL11
+ 859 028f F7070000 		.4byte	0x7f7
+ 860 0293 0B       		.uleb128 0xb
+ 861 0294 4C000000 		.4byte	.LVL12
+ 862 0298 02080000 		.4byte	0x802
+ 863 029c A6020000 		.4byte	0x2a6
+ 864 02a0 0C       		.uleb128 0xc
+ 865 02a1 01       		.uleb128 0x1
+ 866 02a2 50       		.byte	0x50
+ 867 02a3 01       		.uleb128 0x1
+ 868 02a4 30       		.byte	0x30
+ 869 02a5 00       		.byte	0
+ 870 02a6 0A       		.uleb128 0xa
+ 871 02a7 50000000 		.4byte	.LVL13
+ 872 02ab 0D080000 		.4byte	0x80d
+ 873 02af 0A       		.uleb128 0xa
+ 874 02b0 54000000 		.4byte	.LVL14
+ 875 02b4 18080000 		.4byte	0x818
+ 876 02b8 0B       		.uleb128 0xb
+ 877 02b9 6E000000 		.4byte	.LVL19
+ 878 02bd D6070000 		.4byte	0x7d6
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 19
+
+
+ 879 02c1 CB020000 		.4byte	0x2cb
+ 880 02c5 0C       		.uleb128 0xc
+ 881 02c6 01       		.uleb128 0x1
+ 882 02c7 50       		.byte	0x50
+ 883 02c8 01       		.uleb128 0x1
+ 884 02c9 31       		.byte	0x31
+ 885 02ca 00       		.byte	0
+ 886 02cb 0B       		.uleb128 0xb
+ 887 02cc 74000000 		.4byte	.LVL20
+ 888 02d0 E1070000 		.4byte	0x7e1
+ 889 02d4 DE020000 		.4byte	0x2de
+ 890 02d8 0C       		.uleb128 0xc
+ 891 02d9 01       		.uleb128 0x1
+ 892 02da 50       		.byte	0x50
+ 893 02db 01       		.uleb128 0x1
+ 894 02dc 38       		.byte	0x38
+ 895 02dd 00       		.byte	0
+ 896 02de 0B       		.uleb128 0xb
+ 897 02df 7A000000 		.4byte	.LVL21
+ 898 02e3 EC070000 		.4byte	0x7ec
+ 899 02e7 F1020000 		.4byte	0x2f1
+ 900 02eb 0C       		.uleb128 0xc
+ 901 02ec 01       		.uleb128 0x1
+ 902 02ed 50       		.byte	0x50
+ 903 02ee 01       		.uleb128 0x1
+ 904 02ef 31       		.byte	0x31
+ 905 02f0 00       		.byte	0
+ 906 02f1 0A       		.uleb128 0xa
+ 907 02f2 7E000000 		.4byte	.LVL22
+ 908 02f6 F7070000 		.4byte	0x7f7
+ 909 02fa 0B       		.uleb128 0xb
+ 910 02fb 84000000 		.4byte	.LVL23
+ 911 02ff 02080000 		.4byte	0x802
+ 912 0303 0D030000 		.4byte	0x30d
+ 913 0307 0C       		.uleb128 0xc
+ 914 0308 01       		.uleb128 0x1
+ 915 0309 50       		.byte	0x50
+ 916 030a 01       		.uleb128 0x1
+ 917 030b 30       		.byte	0x30
+ 918 030c 00       		.byte	0
+ 919 030d 0A       		.uleb128 0xa
+ 920 030e 88000000 		.4byte	.LVL24
+ 921 0312 0D080000 		.4byte	0x80d
+ 922 0316 0A       		.uleb128 0xa
+ 923 0317 8C000000 		.4byte	.LVL25
+ 924 031b 18080000 		.4byte	0x818
+ 925 031f 0B       		.uleb128 0xb
+ 926 0320 B2000000 		.4byte	.LVL29
+ 927 0324 23080000 		.4byte	0x823
+ 928 0328 32030000 		.4byte	0x332
+ 929 032c 0C       		.uleb128 0xc
+ 930 032d 01       		.uleb128 0x1
+ 931 032e 50       		.byte	0x50
+ 932 032f 01       		.uleb128 0x1
+ 933 0330 31       		.byte	0x31
+ 934 0331 00       		.byte	0
+ 935 0332 0B       		.uleb128 0xb
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 20
+
+
+ 936 0333 B8000000 		.4byte	.LVL30
+ 937 0337 D6070000 		.4byte	0x7d6
+ 938 033b 45030000 		.4byte	0x345
+ 939 033f 0C       		.uleb128 0xc
+ 940 0340 01       		.uleb128 0x1
+ 941 0341 50       		.byte	0x50
+ 942 0342 01       		.uleb128 0x1
+ 943 0343 30       		.byte	0x30
+ 944 0344 00       		.byte	0
+ 945 0345 0B       		.uleb128 0xb
+ 946 0346 C0000000 		.4byte	.LVL31
+ 947 034a 2E080000 		.4byte	0x82e
+ 948 034e 5A030000 		.4byte	0x35a
+ 949 0352 0C       		.uleb128 0xc
+ 950 0353 01       		.uleb128 0x1
+ 951 0354 50       		.byte	0x50
+ 952 0355 03       		.uleb128 0x3
+ 953 0356 0A       		.byte	0xa
+ 954 0357 F401     		.2byte	0x1f4
+ 955 0359 00       		.byte	0
+ 956 035a 0B       		.uleb128 0xb
+ 957 035b C6000000 		.4byte	.LVL32
+ 958 035f EC070000 		.4byte	0x7ec
+ 959 0363 6D030000 		.4byte	0x36d
+ 960 0367 0C       		.uleb128 0xc
+ 961 0368 01       		.uleb128 0x1
+ 962 0369 50       		.byte	0x50
+ 963 036a 01       		.uleb128 0x1
+ 964 036b 30       		.byte	0x30
+ 965 036c 00       		.byte	0
+ 966 036d 0A       		.uleb128 0xa
+ 967 036e CA000000 		.4byte	.LVL33
+ 968 0372 F7070000 		.4byte	0x7f7
+ 969 0376 0B       		.uleb128 0xb
+ 970 0377 D0000000 		.4byte	.LVL34
+ 971 037b 02080000 		.4byte	0x802
+ 972 037f 89030000 		.4byte	0x389
+ 973 0383 0C       		.uleb128 0xc
+ 974 0384 01       		.uleb128 0x1
+ 975 0385 50       		.byte	0x50
+ 976 0386 01       		.uleb128 0x1
+ 977 0387 30       		.byte	0x30
+ 978 0388 00       		.byte	0
+ 979 0389 0A       		.uleb128 0xa
+ 980 038a D4000000 		.4byte	.LVL35
+ 981 038e 0D080000 		.4byte	0x80d
+ 982 0392 0A       		.uleb128 0xa
+ 983 0393 D8000000 		.4byte	.LVL36
+ 984 0397 18080000 		.4byte	0x818
+ 985 039b 0B       		.uleb128 0xb
+ 986 039c EA000000 		.4byte	.LVL41
+ 987 03a0 23080000 		.4byte	0x823
+ 988 03a4 AE030000 		.4byte	0x3ae
+ 989 03a8 0C       		.uleb128 0xc
+ 990 03a9 01       		.uleb128 0x1
+ 991 03aa 50       		.byte	0x50
+ 992 03ab 01       		.uleb128 0x1
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 21
+
+
+ 993 03ac 30       		.byte	0x30
+ 994 03ad 00       		.byte	0
+ 995 03ae 0B       		.uleb128 0xb
+ 996 03af F8000000 		.4byte	.LVL44
+ 997 03b3 39080000 		.4byte	0x839
+ 998 03b7 C1030000 		.4byte	0x3c1
+ 999 03bb 0C       		.uleb128 0xc
+ 1000 03bc 01       		.uleb128 0x1
+ 1001 03bd 50       		.byte	0x50
+ 1002 03be 01       		.uleb128 0x1
+ 1003 03bf 31       		.byte	0x31
+ 1004 03c0 00       		.byte	0
+ 1005 03c1 0B       		.uleb128 0xb
+ 1006 03c2 38010000 		.4byte	.LVL57
+ 1007 03c6 44080000 		.4byte	0x844
+ 1008 03ca D4030000 		.4byte	0x3d4
+ 1009 03ce 0C       		.uleb128 0xc
+ 1010 03cf 01       		.uleb128 0x1
+ 1011 03d0 50       		.byte	0x50
+ 1012 03d1 01       		.uleb128 0x1
+ 1013 03d2 31       		.byte	0x31
+ 1014 03d3 00       		.byte	0
+ 1015 03d4 0B       		.uleb128 0xb
+ 1016 03d5 40010000 		.4byte	.LVL58
+ 1017 03d9 9F070000 		.4byte	0x79f
+ 1018 03dd EC030000 		.4byte	0x3ec
+ 1019 03e1 0C       		.uleb128 0xc
+ 1020 03e2 01       		.uleb128 0x1
+ 1021 03e3 50       		.byte	0x50
+ 1022 03e4 01       		.uleb128 0x1
+ 1023 03e5 30       		.byte	0x30
+ 1024 03e6 0C       		.uleb128 0xc
+ 1025 03e7 01       		.uleb128 0x1
+ 1026 03e8 51       		.byte	0x51
+ 1027 03e9 01       		.uleb128 0x1
+ 1028 03ea 30       		.byte	0x30
+ 1029 03eb 00       		.byte	0
+ 1030 03ec 0B       		.uleb128 0xb
+ 1031 03ed 46010000 		.4byte	.LVL59
+ 1032 03f1 AA070000 		.4byte	0x7aa
+ 1033 03f5 03040000 		.4byte	0x403
+ 1034 03f9 0C       		.uleb128 0xc
+ 1035 03fa 01       		.uleb128 0x1
+ 1036 03fb 50       		.byte	0x50
+ 1037 03fc 05       		.uleb128 0x5
+ 1038 03fd 03       		.byte	0x3
+ 1039 03fe 08000000 		.4byte	.LC1
+ 1040 0402 00       		.byte	0
+ 1041 0403 0B       		.uleb128 0xb
+ 1042 0404 4E010000 		.4byte	.LVL60
+ 1043 0408 9F070000 		.4byte	0x79f
+ 1044 040c 1B040000 		.4byte	0x41b
+ 1045 0410 0C       		.uleb128 0xc
+ 1046 0411 01       		.uleb128 0x1
+ 1047 0412 50       		.byte	0x50
+ 1048 0413 01       		.uleb128 0x1
+ 1049 0414 30       		.byte	0x30
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 22
+
+
+ 1050 0415 0C       		.uleb128 0xc
+ 1051 0416 01       		.uleb128 0x1
+ 1052 0417 51       		.byte	0x51
+ 1053 0418 01       		.uleb128 0x1
+ 1054 0419 32       		.byte	0x32
+ 1055 041a 00       		.byte	0
+ 1056 041b 0B       		.uleb128 0xb
+ 1057 041c 5A010000 		.4byte	.LVL61
+ 1058 0420 AA070000 		.4byte	0x7aa
+ 1059 0424 32040000 		.4byte	0x432
+ 1060 0428 0C       		.uleb128 0xc
+ 1061 0429 01       		.uleb128 0x1
+ 1062 042a 50       		.byte	0x50
+ 1063 042b 05       		.uleb128 0x5
+ 1064 042c 03       		.byte	0x3
+ 1065 042d 0C000000 		.4byte	.LC2
+ 1066 0431 00       		.byte	0
+ 1067 0432 0B       		.uleb128 0xb
+ 1068 0433 68010000 		.4byte	.LVL62
+ 1069 0437 4F080000 		.4byte	0x84f
+ 1070 043b 5B040000 		.4byte	0x45b
+ 1071 043f 0C       		.uleb128 0xc
+ 1072 0440 01       		.uleb128 0x1
+ 1073 0441 50       		.byte	0x50
+ 1074 0442 17       		.uleb128 0x17
+ 1075 0443 74       		.byte	0x74
+ 1076 0444 00       		.sleb128 0
+ 1077 0445 F7       		.byte	0xf7
+ 1078 0446 2C       		.uleb128 0x2c
+ 1079 0447 F7       		.byte	0xf7
+ 1080 0448 25       		.uleb128 0x25
+ 1081 0449 0C       		.byte	0xc
+ 1082 044a D34D6210 		.4byte	0x10624dd3
+ 1083 044e F7       		.byte	0xf7
+ 1084 044f 25       		.uleb128 0x25
+ 1085 0450 1E       		.byte	0x1e
+ 1086 0451 08       		.byte	0x8
+ 1087 0452 20       		.byte	0x20
+ 1088 0453 F7       		.byte	0xf7
+ 1089 0454 25       		.uleb128 0x25
+ 1090 0455 25       		.byte	0x25
+ 1091 0456 F7       		.byte	0xf7
+ 1092 0457 2C       		.uleb128 0x2c
+ 1093 0458 36       		.byte	0x36
+ 1094 0459 25       		.byte	0x25
+ 1095 045a 00       		.byte	0
+ 1096 045b 0B       		.uleb128 0xb
+ 1097 045c 70010000 		.4byte	.LVL63
+ 1098 0460 9F070000 		.4byte	0x79f
+ 1099 0464 73040000 		.4byte	0x473
+ 1100 0468 0C       		.uleb128 0xc
+ 1101 0469 01       		.uleb128 0x1
+ 1102 046a 50       		.byte	0x50
+ 1103 046b 01       		.uleb128 0x1
+ 1104 046c 30       		.byte	0x30
+ 1105 046d 0C       		.uleb128 0xc
+ 1106 046e 01       		.uleb128 0x1
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 23
+
+
+ 1107 046f 51       		.byte	0x51
+ 1108 0470 01       		.uleb128 0x1
+ 1109 0471 33       		.byte	0x33
+ 1110 0472 00       		.byte	0
+ 1111 0473 0B       		.uleb128 0xb
+ 1112 0474 76010000 		.4byte	.LVL64
+ 1113 0478 AA070000 		.4byte	0x7aa
+ 1114 047c 8A040000 		.4byte	0x48a
+ 1115 0480 0C       		.uleb128 0xc
+ 1116 0481 01       		.uleb128 0x1
+ 1117 0482 50       		.byte	0x50
+ 1118 0483 05       		.uleb128 0x5
+ 1119 0484 03       		.byte	0x3
+ 1120 0485 10000000 		.4byte	.LC3
+ 1121 0489 00       		.byte	0
+ 1122 048a 0B       		.uleb128 0xb
+ 1123 048b 92010000 		.4byte	.LVL66
+ 1124 048f AA070000 		.4byte	0x7aa
+ 1125 0493 A1040000 		.4byte	0x4a1
+ 1126 0497 0C       		.uleb128 0xc
+ 1127 0498 01       		.uleb128 0x1
+ 1128 0499 50       		.byte	0x50
+ 1129 049a 05       		.uleb128 0x5
+ 1130 049b 03       		.byte	0x3
+ 1131 049c 14000000 		.4byte	.LC4
+ 1132 04a0 00       		.byte	0
+ 1133 04a1 0B       		.uleb128 0xb
+ 1134 04a2 9E010000 		.4byte	.LVL67
+ 1135 04a6 AA070000 		.4byte	0x7aa
+ 1136 04aa B8040000 		.4byte	0x4b8
+ 1137 04ae 0C       		.uleb128 0xc
+ 1138 04af 01       		.uleb128 0x1
+ 1139 04b0 50       		.byte	0x50
+ 1140 04b1 05       		.uleb128 0x5
+ 1141 04b2 03       		.byte	0x3
+ 1142 04b3 0C000000 		.4byte	.LC2
+ 1143 04b7 00       		.byte	0
+ 1144 04b8 0B       		.uleb128 0xb
+ 1145 04b9 A6010000 		.4byte	.LVL68
+ 1146 04bd 9F070000 		.4byte	0x79f
+ 1147 04c1 D0040000 		.4byte	0x4d0
+ 1148 04c5 0C       		.uleb128 0xc
+ 1149 04c6 01       		.uleb128 0x1
+ 1150 04c7 50       		.byte	0x50
+ 1151 04c8 01       		.uleb128 0x1
+ 1152 04c9 30       		.byte	0x30
+ 1153 04ca 0C       		.uleb128 0xc
+ 1154 04cb 01       		.uleb128 0x1
+ 1155 04cc 51       		.byte	0x51
+ 1156 04cd 01       		.uleb128 0x1
+ 1157 04ce 35       		.byte	0x35
+ 1158 04cf 00       		.byte	0
+ 1159 04d0 0B       		.uleb128 0xb
+ 1160 04d1 B2010000 		.4byte	.LVL69
+ 1161 04d5 4F080000 		.4byte	0x84f
+ 1162 04d9 FD040000 		.4byte	0x4fd
+ 1163 04dd 0C       		.uleb128 0xc
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 24
+
+
+ 1164 04de 01       		.uleb128 0x1
+ 1165 04df 50       		.byte	0x50
+ 1166 04e0 1B       		.uleb128 0x1b
+ 1167 04e1 74       		.byte	0x74
+ 1168 04e2 00       		.sleb128 0
+ 1169 04e3 F7       		.byte	0xf7
+ 1170 04e4 2C       		.uleb128 0x2c
+ 1171 04e5 F7       		.byte	0xf7
+ 1172 04e6 25       		.uleb128 0x25
+ 1173 04e7 F4       		.byte	0xf4
+ 1174 04e8 25       		.uleb128 0x25
+ 1175 04e9 08       		.byte	0x8
+ 1176 04ea CDCCCCCC 		.8byte	0xcccccccd
+ 1176      00000000 
+ 1177 04f2 1E       		.byte	0x1e
+ 1178 04f3 08       		.byte	0x8
+ 1179 04f4 20       		.byte	0x20
+ 1180 04f5 F7       		.byte	0xf7
+ 1181 04f6 25       		.uleb128 0x25
+ 1182 04f7 25       		.byte	0x25
+ 1183 04f8 F7       		.byte	0xf7
+ 1184 04f9 2C       		.uleb128 0x2c
+ 1185 04fa 33       		.byte	0x33
+ 1186 04fb 25       		.byte	0x25
+ 1187 04fc 00       		.byte	0
+ 1188 04fd 0B       		.uleb128 0xb
+ 1189 04fe BC010000 		.4byte	.LVL70
+ 1190 0502 9F070000 		.4byte	0x79f
+ 1191 0506 15050000 		.4byte	0x515
+ 1192 050a 0C       		.uleb128 0xc
+ 1193 050b 01       		.uleb128 0x1
+ 1194 050c 50       		.byte	0x50
+ 1195 050d 01       		.uleb128 0x1
+ 1196 050e 30       		.byte	0x30
+ 1197 050f 0C       		.uleb128 0xc
+ 1198 0510 01       		.uleb128 0x1
+ 1199 0511 51       		.byte	0x51
+ 1200 0512 01       		.uleb128 0x1
+ 1201 0513 34       		.byte	0x34
+ 1202 0514 00       		.byte	0
+ 1203 0515 0B       		.uleb128 0xb
+ 1204 0516 C8010000 		.4byte	.LVL71
+ 1205 051a 4F080000 		.4byte	0x84f
+ 1206 051e 42050000 		.4byte	0x542
+ 1207 0522 0C       		.uleb128 0xc
+ 1208 0523 01       		.uleb128 0x1
+ 1209 0524 50       		.byte	0x50
+ 1210 0525 1B       		.uleb128 0x1b
+ 1211 0526 74       		.byte	0x74
+ 1212 0527 00       		.sleb128 0
+ 1213 0528 F7       		.byte	0xf7
+ 1214 0529 2C       		.uleb128 0x2c
+ 1215 052a F7       		.byte	0xf7
+ 1216 052b 25       		.uleb128 0x25
+ 1217 052c F4       		.byte	0xf4
+ 1218 052d 25       		.uleb128 0x25
+ 1219 052e 08       		.byte	0x8
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 25
+
+
+ 1220 052f CDCCCCCC 		.8byte	0xcccccccd
+ 1220      00000000 
+ 1221 0537 1E       		.byte	0x1e
+ 1222 0538 08       		.byte	0x8
+ 1223 0539 20       		.byte	0x20
+ 1224 053a F7       		.byte	0xf7
+ 1225 053b 25       		.uleb128 0x25
+ 1226 053c 25       		.byte	0x25
+ 1227 053d F7       		.byte	0xf7
+ 1228 053e 2C       		.uleb128 0x2c
+ 1229 053f 33       		.byte	0x33
+ 1230 0540 25       		.byte	0x25
+ 1231 0541 00       		.byte	0
+ 1232 0542 0B       		.uleb128 0xb
+ 1233 0543 D0010000 		.4byte	.LVL72
+ 1234 0547 9F070000 		.4byte	0x79f
+ 1235 054b 5A050000 		.4byte	0x55a
+ 1236 054f 0C       		.uleb128 0xc
+ 1237 0550 01       		.uleb128 0x1
+ 1238 0551 50       		.byte	0x50
+ 1239 0552 01       		.uleb128 0x1
+ 1240 0553 30       		.byte	0x30
+ 1241 0554 0C       		.uleb128 0xc
+ 1242 0555 01       		.uleb128 0x1
+ 1243 0556 51       		.byte	0x51
+ 1244 0557 01       		.uleb128 0x1
+ 1245 0558 36       		.byte	0x36
+ 1246 0559 00       		.byte	0
+ 1247 055a 0B       		.uleb128 0xb
+ 1248 055b D6010000 		.4byte	.LVL73
+ 1249 055f AA070000 		.4byte	0x7aa
+ 1250 0563 71050000 		.4byte	0x571
+ 1251 0567 0C       		.uleb128 0xc
+ 1252 0568 01       		.uleb128 0x1
+ 1253 0569 50       		.byte	0x50
+ 1254 056a 05       		.uleb128 0x5
+ 1255 056b 03       		.byte	0x3
+ 1256 056c 18000000 		.4byte	.LC5
+ 1257 0570 00       		.byte	0
+ 1258 0571 0B       		.uleb128 0xb
+ 1259 0572 DE010000 		.4byte	.LVL74
+ 1260 0576 9F070000 		.4byte	0x79f
+ 1261 057a 89050000 		.4byte	0x589
+ 1262 057e 0C       		.uleb128 0xc
+ 1263 057f 01       		.uleb128 0x1
+ 1264 0580 50       		.byte	0x50
+ 1265 0581 01       		.uleb128 0x1
+ 1266 0582 30       		.byte	0x30
+ 1267 0583 0C       		.uleb128 0xc
+ 1268 0584 01       		.uleb128 0x1
+ 1269 0585 51       		.byte	0x51
+ 1270 0586 01       		.uleb128 0x1
+ 1271 0587 38       		.byte	0x38
+ 1272 0588 00       		.byte	0
+ 1273 0589 0B       		.uleb128 0xb
+ 1274 058a E4010000 		.4byte	.LVL75
+ 1275 058e AA070000 		.4byte	0x7aa
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 26
+
+
+ 1276 0592 A0050000 		.4byte	0x5a0
+ 1277 0596 0C       		.uleb128 0xc
+ 1278 0597 01       		.uleb128 0x1
+ 1279 0598 50       		.byte	0x50
+ 1280 0599 05       		.uleb128 0x5
+ 1281 059a 03       		.byte	0x3
+ 1282 059b 1C000000 		.4byte	.LC6
+ 1283 059f 00       		.byte	0
+ 1284 05a0 0B       		.uleb128 0xb
+ 1285 05a1 EC010000 		.4byte	.LVL76
+ 1286 05a5 9F070000 		.4byte	0x79f
+ 1287 05a9 B8050000 		.4byte	0x5b8
+ 1288 05ad 0C       		.uleb128 0xc
+ 1289 05ae 01       		.uleb128 0x1
+ 1290 05af 50       		.byte	0x50
+ 1291 05b0 01       		.uleb128 0x1
+ 1292 05b1 30       		.byte	0x30
+ 1293 05b2 0C       		.uleb128 0xc
+ 1294 05b3 01       		.uleb128 0x1
+ 1295 05b4 51       		.byte	0x51
+ 1296 05b5 01       		.uleb128 0x1
+ 1297 05b6 3A       		.byte	0x3a
+ 1298 05b7 00       		.byte	0
+ 1299 05b8 0B       		.uleb128 0xb
+ 1300 05b9 F8010000 		.4byte	.LVL77
+ 1301 05bd AA070000 		.4byte	0x7aa
+ 1302 05c1 CF050000 		.4byte	0x5cf
+ 1303 05c5 0C       		.uleb128 0xc
+ 1304 05c6 01       		.uleb128 0x1
+ 1305 05c7 50       		.byte	0x50
+ 1306 05c8 05       		.uleb128 0x5
+ 1307 05c9 03       		.byte	0x3
+ 1308 05ca 0C000000 		.4byte	.LC2
+ 1309 05ce 00       		.byte	0
+ 1310 05cf 0B       		.uleb128 0xb
+ 1311 05d0 06020000 		.4byte	.LVL78
+ 1312 05d4 4F080000 		.4byte	0x84f
+ 1313 05d8 F8050000 		.4byte	0x5f8
+ 1314 05dc 0C       		.uleb128 0xc
+ 1315 05dd 01       		.uleb128 0x1
+ 1316 05de 50       		.byte	0x50
+ 1317 05df 17       		.uleb128 0x17
+ 1318 05e0 76       		.byte	0x76
+ 1319 05e1 00       		.sleb128 0
+ 1320 05e2 F7       		.byte	0xf7
+ 1321 05e3 2C       		.uleb128 0x2c
+ 1322 05e4 F7       		.byte	0xf7
+ 1323 05e5 25       		.uleb128 0x25
+ 1324 05e6 0C       		.byte	0xc
+ 1325 05e7 D34D6210 		.4byte	0x10624dd3
+ 1326 05eb F7       		.byte	0xf7
+ 1327 05ec 25       		.uleb128 0x25
+ 1328 05ed 1E       		.byte	0x1e
+ 1329 05ee 08       		.byte	0x8
+ 1330 05ef 20       		.byte	0x20
+ 1331 05f0 F7       		.byte	0xf7
+ 1332 05f1 25       		.uleb128 0x25
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 27
+
+
+ 1333 05f2 25       		.byte	0x25
+ 1334 05f3 F7       		.byte	0xf7
+ 1335 05f4 2C       		.uleb128 0x2c
+ 1336 05f5 36       		.byte	0x36
+ 1337 05f6 25       		.byte	0x25
+ 1338 05f7 00       		.byte	0
+ 1339 05f8 0B       		.uleb128 0xb
+ 1340 05f9 0E020000 		.4byte	.LVL79
+ 1341 05fd 9F070000 		.4byte	0x79f
+ 1342 0601 10060000 		.4byte	0x610
+ 1343 0605 0C       		.uleb128 0xc
+ 1344 0606 01       		.uleb128 0x1
+ 1345 0607 50       		.byte	0x50
+ 1346 0608 01       		.uleb128 0x1
+ 1347 0609 30       		.byte	0x30
+ 1348 060a 0C       		.uleb128 0xc
+ 1349 060b 01       		.uleb128 0x1
+ 1350 060c 51       		.byte	0x51
+ 1351 060d 01       		.uleb128 0x1
+ 1352 060e 3B       		.byte	0x3b
+ 1353 060f 00       		.byte	0
+ 1354 0610 0B       		.uleb128 0xb
+ 1355 0611 14020000 		.4byte	.LVL80
+ 1356 0615 AA070000 		.4byte	0x7aa
+ 1357 0619 27060000 		.4byte	0x627
+ 1358 061d 0C       		.uleb128 0xc
+ 1359 061e 01       		.uleb128 0x1
+ 1360 061f 50       		.byte	0x50
+ 1361 0620 05       		.uleb128 0x5
+ 1362 0621 03       		.byte	0x3
+ 1363 0622 10000000 		.4byte	.LC3
+ 1364 0626 00       		.byte	0
+ 1365 0627 0B       		.uleb128 0xb
+ 1366 0628 30020000 		.4byte	.LVL82
+ 1367 062c AA070000 		.4byte	0x7aa
+ 1368 0630 3E060000 		.4byte	0x63e
+ 1369 0634 0C       		.uleb128 0xc
+ 1370 0635 01       		.uleb128 0x1
+ 1371 0636 50       		.byte	0x50
+ 1372 0637 05       		.uleb128 0x5
+ 1373 0638 03       		.byte	0x3
+ 1374 0639 14000000 		.4byte	.LC4
+ 1375 063d 00       		.byte	0
+ 1376 063e 0B       		.uleb128 0xb
+ 1377 063f 38020000 		.4byte	.LVL83
+ 1378 0643 9F070000 		.4byte	0x79f
+ 1379 0647 56060000 		.4byte	0x656
+ 1380 064b 0C       		.uleb128 0xc
+ 1381 064c 01       		.uleb128 0x1
+ 1382 064d 50       		.byte	0x50
+ 1383 064e 01       		.uleb128 0x1
+ 1384 064f 30       		.byte	0x30
+ 1385 0650 0C       		.uleb128 0xc
+ 1386 0651 01       		.uleb128 0x1
+ 1387 0652 51       		.byte	0x51
+ 1388 0653 01       		.uleb128 0x1
+ 1389 0654 3E       		.byte	0x3e
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 28
+
+
+ 1390 0655 00       		.byte	0
+ 1391 0656 0B       		.uleb128 0xb
+ 1392 0657 3E020000 		.4byte	.LVL84
+ 1393 065b 4F080000 		.4byte	0x84f
+ 1394 065f 6A060000 		.4byte	0x66a
+ 1395 0663 0C       		.uleb128 0xc
+ 1396 0664 01       		.uleb128 0x1
+ 1397 0665 50       		.byte	0x50
+ 1398 0666 02       		.uleb128 0x2
+ 1399 0667 76       		.byte	0x76
+ 1400 0668 00       		.sleb128 0
+ 1401 0669 00       		.byte	0
+ 1402 066a 0B       		.uleb128 0xb
+ 1403 066b 4A020000 		.4byte	.LVL85
+ 1404 066f AA070000 		.4byte	0x7aa
+ 1405 0673 81060000 		.4byte	0x681
+ 1406 0677 0C       		.uleb128 0xc
+ 1407 0678 01       		.uleb128 0x1
+ 1408 0679 50       		.byte	0x50
+ 1409 067a 05       		.uleb128 0x5
+ 1410 067b 03       		.byte	0x3
+ 1411 067c 0C000000 		.4byte	.LC2
+ 1412 0680 00       		.byte	0
+ 1413 0681 0B       		.uleb128 0xb
+ 1414 0682 52020000 		.4byte	.LVL86
+ 1415 0686 9F070000 		.4byte	0x79f
+ 1416 068a 99060000 		.4byte	0x699
+ 1417 068e 0C       		.uleb128 0xc
+ 1418 068f 01       		.uleb128 0x1
+ 1419 0690 50       		.byte	0x50
+ 1420 0691 01       		.uleb128 0x1
+ 1421 0692 30       		.byte	0x30
+ 1422 0693 0C       		.uleb128 0xc
+ 1423 0694 01       		.uleb128 0x1
+ 1424 0695 51       		.byte	0x51
+ 1425 0696 01       		.uleb128 0x1
+ 1426 0697 3D       		.byte	0x3d
+ 1427 0698 00       		.byte	0
+ 1428 0699 0B       		.uleb128 0xb
+ 1429 069a 58020000 		.4byte	.LVL87
+ 1430 069e 4F080000 		.4byte	0x84f
+ 1431 06a2 AD060000 		.4byte	0x6ad
+ 1432 06a6 0C       		.uleb128 0xc
+ 1433 06a7 01       		.uleb128 0x1
+ 1434 06a8 50       		.byte	0x50
+ 1435 06a9 02       		.uleb128 0x2
+ 1436 06aa 76       		.byte	0x76
+ 1437 06ab 00       		.sleb128 0
+ 1438 06ac 00       		.byte	0
+ 1439 06ad 0B       		.uleb128 0xb
+ 1440 06ae 62020000 		.4byte	.LVL88
+ 1441 06b2 9F070000 		.4byte	0x79f
+ 1442 06b6 C5060000 		.4byte	0x6c5
+ 1443 06ba 0C       		.uleb128 0xc
+ 1444 06bb 01       		.uleb128 0x1
+ 1445 06bc 50       		.byte	0x50
+ 1446 06bd 01       		.uleb128 0x1
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 29
+
+
+ 1447 06be 30       		.byte	0x30
+ 1448 06bf 0C       		.uleb128 0xc
+ 1449 06c0 01       		.uleb128 0x1
+ 1450 06c1 51       		.byte	0x51
+ 1451 06c2 01       		.uleb128 0x1
+ 1452 06c3 3C       		.byte	0x3c
+ 1453 06c4 00       		.byte	0
+ 1454 06c5 0B       		.uleb128 0xb
+ 1455 06c6 68020000 		.4byte	.LVL89
+ 1456 06ca 4F080000 		.4byte	0x84f
+ 1457 06ce D9060000 		.4byte	0x6d9
+ 1458 06d2 0C       		.uleb128 0xc
+ 1459 06d3 01       		.uleb128 0x1
+ 1460 06d4 50       		.byte	0x50
+ 1461 06d5 02       		.uleb128 0x2
+ 1462 06d6 76       		.byte	0x76
+ 1463 06d7 00       		.sleb128 0
+ 1464 06d8 00       		.byte	0
+ 1465 06d9 0B       		.uleb128 0xb
+ 1466 06da 70020000 		.4byte	.LVL90
+ 1467 06de 9F070000 		.4byte	0x79f
+ 1468 06e2 F1060000 		.4byte	0x6f1
+ 1469 06e6 0C       		.uleb128 0xc
+ 1470 06e7 01       		.uleb128 0x1
+ 1471 06e8 50       		.byte	0x50
+ 1472 06e9 01       		.uleb128 0x1
+ 1473 06ea 30       		.byte	0x30
+ 1474 06eb 0C       		.uleb128 0xc
+ 1475 06ec 01       		.uleb128 0x1
+ 1476 06ed 51       		.byte	0x51
+ 1477 06ee 01       		.uleb128 0x1
+ 1478 06ef 3F       		.byte	0x3f
+ 1479 06f0 00       		.byte	0
+ 1480 06f1 0B       		.uleb128 0xb
+ 1481 06f2 76020000 		.4byte	.LVL91
+ 1482 06f6 AA070000 		.4byte	0x7aa
+ 1483 06fa 08070000 		.4byte	0x708
+ 1484 06fe 0C       		.uleb128 0xc
+ 1485 06ff 01       		.uleb128 0x1
+ 1486 0700 50       		.byte	0x50
+ 1487 0701 05       		.uleb128 0x5
+ 1488 0702 03       		.byte	0x3
+ 1489 0703 20000000 		.4byte	.LC7
+ 1490 0707 00       		.byte	0
+ 1491 0708 0B       		.uleb128 0xb
+ 1492 0709 7E020000 		.4byte	.LVL92
+ 1493 070d 9F070000 		.4byte	0x79f
+ 1494 0711 20070000 		.4byte	0x720
+ 1495 0715 0C       		.uleb128 0xc
+ 1496 0716 01       		.uleb128 0x1
+ 1497 0717 50       		.byte	0x50
+ 1498 0718 01       		.uleb128 0x1
+ 1499 0719 31       		.byte	0x31
+ 1500 071a 0C       		.uleb128 0xc
+ 1501 071b 01       		.uleb128 0x1
+ 1502 071c 51       		.byte	0x51
+ 1503 071d 01       		.uleb128 0x1
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 30
+
+
+ 1504 071e 30       		.byte	0x30
+ 1505 071f 00       		.byte	0
+ 1506 0720 0B       		.uleb128 0xb
+ 1507 0721 84020000 		.4byte	.LVL93
+ 1508 0725 AA070000 		.4byte	0x7aa
+ 1509 0729 37070000 		.4byte	0x737
+ 1510 072d 0C       		.uleb128 0xc
+ 1511 072e 01       		.uleb128 0x1
+ 1512 072f 50       		.byte	0x50
+ 1513 0730 05       		.uleb128 0x5
+ 1514 0731 03       		.byte	0x3
+ 1515 0732 24000000 		.4byte	.LC8
+ 1516 0736 00       		.byte	0
+ 1517 0737 0B       		.uleb128 0xb
+ 1518 0738 8C020000 		.4byte	.LVL94
+ 1519 073c 9F070000 		.4byte	0x79f
+ 1520 0740 4F070000 		.4byte	0x74f
+ 1521 0744 0C       		.uleb128 0xc
+ 1522 0745 01       		.uleb128 0x1
+ 1523 0746 50       		.byte	0x50
+ 1524 0747 01       		.uleb128 0x1
+ 1525 0748 31       		.byte	0x31
+ 1526 0749 0C       		.uleb128 0xc
+ 1527 074a 01       		.uleb128 0x1
+ 1528 074b 51       		.byte	0x51
+ 1529 074c 01       		.uleb128 0x1
+ 1530 074d 34       		.byte	0x34
+ 1531 074e 00       		.byte	0
+ 1532 074f 0B       		.uleb128 0xb
+ 1533 0750 92020000 		.4byte	.LVL95
+ 1534 0754 4F080000 		.4byte	0x84f
+ 1535 0758 63070000 		.4byte	0x763
+ 1536 075c 0C       		.uleb128 0xc
+ 1537 075d 01       		.uleb128 0x1
+ 1538 075e 50       		.byte	0x50
+ 1539 075f 02       		.uleb128 0x2
+ 1540 0760 77       		.byte	0x77
+ 1541 0761 00       		.sleb128 0
+ 1542 0762 00       		.byte	0
+ 1543 0763 0D       		.uleb128 0xd
+ 1544 0764 98020000 		.4byte	.LVL96
+ 1545 0768 39080000 		.4byte	0x839
+ 1546 076c 0C       		.uleb128 0xc
+ 1547 076d 01       		.uleb128 0x1
+ 1548 076e 50       		.byte	0x50
+ 1549 076f 01       		.uleb128 0x1
+ 1550 0770 30       		.byte	0x30
+ 1551 0771 00       		.byte	0
+ 1552 0772 00       		.byte	0
+ 1553 0773 0E       		.uleb128 0xe
+ 1554 0774 A2000000 		.4byte	0xa2
+ 1555 0778 83070000 		.4byte	0x783
+ 1556 077c 0F       		.uleb128 0xf
+ 1557 077d DF000000 		.4byte	0xdf
+ 1558 0781 1D       		.byte	0x1d
+ 1559 0782 00       		.byte	0
+ 1560 0783 10       		.uleb128 0x10
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 31
+
+
+ 1561 0784 96010000 		.4byte	.LASF57
+ 1562 0788 0C       		.byte	0xc
+ 1563 0789 1207     		.2byte	0x712
+ 1564 078b 8F070000 		.4byte	0x78f
+ 1565 078f 11       		.uleb128 0x11
+ 1566 0790 AD000000 		.4byte	0xad
+ 1567 0794 12       		.uleb128 0x12
+ 1568 0795 2B000000 		.4byte	.LASF35
+ 1569 0799 2B000000 		.4byte	.LASF35
+ 1570 079d 04       		.byte	0x4
+ 1571 079e 38       		.byte	0x38
+ 1572 079f 12       		.uleb128 0x12
+ 1573 07a0 71020000 		.4byte	.LASF36
+ 1574 07a4 71020000 		.4byte	.LASF36
+ 1575 07a8 04       		.byte	0x4
+ 1576 07a9 3D       		.byte	0x3d
+ 1577 07aa 12       		.uleb128 0x12
+ 1578 07ab 1A020000 		.4byte	.LASF37
+ 1579 07af 1A020000 		.4byte	.LASF37
+ 1580 07b3 04       		.byte	0x4
+ 1581 07b4 3C       		.byte	0x3c
+ 1582 07b5 12       		.uleb128 0x12
+ 1583 07b6 42030000 		.4byte	.LASF38
+ 1584 07ba 42030000 		.4byte	.LASF38
+ 1585 07be 05       		.byte	0x5
+ 1586 07bf 34       		.byte	0x34
+ 1587 07c0 12       		.uleb128 0x12
+ 1588 07c1 39020000 		.4byte	.LASF39
+ 1589 07c5 39020000 		.4byte	.LASF39
+ 1590 07c9 06       		.byte	0x6
+ 1591 07ca 3E       		.byte	0x3e
+ 1592 07cb 12       		.uleb128 0x12
+ 1593 07cc 0D020000 		.4byte	.LASF40
+ 1594 07d0 0D020000 		.4byte	.LASF40
+ 1595 07d4 07       		.byte	0x7
+ 1596 07d5 25       		.byte	0x25
+ 1597 07d6 12       		.uleb128 0x12
+ 1598 07d7 01030000 		.4byte	.LASF41
+ 1599 07db 01030000 		.4byte	.LASF41
+ 1600 07df 08       		.byte	0x8
+ 1601 07e0 26       		.byte	0x26
+ 1602 07e1 12       		.uleb128 0x12
+ 1603 07e2 52030000 		.4byte	.LASF42
+ 1604 07e6 52030000 		.4byte	.LASF42
+ 1605 07ea 09       		.byte	0x9
+ 1606 07eb 76       		.byte	0x76
+ 1607 07ec 12       		.uleb128 0x12
+ 1608 07ed E3020000 		.4byte	.LASF43
+ 1609 07f1 E3020000 		.4byte	.LASF43
+ 1610 07f5 07       		.byte	0x7
+ 1611 07f6 57       		.byte	0x57
+ 1612 07f7 12       		.uleb128 0x12
+ 1613 07f8 7F010000 		.4byte	.LASF44
+ 1614 07fc 7F010000 		.4byte	.LASF44
+ 1615 0800 05       		.byte	0x5
+ 1616 0801 D1       		.byte	0xd1
+ 1617 0802 12       		.uleb128 0x12
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 32
+
+
+ 1618 0803 99000000 		.4byte	.LASF45
+ 1619 0807 99000000 		.4byte	.LASF45
+ 1620 080b 05       		.byte	0x5
+ 1621 080c 39       		.byte	0x39
+ 1622 080d 12       		.uleb128 0x12
+ 1623 080e AA020000 		.4byte	.LASF46
+ 1624 0812 AA020000 		.4byte	.LASF46
+ 1625 0816 05       		.byte	0x5
+ 1626 0817 3B       		.byte	0x3b
+ 1627 0818 12       		.uleb128 0x12
+ 1628 0819 6E000000 		.4byte	.LASF47
+ 1629 081d 6E000000 		.4byte	.LASF47
+ 1630 0821 05       		.byte	0x5
+ 1631 0822 3F       		.byte	0x3f
+ 1632 0823 12       		.uleb128 0x12
+ 1633 0824 88000000 		.4byte	.LASF48
+ 1634 0828 88000000 		.4byte	.LASF48
+ 1635 082c 0A       		.byte	0xa
+ 1636 082d 26       		.byte	0x26
+ 1637 082e 12       		.uleb128 0x12
+ 1638 082f 2A020000 		.4byte	.LASF49
+ 1639 0833 2A020000 		.4byte	.LASF49
+ 1640 0837 09       		.byte	0x9
+ 1641 0838 77       		.byte	0x77
+ 1642 0839 12       		.uleb128 0x12
+ 1643 083a B3000000 		.4byte	.LASF50
+ 1644 083e B3000000 		.4byte	.LASF50
+ 1645 0842 0B       		.byte	0xb
+ 1646 0843 26       		.byte	0x26
+ 1647 0844 12       		.uleb128 0x12
+ 1648 0845 FC010000 		.4byte	.LASF51
+ 1649 0849 FC010000 		.4byte	.LASF51
+ 1650 084d 04       		.byte	0x4
+ 1651 084e 3A       		.byte	0x3a
+ 1652 084f 12       		.uleb128 0x12
+ 1653 0850 7E020000 		.4byte	.LASF52
+ 1654 0854 7E020000 		.4byte	.LASF52
+ 1655 0858 04       		.byte	0x4
+ 1656 0859 61       		.byte	0x61
+ 1657 085a 00       		.byte	0
+ 1658              		.section	.debug_abbrev,"",%progbits
+ 1659              	.Ldebug_abbrev0:
+ 1660 0000 01       		.uleb128 0x1
+ 1661 0001 11       		.uleb128 0x11
+ 1662 0002 01       		.byte	0x1
+ 1663 0003 25       		.uleb128 0x25
+ 1664 0004 0E       		.uleb128 0xe
+ 1665 0005 13       		.uleb128 0x13
+ 1666 0006 0B       		.uleb128 0xb
+ 1667 0007 03       		.uleb128 0x3
+ 1668 0008 0E       		.uleb128 0xe
+ 1669 0009 1B       		.uleb128 0x1b
+ 1670 000a 0E       		.uleb128 0xe
+ 1671 000b 55       		.uleb128 0x55
+ 1672 000c 17       		.uleb128 0x17
+ 1673 000d 11       		.uleb128 0x11
+ 1674 000e 01       		.uleb128 0x1
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 33
+
+
+ 1675 000f 10       		.uleb128 0x10
+ 1676 0010 17       		.uleb128 0x17
+ 1677 0011 00       		.byte	0
+ 1678 0012 00       		.byte	0
+ 1679 0013 02       		.uleb128 0x2
+ 1680 0014 24       		.uleb128 0x24
+ 1681 0015 00       		.byte	0
+ 1682 0016 0B       		.uleb128 0xb
+ 1683 0017 0B       		.uleb128 0xb
+ 1684 0018 3E       		.uleb128 0x3e
+ 1685 0019 0B       		.uleb128 0xb
+ 1686 001a 03       		.uleb128 0x3
+ 1687 001b 0E       		.uleb128 0xe
+ 1688 001c 00       		.byte	0
+ 1689 001d 00       		.byte	0
+ 1690 001e 03       		.uleb128 0x3
+ 1691 001f 16       		.uleb128 0x16
+ 1692 0020 00       		.byte	0
+ 1693 0021 03       		.uleb128 0x3
+ 1694 0022 0E       		.uleb128 0xe
+ 1695 0023 3A       		.uleb128 0x3a
+ 1696 0024 0B       		.uleb128 0xb
+ 1697 0025 3B       		.uleb128 0x3b
+ 1698 0026 0B       		.uleb128 0xb
+ 1699 0027 49       		.uleb128 0x49
+ 1700 0028 13       		.uleb128 0x13
+ 1701 0029 00       		.byte	0
+ 1702 002a 00       		.byte	0
+ 1703 002b 04       		.uleb128 0x4
+ 1704 002c 24       		.uleb128 0x24
+ 1705 002d 00       		.byte	0
+ 1706 002e 0B       		.uleb128 0xb
+ 1707 002f 0B       		.uleb128 0xb
+ 1708 0030 3E       		.uleb128 0x3e
+ 1709 0031 0B       		.uleb128 0xb
+ 1710 0032 03       		.uleb128 0x3
+ 1711 0033 08       		.uleb128 0x8
+ 1712 0034 00       		.byte	0
+ 1713 0035 00       		.byte	0
+ 1714 0036 05       		.uleb128 0x5
+ 1715 0037 2E       		.uleb128 0x2e
+ 1716 0038 01       		.byte	0x1
+ 1717 0039 3F       		.uleb128 0x3f
+ 1718 003a 19       		.uleb128 0x19
+ 1719 003b 03       		.uleb128 0x3
+ 1720 003c 0E       		.uleb128 0xe
+ 1721 003d 3A       		.uleb128 0x3a
+ 1722 003e 0B       		.uleb128 0xb
+ 1723 003f 3B       		.uleb128 0x3b
+ 1724 0040 0B       		.uleb128 0xb
+ 1725 0041 27       		.uleb128 0x27
+ 1726 0042 19       		.uleb128 0x19
+ 1727 0043 49       		.uleb128 0x49
+ 1728 0044 13       		.uleb128 0x13
+ 1729 0045 8701     		.uleb128 0x87
+ 1730 0047 19       		.uleb128 0x19
+ 1731 0048 11       		.uleb128 0x11
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 34
+
+
+ 1732 0049 01       		.uleb128 0x1
+ 1733 004a 12       		.uleb128 0x12
+ 1734 004b 06       		.uleb128 0x6
+ 1735 004c 40       		.uleb128 0x40
+ 1736 004d 18       		.uleb128 0x18
+ 1737 004e 9742     		.uleb128 0x2117
+ 1738 0050 19       		.uleb128 0x19
+ 1739 0051 01       		.uleb128 0x1
+ 1740 0052 13       		.uleb128 0x13
+ 1741 0053 00       		.byte	0
+ 1742 0054 00       		.byte	0
+ 1743 0055 06       		.uleb128 0x6
+ 1744 0056 34       		.uleb128 0x34
+ 1745 0057 00       		.byte	0
+ 1746 0058 03       		.uleb128 0x3
+ 1747 0059 0E       		.uleb128 0xe
+ 1748 005a 3A       		.uleb128 0x3a
+ 1749 005b 0B       		.uleb128 0xb
+ 1750 005c 3B       		.uleb128 0x3b
+ 1751 005d 0B       		.uleb128 0xb
+ 1752 005e 49       		.uleb128 0x49
+ 1753 005f 13       		.uleb128 0x13
+ 1754 0060 02       		.uleb128 0x2
+ 1755 0061 17       		.uleb128 0x17
+ 1756 0062 00       		.byte	0
+ 1757 0063 00       		.byte	0
+ 1758 0064 07       		.uleb128 0x7
+ 1759 0065 34       		.uleb128 0x34
+ 1760 0066 00       		.byte	0
+ 1761 0067 03       		.uleb128 0x3
+ 1762 0068 0E       		.uleb128 0xe
+ 1763 0069 3A       		.uleb128 0x3a
+ 1764 006a 0B       		.uleb128 0xb
+ 1765 006b 3B       		.uleb128 0x3b
+ 1766 006c 0B       		.uleb128 0xb
+ 1767 006d 49       		.uleb128 0x49
+ 1768 006e 13       		.uleb128 0x13
+ 1769 006f 02       		.uleb128 0x2
+ 1770 0070 18       		.uleb128 0x18
+ 1771 0071 00       		.byte	0
+ 1772 0072 00       		.byte	0
+ 1773 0073 08       		.uleb128 0x8
+ 1774 0074 34       		.uleb128 0x34
+ 1775 0075 00       		.byte	0
+ 1776 0076 03       		.uleb128 0x3
+ 1777 0077 08       		.uleb128 0x8
+ 1778 0078 3A       		.uleb128 0x3a
+ 1779 0079 0B       		.uleb128 0xb
+ 1780 007a 3B       		.uleb128 0x3b
+ 1781 007b 0B       		.uleb128 0xb
+ 1782 007c 49       		.uleb128 0x49
+ 1783 007d 13       		.uleb128 0x13
+ 1784 007e 02       		.uleb128 0x2
+ 1785 007f 18       		.uleb128 0x18
+ 1786 0080 00       		.byte	0
+ 1787 0081 00       		.byte	0
+ 1788 0082 09       		.uleb128 0x9
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 35
+
+
+ 1789 0083 0B       		.uleb128 0xb
+ 1790 0084 01       		.byte	0x1
+ 1791 0085 55       		.uleb128 0x55
+ 1792 0086 17       		.uleb128 0x17
+ 1793 0087 01       		.uleb128 0x1
+ 1794 0088 13       		.uleb128 0x13
+ 1795 0089 00       		.byte	0
+ 1796 008a 00       		.byte	0
+ 1797 008b 0A       		.uleb128 0xa
+ 1798 008c 898201   		.uleb128 0x4109
+ 1799 008f 00       		.byte	0
+ 1800 0090 11       		.uleb128 0x11
+ 1801 0091 01       		.uleb128 0x1
+ 1802 0092 31       		.uleb128 0x31
+ 1803 0093 13       		.uleb128 0x13
+ 1804 0094 00       		.byte	0
+ 1805 0095 00       		.byte	0
+ 1806 0096 0B       		.uleb128 0xb
+ 1807 0097 898201   		.uleb128 0x4109
+ 1808 009a 01       		.byte	0x1
+ 1809 009b 11       		.uleb128 0x11
+ 1810 009c 01       		.uleb128 0x1
+ 1811 009d 31       		.uleb128 0x31
+ 1812 009e 13       		.uleb128 0x13
+ 1813 009f 01       		.uleb128 0x1
+ 1814 00a0 13       		.uleb128 0x13
+ 1815 00a1 00       		.byte	0
+ 1816 00a2 00       		.byte	0
+ 1817 00a3 0C       		.uleb128 0xc
+ 1818 00a4 8A8201   		.uleb128 0x410a
+ 1819 00a7 00       		.byte	0
+ 1820 00a8 02       		.uleb128 0x2
+ 1821 00a9 18       		.uleb128 0x18
+ 1822 00aa 9142     		.uleb128 0x2111
+ 1823 00ac 18       		.uleb128 0x18
+ 1824 00ad 00       		.byte	0
+ 1825 00ae 00       		.byte	0
+ 1826 00af 0D       		.uleb128 0xd
+ 1827 00b0 898201   		.uleb128 0x4109
+ 1828 00b3 01       		.byte	0x1
+ 1829 00b4 11       		.uleb128 0x11
+ 1830 00b5 01       		.uleb128 0x1
+ 1831 00b6 31       		.uleb128 0x31
+ 1832 00b7 13       		.uleb128 0x13
+ 1833 00b8 00       		.byte	0
+ 1834 00b9 00       		.byte	0
+ 1835 00ba 0E       		.uleb128 0xe
+ 1836 00bb 01       		.uleb128 0x1
+ 1837 00bc 01       		.byte	0x1
+ 1838 00bd 49       		.uleb128 0x49
+ 1839 00be 13       		.uleb128 0x13
+ 1840 00bf 01       		.uleb128 0x1
+ 1841 00c0 13       		.uleb128 0x13
+ 1842 00c1 00       		.byte	0
+ 1843 00c2 00       		.byte	0
+ 1844 00c3 0F       		.uleb128 0xf
+ 1845 00c4 21       		.uleb128 0x21
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 36
+
+
+ 1846 00c5 00       		.byte	0
+ 1847 00c6 49       		.uleb128 0x49
+ 1848 00c7 13       		.uleb128 0x13
+ 1849 00c8 2F       		.uleb128 0x2f
+ 1850 00c9 0B       		.uleb128 0xb
+ 1851 00ca 00       		.byte	0
+ 1852 00cb 00       		.byte	0
+ 1853 00cc 10       		.uleb128 0x10
+ 1854 00cd 34       		.uleb128 0x34
+ 1855 00ce 00       		.byte	0
+ 1856 00cf 03       		.uleb128 0x3
+ 1857 00d0 0E       		.uleb128 0xe
+ 1858 00d1 3A       		.uleb128 0x3a
+ 1859 00d2 0B       		.uleb128 0xb
+ 1860 00d3 3B       		.uleb128 0x3b
+ 1861 00d4 05       		.uleb128 0x5
+ 1862 00d5 49       		.uleb128 0x49
+ 1863 00d6 13       		.uleb128 0x13
+ 1864 00d7 3F       		.uleb128 0x3f
+ 1865 00d8 19       		.uleb128 0x19
+ 1866 00d9 3C       		.uleb128 0x3c
+ 1867 00da 19       		.uleb128 0x19
+ 1868 00db 00       		.byte	0
+ 1869 00dc 00       		.byte	0
+ 1870 00dd 11       		.uleb128 0x11
+ 1871 00de 35       		.uleb128 0x35
+ 1872 00df 00       		.byte	0
+ 1873 00e0 49       		.uleb128 0x49
+ 1874 00e1 13       		.uleb128 0x13
+ 1875 00e2 00       		.byte	0
+ 1876 00e3 00       		.byte	0
+ 1877 00e4 12       		.uleb128 0x12
+ 1878 00e5 2E       		.uleb128 0x2e
+ 1879 00e6 00       		.byte	0
+ 1880 00e7 3F       		.uleb128 0x3f
+ 1881 00e8 19       		.uleb128 0x19
+ 1882 00e9 3C       		.uleb128 0x3c
+ 1883 00ea 19       		.uleb128 0x19
+ 1884 00eb 6E       		.uleb128 0x6e
+ 1885 00ec 0E       		.uleb128 0xe
+ 1886 00ed 03       		.uleb128 0x3
+ 1887 00ee 0E       		.uleb128 0xe
+ 1888 00ef 3A       		.uleb128 0x3a
+ 1889 00f0 0B       		.uleb128 0xb
+ 1890 00f1 3B       		.uleb128 0x3b
+ 1891 00f2 0B       		.uleb128 0xb
+ 1892 00f3 00       		.byte	0
+ 1893 00f4 00       		.byte	0
+ 1894 00f5 00       		.byte	0
+ 1895              		.section	.debug_loc,"",%progbits
+ 1896              	.Ldebug_loc0:
+ 1897              	.LLST0:
+ 1898 0000 56000000 		.4byte	.LVL15
+ 1899 0004 66000000 		.4byte	.LVL17
+ 1900 0008 0100     		.2byte	0x1
+ 1901 000a 50       		.byte	0x50
+ 1902 000b DA000000 		.4byte	.LVL37
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 37
+
+
+ 1903 000f DE000000 		.4byte	.LVL38
+ 1904 0013 0100     		.2byte	0x1
+ 1905 0015 50       		.byte	0x50
+ 1906 0016 00000000 		.4byte	0
+ 1907 001a 00000000 		.4byte	0
+ 1908              	.LLST1:
+ 1909 001e 50000000 		.4byte	.LVL13
+ 1910 0022 53000000 		.4byte	.LVL14-1
+ 1911 0026 0100     		.2byte	0x1
+ 1912 0028 50       		.byte	0x50
+ 1913 0029 D4000000 		.4byte	.LVL35
+ 1914 002d D7000000 		.4byte	.LVL36-1
+ 1915 0031 0100     		.2byte	0x1
+ 1916 0033 50       		.byte	0x50
+ 1917 0034 00000000 		.4byte	0
+ 1918 0038 00000000 		.4byte	0
+ 1919              	.LLST2:
+ 1920 003c 8E000000 		.4byte	.LVL26
+ 1921 0040 92000000 		.4byte	.LVL27
+ 1922 0044 0100     		.2byte	0x1
+ 1923 0046 50       		.byte	0x50
+ 1924 0047 00000000 		.4byte	0
+ 1925 004b 00000000 		.4byte	0
+ 1926              	.LLST3:
+ 1927 004f 88000000 		.4byte	.LVL24
+ 1928 0053 8B000000 		.4byte	.LVL25-1
+ 1929 0057 0100     		.2byte	0x1
+ 1930 0059 50       		.byte	0x50
+ 1931 005a 00000000 		.4byte	0
+ 1932 005e 00000000 		.4byte	0
+ 1933              	.LLST4:
+ 1934 0062 A2000000 		.4byte	.LVL28
+ 1935 0066 B1000000 		.4byte	.LVL29-1
+ 1936 006a 0100     		.2byte	0x1
+ 1937 006c 53       		.byte	0x53
+ 1938 006d B1000000 		.4byte	.LVL29-1
+ 1939 0071 2C010000 		.4byte	.LVL54
+ 1940 0075 0300     		.2byte	0x3
+ 1941 0077 76       		.byte	0x76
+ 1942 0078 887F     		.sleb128 -120
+ 1943 007a 2C010000 		.4byte	.LVL54
+ 1944 007e 24020000 		.4byte	.LVL81
+ 1945 0082 0100     		.2byte	0x1
+ 1946 0084 56       		.byte	0x56
+ 1947 0085 00000000 		.4byte	0
+ 1948 0089 00000000 		.4byte	0
+ 1949              	.LLST5:
+ 1950 008d 24000000 		.4byte	.LVL5
+ 1951 0091 68000000 		.4byte	.LVL18
+ 1952 0095 0200     		.2byte	0x2
+ 1953 0097 30       		.byte	0x30
+ 1954 0098 9F       		.byte	0x9f
+ 1955 0099 68000000 		.4byte	.LVL18
+ 1956 009d EC000000 		.4byte	.LVL42
+ 1957 00a1 0100     		.2byte	0x1
+ 1958 00a3 54       		.byte	0x54
+ 1959 00a4 EE000000 		.4byte	.LVL43
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 38
+
+
+ 1960 00a8 00010000 		.4byte	.LVL45
+ 1961 00ac 0100     		.2byte	0x1
+ 1962 00ae 54       		.byte	0x54
+ 1963 00af 38010000 		.4byte	.LVL57
+ 1964 00b3 CC020000 		.4byte	.LFE63
+ 1965 00b7 0200     		.2byte	0x2
+ 1966 00b9 30       		.byte	0x30
+ 1967 00ba 9F       		.byte	0x9f
+ 1968 00bb 00000000 		.4byte	0
+ 1969 00bf 00000000 		.4byte	0
+ 1970              	.LLST6:
+ 1971 00c3 5E000000 		.4byte	.LVL16
+ 1972 00c7 66000000 		.4byte	.LVL17
+ 1973 00cb 0100     		.2byte	0x1
+ 1974 00cd 53       		.byte	0x53
+ 1975 00ce E0000000 		.4byte	.LVL39
+ 1976 00d2 E6000000 		.4byte	.LVL40
+ 1977 00d6 0100     		.2byte	0x1
+ 1978 00d8 50       		.byte	0x50
+ 1979 00d9 E6000000 		.4byte	.LVL40
+ 1980 00dd 28010000 		.4byte	.LVL53
+ 1981 00e1 0200     		.2byte	0x2
+ 1982 00e3 76       		.byte	0x76
+ 1983 00e4 44       		.sleb128 -60
+ 1984 00e5 28010000 		.4byte	.LVL53
+ 1985 00e9 86010000 		.4byte	.LVL65
+ 1986 00ed 0100     		.2byte	0x1
+ 1987 00ef 54       		.byte	0x54
+ 1988 00f0 00000000 		.4byte	0
+ 1989 00f4 00000000 		.4byte	0
+ 1990              	.LLST7:
+ 1991 00f8 F8000000 		.4byte	.LVL44
+ 1992 00fc 00010000 		.4byte	.LVL45
+ 1993 0100 0200     		.2byte	0x2
+ 1994 0102 30       		.byte	0x30
+ 1995 0103 9F       		.byte	0x9f
+ 1996 0104 00010000 		.4byte	.LVL45
+ 1997 0108 20010000 		.4byte	.LVL51
+ 1998 010c 0100     		.2byte	0x1
+ 1999 010e 50       		.byte	0x50
+ 2000 010f 20010000 		.4byte	.LVL51
+ 2001 0113 34010000 		.4byte	.LVL56
+ 2002 0117 0500     		.2byte	0x5
+ 2003 0119 70       		.byte	0x70
+ 2004 011a 00       		.sleb128 0
+ 2005 011b 34       		.byte	0x34
+ 2006 011c 25       		.byte	0x25
+ 2007 011d 9F       		.byte	0x9f
+ 2008 011e 00000000 		.4byte	0
+ 2009 0122 00000000 		.4byte	0
+ 2010              	.LLST8:
+ 2011 0126 F8000000 		.4byte	.LVL44
+ 2012 012a 00010000 		.4byte	.LVL45
+ 2013 012e 0200     		.2byte	0x2
+ 2014 0130 30       		.byte	0x30
+ 2015 0131 9F       		.byte	0x9f
+ 2016 0132 00010000 		.4byte	.LVL45
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 39
+
+
+ 2017 0136 24010000 		.4byte	.LVL52
+ 2018 013a 0100     		.2byte	0x1
+ 2019 013c 51       		.byte	0x51
+ 2020 013d 24010000 		.4byte	.LVL52
+ 2021 0141 37010000 		.4byte	.LVL57-1
+ 2022 0145 0500     		.2byte	0x5
+ 2023 0147 71       		.byte	0x71
+ 2024 0148 00       		.sleb128 0
+ 2025 0149 34       		.byte	0x34
+ 2026 014a 25       		.byte	0x25
+ 2027 014b 9F       		.byte	0x9f
+ 2028 014c 00000000 		.4byte	0
+ 2029 0150 00000000 		.4byte	0
+ 2030              	.LLST9:
+ 2031 0154 F8000000 		.4byte	.LVL44
+ 2032 0158 00010000 		.4byte	.LVL45
+ 2033 015c 0200     		.2byte	0x2
+ 2034 015e 30       		.byte	0x30
+ 2035 015f 9F       		.byte	0x9f
+ 2036 0160 00010000 		.4byte	.LVL45
+ 2037 0164 14010000 		.4byte	.LVL48
+ 2038 0168 0100     		.2byte	0x1
+ 2039 016a 53       		.byte	0x53
+ 2040 016b 16010000 		.4byte	.LVL49
+ 2041 016f 1C010000 		.4byte	.LVL50
+ 2042 0173 0100     		.2byte	0x1
+ 2043 0175 53       		.byte	0x53
+ 2044 0176 00000000 		.4byte	0
+ 2045 017a 00000000 		.4byte	0
+ 2046              		.section	.debug_aranges,"",%progbits
+ 2047 0000 1C000000 		.4byte	0x1c
+ 2048 0004 0200     		.2byte	0x2
+ 2049 0006 00000000 		.4byte	.Ldebug_info0
+ 2050 000a 04       		.byte	0x4
+ 2051 000b 00       		.byte	0
+ 2052 000c 0000     		.2byte	0
+ 2053 000e 0000     		.2byte	0
+ 2054 0010 00000000 		.4byte	.LFB63
+ 2055 0014 CC020000 		.4byte	.LFE63-.LFB63
+ 2056 0018 00000000 		.4byte	0
+ 2057 001c 00000000 		.4byte	0
+ 2058              		.section	.debug_ranges,"",%progbits
+ 2059              	.Ldebug_ranges0:
+ 2060 0000 F8000000 		.4byte	.LBB2
+ 2061 0004 FA000000 		.4byte	.LBE2
+ 2062 0008 FE000000 		.4byte	.LBB3
+ 2063 000c 1A010000 		.4byte	.LBE3
+ 2064 0010 00000000 		.4byte	0
+ 2065 0014 00000000 		.4byte	0
+ 2066 0018 00000000 		.4byte	.LFB63
+ 2067 001c CC020000 		.4byte	.LFE63
+ 2068 0020 00000000 		.4byte	0
+ 2069 0024 00000000 		.4byte	0
+ 2070              		.section	.debug_line,"",%progbits
+ 2071              	.Ldebug_line0:
+ 2072 0000 2B020000 		.section	.debug_str,"MS",%progbits,1
+ 2072      02009701 
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 40
+
+
+ 2072      00000201 
+ 2072      FB0E0D00 
+ 2072      01010101 
+ 2073              	.LASF28:
+ 2074 0000 436F6E73 		.ascii	"Constant\000"
+ 2074      74616E74 
+ 2074      00
+ 2075              	.LASF27:
+ 2076 0009 6C6F6F70 		.ascii	"loop_counter\000"
+ 2076      5F636F75 
+ 2076      6E746572 
+ 2076      00
+ 2077              	.LASF31:
+ 2078 0016 43617272 		.ascii	"Carray\000"
+ 2078      617900
+ 2079              	.LASF22:
+ 2080 001d 5664726F 		.ascii	"Vdrop\000"
+ 2080      7000
+ 2081              	.LASF26:
+ 2082 0023 43757272 		.ascii	"Current\000"
+ 2082      656E7400 
+ 2083              	.LASF35:
+ 2084 002b 4C43445F 		.ascii	"LCD_Start\000"
+ 2084      53746172 
+ 2084      7400
+ 2085              	.LASF24:
+ 2086 0035 5264726F 		.ascii	"Rdrop\000"
+ 2086      7000
+ 2087              	.LASF5:
+ 2088 003b 5F5F7569 		.ascii	"__uint8_t\000"
+ 2088      6E74385F 
+ 2088      7400
+ 2089              	.LASF8:
+ 2090 0045 5F5F696E 		.ascii	"__int32_t\000"
+ 2090      7433325F 
+ 2090      7400
+ 2091              	.LASF33:
+ 2092 004f 4373756D 		.ascii	"Csum\000"
+ 2092      00
+ 2093              	.LASF7:
+ 2094 0054 73686F72 		.ascii	"short unsigned int\000"
+ 2094      7420756E 
+ 2094      7369676E 
+ 2094      65642069 
+ 2094      6E7400
+ 2095              	.LASF29:
+ 2096 0067 566D6F74 		.ascii	"Vmotor\000"
+ 2096      6F7200
+ 2097              	.LASF47:
+ 2098 006e 4144435F 		.ascii	"ADC_SAR_1_CountsTo_mVolts\000"
+ 2098      5341525F 
+ 2098      315F436F 
+ 2098      756E7473 
+ 2098      546F5F6D 
+ 2099              	.LASF48:
+ 2100 0088 50345F35 		.ascii	"P4_5_Write\000"
+ 2100      5F577269 
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 41
+
+
+ 2100      746500
+ 2101              	.LASF17:
+ 2102 0093 666C6F61 		.ascii	"float\000"
+ 2102      7400
+ 2103              	.LASF45:
+ 2104 0099 4144435F 		.ascii	"ADC_SAR_1_IsEndConversion\000"
+ 2104      5341525F 
+ 2104      315F4973 
+ 2104      456E6443 
+ 2104      6F6E7665 
+ 2105              	.LASF50:
+ 2106 00b3 50345F36 		.ascii	"P4_6_Write\000"
+ 2106      5F577269 
+ 2106      746500
+ 2107              	.LASF23:
+ 2108 00be 56636F75 		.ascii	"Vcounts\000"
+ 2108      6E747300 
+ 2109              	.LASF3:
+ 2110 00c6 756E7369 		.ascii	"unsigned char\000"
+ 2110      676E6564 
+ 2110      20636861 
+ 2110      7200
+ 2111              	.LASF53:
+ 2112 00d4 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2112      43313120 
+ 2112      352E342E 
+ 2112      31203230 
+ 2112      31363036 
+ 2113 0107 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2113      20726576 
+ 2113      6973696F 
+ 2113      6E203233 
+ 2113      37373135 
+ 2114 013a 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2114      66756E63 
+ 2114      74696F6E 
+ 2114      2D736563 
+ 2114      74696F6E 
+ 2115              	.LASF10:
+ 2116 0162 5F5F7569 		.ascii	"__uint32_t\000"
+ 2116      6E743332 
+ 2116      5F7400
+ 2117              	.LASF11:
+ 2118 016d 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2118      20756E73 
+ 2118      69676E65 
+ 2118      6420696E 
+ 2118      7400
+ 2119              	.LASF44:
+ 2120 017f 4144435F 		.ascii	"ADC_SAR_1_StartConvert\000"
+ 2120      5341525F 
+ 2120      315F5374 
+ 2120      61727443 
+ 2120      6F6E7665 
+ 2121              	.LASF57:
+ 2122 0196 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2122      52784275 
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 42
+
+
+ 2122      66666572 
+ 2122      00
+ 2123              	.LASF55:
+ 2124 01a3 433A5C55 		.ascii	"C:\\Users\\poorn\\Documents\\PSoC Creator\\ESM_Labs"
+ 2124      73657273 
+ 2124      5C706F6F 
+ 2124      726E5C44 
+ 2124      6F63756D 
+ 2125 01d1 5C4C6162 		.ascii	"\\Lab2_DC_Motor_V_I.cydsn\000"
+ 2125      325F4443 
+ 2125      5F4D6F74 
+ 2125      6F725F56 
+ 2125      5F492E63 
+ 2126              	.LASF6:
+ 2127 01ea 5F5F7569 		.ascii	"__uint16_t\000"
+ 2127      6E743136 
+ 2127      5F7400
+ 2128              	.LASF18:
+ 2129 01f5 646F7562 		.ascii	"double\000"
+ 2129      6C6500
+ 2130              	.LASF51:
+ 2131 01fc 4C43445F 		.ascii	"LCD_WriteControl\000"
+ 2131      57726974 
+ 2131      65436F6E 
+ 2131      74726F6C 
+ 2131      00
+ 2132              	.LASF40:
+ 2133 020d 414D7578 		.ascii	"AMux_1_Start\000"
+ 2133      5F315F53 
+ 2133      74617274 
+ 2133      00
+ 2134              	.LASF37:
+ 2135 021a 4C43445F 		.ascii	"LCD_PrintString\000"
+ 2135      5072696E 
+ 2135      74537472 
+ 2135      696E6700 
+ 2136              	.LASF49:
+ 2137 022a 43794465 		.ascii	"CyDelayUs\000"
+ 2137      6C617955 
+ 2137      7300
+ 2138              	.LASF56:
+ 2139 0234 6D61696E 		.ascii	"main\000"
+ 2139      00
+ 2140              	.LASF39:
+ 2141 0239 5047415F 		.ascii	"PGA_1_Start\000"
+ 2141      315F5374 
+ 2141      61727400 
+ 2142              	.LASF1:
+ 2143 0245 756E7369 		.ascii	"unsigned int\000"
+ 2143      676E6564 
+ 2143      20696E74 
+ 2143      00
+ 2144              	.LASF0:
+ 2145 0252 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2145      206C6F6E 
+ 2145      6720756E 
+ 2145      7369676E 
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 43
+
+
+ 2145      65642069 
+ 2146              	.LASF13:
+ 2147 0269 75696E74 		.ascii	"uint8_t\000"
+ 2147      385F7400 
+ 2148              	.LASF36:
+ 2149 0271 4C43445F 		.ascii	"LCD_Position\000"
+ 2149      506F7369 
+ 2149      74696F6E 
+ 2149      00
+ 2150              	.LASF52:
+ 2151 027e 4C43445F 		.ascii	"LCD_PrintU32Number\000"
+ 2151      5072696E 
+ 2151      74553332 
+ 2151      4E756D62 
+ 2151      657200
+ 2152              	.LASF32:
+ 2153 0291 5673756D 		.ascii	"Vsum\000"
+ 2153      00
+ 2154              	.LASF2:
+ 2155 0296 7369676E 		.ascii	"signed char\000"
+ 2155      65642063 
+ 2155      68617200 
+ 2156              	.LASF15:
+ 2157 02a2 696E7433 		.ascii	"int32_t\000"
+ 2157      325F7400 
+ 2158              	.LASF46:
+ 2159 02aa 4144435F 		.ascii	"ADC_SAR_1_GetResult16\000"
+ 2159      5341525F 
+ 2159      315F4765 
+ 2159      74526573 
+ 2159      756C7431 
+ 2160              	.LASF12:
+ 2161 02c0 6C6F6E67 		.ascii	"long long int\000"
+ 2161      206C6F6E 
+ 2161      6720696E 
+ 2161      7400
+ 2162              	.LASF21:
+ 2163 02ce 73697A65 		.ascii	"sizetype\000"
+ 2163      74797065 
+ 2163      00
+ 2164              	.LASF54:
+ 2165 02d7 6D61696E 		.ascii	"main.c\000"
+ 2165      2E6300
+ 2166              	.LASF19:
+ 2167 02de 63686172 		.ascii	"char\000"
+ 2167      00
+ 2168              	.LASF43:
+ 2169 02e3 414D7578 		.ascii	"AMux_1_Select\000"
+ 2169      5F315F53 
+ 2169      656C6563 
+ 2169      7400
+ 2170              	.LASF34:
+ 2171 02f1 636F756E 		.ascii	"count\000"
+ 2171      7400
+ 2172              	.LASF4:
+ 2173 02f7 73686F72 		.ascii	"short int\000"
+ 2173      7420696E 
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\ccLD8HFV.s 			page 44
+
+
+ 2173      7400
+ 2174              	.LASF41:
+ 2175 0301 50345F31 		.ascii	"P4_1_Write\000"
+ 2175      5F577269 
+ 2175      746500
+ 2176              	.LASF14:
+ 2177 030c 75696E74 		.ascii	"uint16_t\000"
+ 2177      31365F74 
+ 2177      00
+ 2178              	.LASF30:
+ 2179 0315 56617272 		.ascii	"Varray\000"
+ 2179      617900
+ 2180              	.LASF16:
+ 2181 031c 75696E74 		.ascii	"uint32_t\000"
+ 2181      33325F74 
+ 2181      00
+ 2182              	.LASF9:
+ 2183 0325 6C6F6E67 		.ascii	"long int\000"
+ 2183      20696E74 
+ 2183      00
+ 2184              	.LASF20:
+ 2185 032e 6C6F6E67 		.ascii	"long double\000"
+ 2185      20646F75 
+ 2185      626C6500 
+ 2186              	.LASF25:
+ 2187 033a 52636F75 		.ascii	"Rcounts\000"
+ 2187      6E747300 
+ 2188              	.LASF38:
+ 2189 0342 4144435F 		.ascii	"ADC_SAR_1_Start\000"
+ 2189      5341525F 
+ 2189      315F5374 
+ 2189      61727400 
+ 2190              	.LASF42:
+ 2191 0352 43794465 		.ascii	"CyDelay\000"
+ 2191      6C617900 
+ 2192              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

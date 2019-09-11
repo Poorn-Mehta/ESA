@@ -1,0 +1,10 @@
+C:\Users\poorn\Documents\PSoC Creator\ESM_Labs\Lab1_Thermistor.cydsn\Lab1_Thermistor.cyprj|49c240e7-07be-4edd-bdae-98918264287c
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|509023c6-529d-46ab-967b-f9febd692188
+C:\Users\poorn\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|e126d844-9e3c-465c-a33c-b0e89e5a414a
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|36ae0e93-9f31-49be-a913-756baf95eb4c
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|c0d9ec8b-1b40-4620-a24a-cb685b7b3e5f
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|aa8379f6-6e02-435e-b512-c30adb15a60d
+C:\Users\poorn\Documents\PSoC Creator\ESM_Labs\DC_Motor_V_I.cydsn\DC_Motor_V_I.cyprj|eaed9a34-02eb-4be3-a073-b78f51d0ef77
+C:\Users\poorn\Documents\PSoC Creator\ESM_Labs\DC_Motor_Current_Control.cydsn\DC_Motor_Current_Control.cyprj|dc7541d8-bb18-40d0-93b1-3e2fe87dbea6
+C:\Users\poorn\Documents\PSoC Creator\ESM_Labs\DC_Motor_PID.cydsn\DC_Motor_PID.cyprj|12950b19-7d6a-45ca-af6c-7c8bdae75c2c
+C:\Users\poorn\Documents\PSoC Creator\ESM_Labs\Rotary_Encoder_Potentiometer.cydsn\Rotary_Encoder_Potentiometer.cyprj|2e680b0e-4aad-4f2b-bfb3-ad038a1364ea

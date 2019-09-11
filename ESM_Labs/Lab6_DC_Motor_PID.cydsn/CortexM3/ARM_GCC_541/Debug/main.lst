@@ -1,0 +1,1963 @@
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.main,"ax",%progbits
+  20              		.align	2
+  21              		.global	main
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	main, %function
+  25              	main:
+  26              	.LFB64:
+  27              		.file 1 "main.c"
+   1:main.c        **** // This file tells the compiler details about the particular PSoC chip in use.
+   2:main.c        ****  #include "project.h"
+   3:main.c        ****  #include "stdio.h"	// This brings in libraray functions needed for using the UARI.
+   4:main.c        **** 
+   5:main.c        ****  #define SAMPLE_LIMIT 300
+   6:main.c        **** 
+   7:main.c        **** 
+   8:main.c        ****  uint8 current_l = 50, source = 0 ;
+   9:main.c        ****  uint32 adc_wait_count, last_adc_wait_count, test_mode = 0 ;
+  10:main.c        ****  uint32 button_not_pushed_count ;
+  11:main.c        ****  uint16 adc_result ;	// This result will always be positive based on the ADC configuration used.
+  12:main.c        ****  uint16 adc_limit = 4000 ; // Using 12 resolution, the maximum value is 4095.
+  13:main.c        ****  int sample_count = 0 ;	
+  14:main.c        **** 
+  15:main.c        **** 
+  16:main.c        ****  // Variables used for PID control:
+  17:main.c        ****  uint8 Vmeas_raw, Vmeas_buffer[SAMPLE_LIMIT] ;
+  18:main.c        ****  uint32 Vmeas_buffer_index = 0, buffer_limit_reached ;
+  19:main.c        ****  int32 Vref = 120, Vmeas, Vmeas_last, Vmeas_delta, Verror, Vout, Vout_limited ; // Signed math is r
+  20:main.c        ****  int32 Verror_sum, Verror_sum_limit = 10000 ;
+  21:main.c        ****  int32 Kp = 33, Kd = -105, Ki = 12; // PID constants.
+  22:main.c        ****  int32 Kp_term, Kd_term, Ki_term, FF_term = 100 ; // PID variables.
+  23:main.c        ****  int32 Kp_term_limited, Kd_term_limited, Ki_term_limited ; // PID variables.
+  24:main.c        ****  // uint32 Kp_term_overflow_count, Kp_term_underflow_count, 
+  25:main.c        ****  uint32 loop_count ;
+  26:main.c        ****  // uint32 Kd_term_overflow_count, Kd_term_underflow_count ;
+  27:main.c        ****  uint32 Kd_display_gain = 8 ;
+  28:main.c        ****  uint32 Ki_term_overflow_count, Ki_term_underflow_count ;
+  29:main.c        ****  uint32 Vout_term_underflow_count, Vout_term_overflow_count ;
+  30:main.c        ****  int32 Kp_scale_factor = 128, Kd_scale_factor = 128, Ki_scale_factor = 1024;
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 2
+
+
+  31:main.c        ****  int32 feedforward_only = 0;
+  32:main.c        **** 
+  33:main.c        ****  int main()
+  34:main.c        ****  {
+  28              		.loc 1 34 0
+  29              		.cfi_startproc
+  30              		@ Volatile: function does not return.
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 3, -8
+  36              		.cfi_offset 14, -4
+  35:main.c        ****  	ADC_Start(); ADC_StartConvert();
+  37              		.loc 1 35 0
+  38 0002 FFF7FEFF 		bl	ADC_Start
+  39              	.LVL0:
+  40 0006 FFF7FEFF 		bl	ADC_StartConvert
+  41              	.LVL1:
+  36:main.c        ****  	DAC_1_Start(); DAC_2_Start(); DAC_3_Start();
+  42              		.loc 1 36 0
+  43 000a FFF7FEFF 		bl	DAC_1_Start
+  44              	.LVL2:
+  45 000e FFF7FEFF 		bl	DAC_2_Start
+  46              	.LVL3:
+  47 0012 FFF7FEFF 		bl	DAC_3_Start
+  48              	.LVL4:
+  37:main.c        ****  	OA_1_Start(); OA_2_Start(); OA_3_Start(); OA_4_Start();
+  49              		.loc 1 37 0
+  50 0016 FFF7FEFF 		bl	OA_1_Start
+  51              	.LVL5:
+  52 001a FFF7FEFF 		bl	OA_2_Start
+  53              	.LVL6:
+  54 001e FFF7FEFF 		bl	OA_3_Start
+  55              	.LVL7:
+  56 0022 FFF7FEFF 		bl	OA_4_Start
+  57              	.LVL8:
+  58              	.L14:
+  38:main.c        **** 
+  39:main.c        ****  	while(1)
+  40:main.c        **** 	{
+  41:main.c        **** 		loop_count++;
+  59              		.loc 1 41 0
+  60 0026 654A     		ldr	r2, .L20
+  61 0028 1368     		ldr	r3, [r2]
+  62 002a 0133     		adds	r3, r3, #1
+  63 002c 1360     		str	r3, [r2]
+  42:main.c        **** 		Vmeas_last = Vmeas;
+  64              		.loc 1 42 0
+  65 002e 644B     		ldr	r3, .L20+4
+  66 0030 1A68     		ldr	r2, [r3]
+  67 0032 644B     		ldr	r3, .L20+8
+  68 0034 1A60     		str	r2, [r3]
+  43:main.c        **** 		adc_wait_count = 0;
+  69              		.loc 1 43 0
+  70 0036 0022     		movs	r2, #0
+  71 0038 634B     		ldr	r3, .L20+12
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 3
+
+
+  72 003a 1A60     		str	r2, [r3]
+  44:main.c        ****         DAC_3_SetValue(Vref);
+  73              		.loc 1 44 0
+  74 003c 634B     		ldr	r3, .L20+16
+  75 003e 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+  76 0040 FFF7FEFF 		bl	DAC_3_SetValue
+  77              	.LVL9:
+  45:main.c        **** 
+  46:main.c        **** 		
+  47:main.c        **** 		ADC_StartConvert();
+  78              		.loc 1 47 0
+  79 0044 FFF7FEFF 		bl	ADC_StartConvert
+  80              	.LVL10:
+  48:main.c        **** 
+  49:main.c        **** 		while(ADC_IsEndConversion(ADC_RETURN_STATUS) == 0)
+  81              		.loc 1 49 0
+  82 0048 03E0     		b	.L2
+  83              	.L3:
+  50:main.c        ****         {
+  51:main.c        **** 			adc_wait_count++;
+  84              		.loc 1 51 0
+  85 004a 5F4A     		ldr	r2, .L20+12
+  86 004c 1368     		ldr	r3, [r2]
+  87 004e 0133     		adds	r3, r3, #1
+  88 0050 1360     		str	r3, [r2]
+  89              	.L2:
+  49:main.c        ****         {
+  90              		.loc 1 49 0
+  91 0052 0120     		movs	r0, #1
+  92 0054 FFF7FEFF 		bl	ADC_IsEndConversion
+  93              	.LVL11:
+  94 0058 0028     		cmp	r0, #0
+  95 005a F6D0     		beq	.L3
+  52:main.c        ****         }
+  53:main.c        **** 
+  54:main.c        **** 		last_adc_wait_count = adc_wait_count;
+  96              		.loc 1 54 0
+  97 005c 5A4B     		ldr	r3, .L20+12
+  98 005e 1A68     		ldr	r2, [r3]
+  99 0060 5B4B     		ldr	r3, .L20+20
+ 100 0062 1A60     		str	r2, [r3]
+  55:main.c        **** 
+  56:main.c        **** 		Vmeas_raw = (int32)ADC_GetResult8();
+ 101              		.loc 1 56 0
+ 102 0064 FFF7FEFF 		bl	ADC_GetResult8
+ 103              	.LVL12:
+ 104 0068 C0B2     		uxtb	r0, r0
+ 105 006a 5A4C     		ldr	r4, .L20+24
+ 106 006c 2070     		strb	r0, [r4]
+  57:main.c        **** 		DAC_2_SetValue(127+Vmeas_raw);
+ 107              		.loc 1 57 0
+ 108 006e 7F30     		adds	r0, r0, #127
+ 109 0070 C0B2     		uxtb	r0, r0
+ 110 0072 FFF7FEFF 		bl	DAC_2_SetValue
+ 111              	.LVL13:
+  58:main.c        **** 
+  59:main.c        **** 		Vmeas_buffer[loop_count] = Vmeas_raw;
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 4
+
+
+ 112              		.loc 1 59 0
+ 113 0076 514B     		ldr	r3, .L20
+ 114 0078 1B68     		ldr	r3, [r3]
+ 115 007a 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 116 007c 564A     		ldr	r2, .L20+28
+ 117 007e D054     		strb	r0, [r2, r3]
+  60:main.c        **** 		Vmeas = (int32)Vmeas_raw;
+ 118              		.loc 1 60 0
+ 119 0080 4F4A     		ldr	r2, .L20+4
+ 120 0082 1060     		str	r0, [r2]
+  61:main.c        **** 
+  62:main.c        **** 		if(loop_count == 1)
+ 121              		.loc 1 62 0
+ 122 0084 012B     		cmp	r3, #1
+ 123 0086 03D1     		bne	.L4
+  63:main.c        **** 		{
+  64:main.c        **** 			Vmeas_delta = 0;
+ 124              		.loc 1 64 0
+ 125 0088 0022     		movs	r2, #0
+ 126 008a 544B     		ldr	r3, .L20+32
+ 127 008c 1A60     		str	r2, [r3]
+ 128 008e 04E0     		b	.L5
+ 129              	.L4:
+  65:main.c        **** 		}
+  66:main.c        **** 		else
+  67:main.c        **** 		{
+  68:main.c        **** 			Vmeas_delta = Vmeas - Vmeas_last;
+ 130              		.loc 1 68 0
+ 131 0090 4C4B     		ldr	r3, .L20+8
+ 132 0092 1B68     		ldr	r3, [r3]
+ 133 0094 C31A     		subs	r3, r0, r3
+ 134 0096 514A     		ldr	r2, .L20+32
+ 135 0098 1360     		str	r3, [r2]
+ 136              	.L5:
+  69:main.c        **** 		}
+  70:main.c        **** 
+  71:main.c        **** 		//DAC_3_SetValue(127 + Kd_display_gain*Vmeas_delta);
+  72:main.c        **** 
+  73:main.c        **** 		// Derivative term
+  74:main.c        **** 
+  75:main.c        **** 		Kd_term = (Kd*Vmeas_delta) / Kd_scale_factor ;
+ 137              		.loc 1 75 0
+ 138 009a 4C4A     		ldr	r2, .L20+16
+ 139 009c 5168     		ldr	r1, [r2, #4]
+ 140 009e 4F4B     		ldr	r3, .L20+32
+ 141 00a0 1B68     		ldr	r3, [r3]
+ 142 00a2 03FB01F3 		mul	r3, r3, r1
+ 143 00a6 9168     		ldr	r1, [r2, #8]
+ 144 00a8 93FBF1F1 		sdiv	r1, r3, r1
+ 145 00ac 4C4B     		ldr	r3, .L20+36
+ 146 00ae 1960     		str	r1, [r3]
+  76:main.c        **** 
+  77:main.c        **** 		Kd_term_limited  =Kd_term;
+ 147              		.loc 1 77 0
+ 148 00b0 4C4B     		ldr	r3, .L20+40
+ 149 00b2 1960     		str	r1, [r3]
+  78:main.c        **** 
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 5
+
+
+  79:main.c        **** 		if(Kd_term_limited > 127)
+ 150              		.loc 1 79 0
+ 151 00b4 7F29     		cmp	r1, #127
+ 152 00b6 01DD     		ble	.L6
+  80:main.c        **** 		{
+  81:main.c        **** 			Kd_term_limited = 127;
+ 153              		.loc 1 81 0
+ 154 00b8 7F22     		movs	r2, #127
+ 155 00ba 1A60     		str	r2, [r3]
+ 156              	.L6:
+  82:main.c        **** 		}
+  83:main.c        **** 		if(Kd_term_limited < -127)
+ 157              		.loc 1 83 0
+ 158 00bc 494B     		ldr	r3, .L20+40
+ 159 00be 1B68     		ldr	r3, [r3]
+ 160 00c0 13F17F0F 		cmn	r3, #127
+ 161 00c4 03DA     		bge	.L7
+  84:main.c        **** 		{
+  85:main.c        **** 			Kd_term_limited = -127;
+ 162              		.loc 1 85 0
+ 163 00c6 6FF07E02 		mvn	r2, #126
+ 164 00ca 464B     		ldr	r3, .L20+40
+ 165 00cc 1A60     		str	r2, [r3]
+ 166              	.L7:
+  86:main.c        **** 		}
+  87:main.c        **** 
+  88:main.c        **** 		// Proportional Term
+  89:main.c        **** 
+  90:main.c        **** 		Verror = Vref - Vmeas;
+ 167              		.loc 1 90 0
+ 168 00ce 3F4A     		ldr	r2, .L20+16
+ 169 00d0 1368     		ldr	r3, [r2]
+ 170 00d2 181A     		subs	r0, r3, r0
+ 171 00d4 444B     		ldr	r3, .L20+44
+ 172 00d6 1860     		str	r0, [r3]
+  91:main.c        **** 
+  92:main.c        **** 		Kp_term = (Kp*Verror)/Kp_scale_factor;
+ 173              		.loc 1 92 0
+ 174 00d8 D368     		ldr	r3, [r2, #12]
+ 175 00da 03FB00F3 		mul	r3, r3, r0
+ 176 00de 1269     		ldr	r2, [r2, #16]
+ 177 00e0 93FBF2F3 		sdiv	r3, r3, r2
+ 178 00e4 414A     		ldr	r2, .L20+48
+ 179 00e6 1360     		str	r3, [r2]
+  93:main.c        **** 
+  94:main.c        **** 		Kp_term_limited  =Kp_term;
+ 180              		.loc 1 94 0
+ 181 00e8 414A     		ldr	r2, .L20+52
+ 182 00ea 1360     		str	r3, [r2]
+  95:main.c        **** 
+  96:main.c        **** 		if(Kp_term_limited > 127)
+ 183              		.loc 1 96 0
+ 184 00ec 7F2B     		cmp	r3, #127
+ 185 00ee 01DD     		ble	.L8
+  97:main.c        **** 		{
+  98:main.c        **** 			Kp_term_limited = 127;
+ 186              		.loc 1 98 0
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 6
+
+
+ 187 00f0 7F24     		movs	r4, #127
+ 188 00f2 1460     		str	r4, [r2]
+ 189              	.L8:
+  99:main.c        **** 		}
+ 100:main.c        **** 		if(Kp_term_limited < -127)
+ 190              		.loc 1 100 0
+ 191 00f4 3E4A     		ldr	r2, .L20+52
+ 192 00f6 1268     		ldr	r2, [r2]
+ 193 00f8 12F17F0F 		cmn	r2, #127
+ 194 00fc 03DA     		bge	.L9
+ 101:main.c        **** 		{
+ 102:main.c        **** 			Kp_term_limited = -127;
+ 195              		.loc 1 102 0
+ 196 00fe 6FF07E04 		mvn	r4, #126
+ 197 0102 3B4A     		ldr	r2, .L20+52
+ 198 0104 1460     		str	r4, [r2]
+ 199              	.L9:
+ 103:main.c        **** 		}	
+ 104:main.c        **** 
+ 105:main.c        **** 		// Integral term
+ 106:main.c        **** 
+ 107:main.c        **** 		Verror_sum  += Verror;
+ 200              		.loc 1 107 0
+ 201 0106 3B4C     		ldr	r4, .L20+56
+ 202 0108 2268     		ldr	r2, [r4]
+ 203 010a 1044     		add	r0, r0, r2
+ 204 010c 2060     		str	r0, [r4]
+ 108:main.c        **** 
+ 109:main.c        **** 		if(Verror_sum > Verror_sum_limit)
+ 205              		.loc 1 109 0
+ 206 010e 2F4A     		ldr	r2, .L20+16
+ 207 0110 5269     		ldr	r2, [r2, #20]
+ 208 0112 9042     		cmp	r0, r2
+ 209 0114 00DD     		ble	.L10
+ 110:main.c        **** 		{
+ 111:main.c        **** 			Verror_sum = Verror_sum_limit;
+ 210              		.loc 1 111 0
+ 211 0116 2260     		str	r2, [r4]
+ 212              	.L10:
+ 112:main.c        **** 		}
+ 113:main.c        **** 		if(Verror_sum < -Verror_sum_limit)
+ 213              		.loc 1 113 0
+ 214 0118 5242     		negs	r2, r2
+ 215 011a 3648     		ldr	r0, .L20+56
+ 216 011c 0068     		ldr	r0, [r0]
+ 217 011e 8242     		cmp	r2, r0
+ 218 0120 01DD     		ble	.L11
+ 114:main.c        **** 		{
+ 115:main.c        **** 			Verror_sum = -Verror_sum_limit;
+ 219              		.loc 1 115 0
+ 220 0122 3448     		ldr	r0, .L20+56
+ 221 0124 0260     		str	r2, [r0]
+ 222              	.L11:
+ 116:main.c        **** 		}
+ 117:main.c        **** 
+ 118:main.c        **** 		Ki_term = (Ki*Verror_sum) / Ki_scale_factor;
+ 223              		.loc 1 118 0
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 7
+
+
+ 224 0126 294C     		ldr	r4, .L20+16
+ 225 0128 A069     		ldr	r0, [r4, #24]
+ 226 012a 324A     		ldr	r2, .L20+56
+ 227 012c 1268     		ldr	r2, [r2]
+ 228 012e 02FB00F2 		mul	r2, r2, r0
+ 229 0132 E069     		ldr	r0, [r4, #28]
+ 230 0134 92FBF0F0 		sdiv	r0, r2, r0
+ 231 0138 2F4A     		ldr	r2, .L20+60
+ 232 013a 1060     		str	r0, [r2]
+ 119:main.c        **** 
+ 120:main.c        **** 		Vout = FF_term + Kp_term + Kd_term + Ki_term;
+ 233              		.loc 1 120 0
+ 234 013c 226A     		ldr	r2, [r4, #32]
+ 235 013e 1A44     		add	r2, r2, r3
+ 236 0140 8B18     		adds	r3, r1, r2
+ 237 0142 0344     		add	r3, r3, r0
+ 238 0144 2D4A     		ldr	r2, .L20+64
+ 239 0146 1360     		str	r3, [r2]
+ 121:main.c        **** 
+ 122:main.c        **** 		Vout_limited = Vout;
+ 240              		.loc 1 122 0
+ 241 0148 2D4A     		ldr	r2, .L20+68
+ 242 014a 1360     		str	r3, [r2]
+ 123:main.c        **** 		if(Vout_limited > 255)
+ 243              		.loc 1 123 0
+ 244 014c FF2B     		cmp	r3, #255
+ 245 014e 02DD     		ble	.L12
+ 124:main.c        **** 		{
+ 125:main.c        **** 			Vout_limited = 255;
+ 246              		.loc 1 125 0
+ 247 0150 FF22     		movs	r2, #255
+ 248 0152 2B4B     		ldr	r3, .L20+68
+ 249 0154 1A60     		str	r2, [r3]
+ 250              	.L12:
+ 126:main.c        **** 		}
+ 127:main.c        **** 		if(Vout_limited < 0)
+ 251              		.loc 1 127 0
+ 252 0156 2A4B     		ldr	r3, .L20+68
+ 253 0158 1B68     		ldr	r3, [r3]
+ 254 015a 002B     		cmp	r3, #0
+ 255 015c 02DA     		bge	.L13
+ 128:main.c        **** 		{
+ 129:main.c        **** 			Vout_limited = 0;
+ 256              		.loc 1 129 0
+ 257 015e 0022     		movs	r2, #0
+ 258 0160 274B     		ldr	r3, .L20+68
+ 259 0162 1A60     		str	r2, [r3]
+ 260              	.L13:
+ 130:main.c        **** 		}
+ 131:main.c        **** 
+ 132:main.c        **** 		DAC_1_SetValue(Vout_limited);
+ 261              		.loc 1 132 0
+ 262 0164 264B     		ldr	r3, .L20+68
+ 263 0166 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 264 0168 FFF7FEFF 		bl	DAC_1_SetValue
+ 265              	.LVL14:
+ 133:main.c        **** 
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 8
+
+
+ 134:main.c        **** 		if(loop_count >= SAMPLE_LIMIT)
+ 266              		.loc 1 134 0
+ 267 016c 134B     		ldr	r3, .L20
+ 268 016e 1B68     		ldr	r3, [r3]
+ 269 0170 B3F5967F 		cmp	r3, #300
+ 270 0174 FFF457AF 		bcc	.L14
+ 135:main.c        **** 		{
+ 136:main.c        **** 			DAC_1_SetValue(0);
+ 271              		.loc 1 136 0
+ 272 0178 0020     		movs	r0, #0
+ 273 017a FFF7FEFF 		bl	DAC_1_SetValue
+ 274              	.LVL15:
+ 137:main.c        **** 			CyDelay(200);
+ 275              		.loc 1 137 0
+ 276 017e C820     		movs	r0, #200
+ 277 0180 FFF7FEFF 		bl	CyDelay
+ 278              	.LVL16:
+ 138:main.c        **** 
+ 139:main.c        ****             if(Vref == 120)
+ 279              		.loc 1 139 0
+ 280 0184 114B     		ldr	r3, .L20+16
+ 281 0186 1B68     		ldr	r3, [r3]
+ 282 0188 782B     		cmp	r3, #120
+ 283 018a 03D1     		bne	.L15
+ 140:main.c        ****             {
+ 141:main.c        ****                 Vref = 140;
+ 284              		.loc 1 141 0
+ 285 018c 8C22     		movs	r2, #140
+ 286 018e 0F4B     		ldr	r3, .L20+16
+ 287 0190 1A60     		str	r2, [r3]
+ 288 0192 08E0     		b	.L16
+ 289              	.L15:
+ 142:main.c        ****             }
+ 143:main.c        ****             
+ 144:main.c        ****             else if(Vref == 140)
+ 290              		.loc 1 144 0
+ 291 0194 8C2B     		cmp	r3, #140
+ 292 0196 03D1     		bne	.L17
+ 145:main.c        ****             {
+ 146:main.c        ****                 Vref = 160;
+ 293              		.loc 1 146 0
+ 294 0198 A022     		movs	r2, #160
+ 295 019a 0C4B     		ldr	r3, .L20+16
+ 296 019c 1A60     		str	r2, [r3]
+ 297 019e 02E0     		b	.L16
+ 298              	.L17:
+ 147:main.c        ****             }
+ 148:main.c        ****             
+ 149:main.c        ****             else
+ 150:main.c        ****             {
+ 151:main.c        ****                 Vref = 120;
+ 299              		.loc 1 151 0
+ 300 01a0 7822     		movs	r2, #120
+ 301 01a2 0A4B     		ldr	r3, .L20+16
+ 302 01a4 1A60     		str	r2, [r3]
+ 303              	.L16:
+ 152:main.c        ****             }
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 9
+
+
+ 153:main.c        ****             
+ 154:main.c        **** 			Vmeas_buffer_index = 0;
+ 304              		.loc 1 154 0
+ 305 01a6 0023     		movs	r3, #0
+ 306 01a8 164A     		ldr	r2, .L20+72
+ 307 01aa 1360     		str	r3, [r2]
+ 155:main.c        **** 
+ 156:main.c        ****             Verror_sum = 0;
+ 308              		.loc 1 156 0
+ 309 01ac 114A     		ldr	r2, .L20+56
+ 310 01ae 1360     		str	r3, [r2]
+ 157:main.c        ****             Vmeas = 0;
+ 311              		.loc 1 157 0
+ 312 01b0 034A     		ldr	r2, .L20+4
+ 313 01b2 1360     		str	r3, [r2]
+ 158:main.c        ****             Vmeas_last = Vmeas;
+ 159:main.c        **** 			loop_count = 0; //BREAK POINT
+ 314              		.loc 1 159 0
+ 315 01b4 014A     		ldr	r2, .L20
+ 316 01b6 1360     		str	r3, [r2]
+ 317 01b8 35E7     		b	.L14
+ 318              	.L21:
+ 319 01ba 00BF     		.align	2
+ 320              	.L20:
+ 321 01bc 00000000 		.word	loop_count
+ 322 01c0 00000000 		.word	Vmeas
+ 323 01c4 00000000 		.word	Vmeas_last
+ 324 01c8 00000000 		.word	adc_wait_count
+ 325 01cc 00000000 		.word	.LANCHOR0
+ 326 01d0 00000000 		.word	last_adc_wait_count
+ 327 01d4 00000000 		.word	Vmeas_raw
+ 328 01d8 00000000 		.word	Vmeas_buffer
+ 329 01dc 00000000 		.word	Vmeas_delta
+ 330 01e0 00000000 		.word	Kd_term
+ 331 01e4 00000000 		.word	Kd_term_limited
+ 332 01e8 00000000 		.word	Verror
+ 333 01ec 00000000 		.word	Kp_term
+ 334 01f0 00000000 		.word	Kp_term_limited
+ 335 01f4 00000000 		.word	Verror_sum
+ 336 01f8 00000000 		.word	Ki_term
+ 337 01fc 00000000 		.word	Vout
+ 338 0200 00000000 		.word	Vout_limited
+ 339 0204 00000000 		.word	.LANCHOR1
+ 340              		.cfi_endproc
+ 341              	.LFE64:
+ 342              		.size	main, .-main
+ 343              		.global	feedforward_only
+ 344              		.global	Ki_scale_factor
+ 345              		.global	Kd_scale_factor
+ 346              		.global	Kp_scale_factor
+ 347              		.comm	Vout_term_overflow_count,4,4
+ 348              		.comm	Vout_term_underflow_count,4,4
+ 349              		.comm	Ki_term_underflow_count,4,4
+ 350              		.comm	Ki_term_overflow_count,4,4
+ 351              		.global	Kd_display_gain
+ 352              		.comm	loop_count,4,4
+ 353              		.comm	Ki_term_limited,4,4
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 10
+
+
+ 354              		.comm	Kd_term_limited,4,4
+ 355              		.comm	Kp_term_limited,4,4
+ 356              		.global	FF_term
+ 357              		.comm	Ki_term,4,4
+ 358              		.comm	Kd_term,4,4
+ 359              		.comm	Kp_term,4,4
+ 360              		.global	Ki
+ 361              		.global	Kd
+ 362              		.global	Kp
+ 363              		.global	Verror_sum_limit
+ 364              		.comm	Verror_sum,4,4
+ 365              		.comm	Vout_limited,4,4
+ 366              		.comm	Vout,4,4
+ 367              		.comm	Verror,4,4
+ 368              		.comm	Vmeas_delta,4,4
+ 369              		.comm	Vmeas_last,4,4
+ 370              		.comm	Vmeas,4,4
+ 371              		.global	Vref
+ 372              		.comm	buffer_limit_reached,4,4
+ 373              		.global	Vmeas_buffer_index
+ 374              		.comm	Vmeas_buffer,300,4
+ 375              		.comm	Vmeas_raw,1,1
+ 376              		.global	sample_count
+ 377              		.global	adc_limit
+ 378              		.comm	adc_result,2,2
+ 379              		.comm	button_not_pushed_count,4,4
+ 380              		.global	test_mode
+ 381              		.comm	last_adc_wait_count,4,4
+ 382              		.comm	adc_wait_count,4,4
+ 383              		.global	source
+ 384              		.global	current_l
+ 385              		.data
+ 386              		.align	2
+ 387              		.set	.LANCHOR0,. + 0
+ 388              		.type	Vref, %object
+ 389              		.size	Vref, 4
+ 390              	Vref:
+ 391 0000 78000000 		.word	120
+ 392              		.type	Kd, %object
+ 393              		.size	Kd, 4
+ 394              	Kd:
+ 395 0004 97FFFFFF 		.word	-105
+ 396              		.type	Kd_scale_factor, %object
+ 397              		.size	Kd_scale_factor, 4
+ 398              	Kd_scale_factor:
+ 399 0008 80000000 		.word	128
+ 400              		.type	Kp, %object
+ 401              		.size	Kp, 4
+ 402              	Kp:
+ 403 000c 21000000 		.word	33
+ 404              		.type	Kp_scale_factor, %object
+ 405              		.size	Kp_scale_factor, 4
+ 406              	Kp_scale_factor:
+ 407 0010 80000000 		.word	128
+ 408              		.type	Verror_sum_limit, %object
+ 409              		.size	Verror_sum_limit, 4
+ 410              	Verror_sum_limit:
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 11
+
+
+ 411 0014 10270000 		.word	10000
+ 412              		.type	Ki, %object
+ 413              		.size	Ki, 4
+ 414              	Ki:
+ 415 0018 0C000000 		.word	12
+ 416              		.type	Ki_scale_factor, %object
+ 417              		.size	Ki_scale_factor, 4
+ 418              	Ki_scale_factor:
+ 419 001c 00040000 		.word	1024
+ 420              		.type	FF_term, %object
+ 421              		.size	FF_term, 4
+ 422              	FF_term:
+ 423 0020 64000000 		.word	100
+ 424              		.type	Kd_display_gain, %object
+ 425              		.size	Kd_display_gain, 4
+ 426              	Kd_display_gain:
+ 427 0024 08000000 		.word	8
+ 428              		.type	adc_limit, %object
+ 429              		.size	adc_limit, 2
+ 430              	adc_limit:
+ 431 0028 A00F     		.short	4000
+ 432              		.type	current_l, %object
+ 433              		.size	current_l, 1
+ 434              	current_l:
+ 435 002a 32       		.byte	50
+ 436              		.bss
+ 437              		.align	2
+ 438              		.set	.LANCHOR1,. + 0
+ 439              		.type	Vmeas_buffer_index, %object
+ 440              		.size	Vmeas_buffer_index, 4
+ 441              	Vmeas_buffer_index:
+ 442 0000 00000000 		.space	4
+ 443              		.type	feedforward_only, %object
+ 444              		.size	feedforward_only, 4
+ 445              	feedforward_only:
+ 446 0004 00000000 		.space	4
+ 447              		.type	sample_count, %object
+ 448              		.size	sample_count, 4
+ 449              	sample_count:
+ 450 0008 00000000 		.space	4
+ 451              		.type	test_mode, %object
+ 452              		.size	test_mode, 4
+ 453              	test_mode:
+ 454 000c 00000000 		.space	4
+ 455              		.type	source, %object
+ 456              		.size	source, 1
+ 457              	source:
+ 458 0010 00       		.space	1
+ 459              		.text
+ 460              	.Letext0:
+ 461              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 462              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 463              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 464              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 465              		.file 6 "Generated_Source\\PSoC5/ADC.h"
+ 466              		.file 7 "Generated_Source\\PSoC5/DAC_1.h"
+ 467              		.file 8 "Generated_Source\\PSoC5/DAC_2.h"
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 12
+
+
+ 468              		.file 9 "Generated_Source\\PSoC5/DAC_3.h"
+ 469              		.file 10 "Generated_Source\\PSoC5/OA_1.h"
+ 470              		.file 11 "Generated_Source\\PSoC5/OA_2.h"
+ 471              		.file 12 "Generated_Source\\PSoC5/OA_3.h"
+ 472              		.file 13 "Generated_Source\\PSoC5/OA_4.h"
+ 473              		.file 14 "Generated_Source\\PSoC5/CyLib.h"
+ 474              		.section	.debug_info,"",%progbits
+ 475              	.Ldebug_info0:
+ 476 0000 2D050000 		.4byte	0x52d
+ 477 0004 0400     		.2byte	0x4
+ 478 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 479 000a 04       		.byte	0x4
+ 480 000b 01       		.uleb128 0x1
+ 481 000c 03040000 		.4byte	.LASF75
+ 482 0010 0C       		.byte	0xc
+ 483 0011 3B030000 		.4byte	.LASF76
+ 484 0015 29020000 		.4byte	.LASF77
+ 485 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 486 001d 00000000 		.4byte	0
+ 487 0021 00000000 		.4byte	.Ldebug_line0
+ 488 0025 02       		.uleb128 0x2
+ 489 0026 01       		.byte	0x1
+ 490 0027 06       		.byte	0x6
+ 491 0028 0E020000 		.4byte	.LASF0
+ 492 002c 02       		.uleb128 0x2
+ 493 002d 01       		.byte	0x1
+ 494 002e 08       		.byte	0x8
+ 495 002f CA010000 		.4byte	.LASF1
+ 496 0033 02       		.uleb128 0x2
+ 497 0034 02       		.byte	0x2
+ 498 0035 05       		.byte	0x5
+ 499 0036 3C000000 		.4byte	.LASF2
+ 500 003a 02       		.uleb128 0x2
+ 501 003b 02       		.byte	0x2
+ 502 003c 07       		.byte	0x7
+ 503 003d D4020000 		.4byte	.LASF3
+ 504 0041 03       		.uleb128 0x3
+ 505 0042 85030000 		.4byte	.LASF9
+ 506 0046 02       		.byte	0x2
+ 507 0047 3F       		.byte	0x3f
+ 508 0048 4C000000 		.4byte	0x4c
+ 509 004c 02       		.uleb128 0x2
+ 510 004d 04       		.byte	0x4
+ 511 004e 05       		.byte	0x5
+ 512 004f 69010000 		.4byte	.LASF4
+ 513 0053 02       		.uleb128 0x2
+ 514 0054 04       		.byte	0x4
+ 515 0055 07       		.byte	0x7
+ 516 0056 42030000 		.4byte	.LASF5
+ 517 005a 02       		.uleb128 0x2
+ 518 005b 08       		.byte	0x8
+ 519 005c 05       		.byte	0x5
+ 520 005d 2F010000 		.4byte	.LASF6
+ 521 0061 02       		.uleb128 0x2
+ 522 0062 08       		.byte	0x8
+ 523 0063 07       		.byte	0x7
+ 524 0064 3D010000 		.4byte	.LASF7
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 13
+
+
+ 525 0068 04       		.uleb128 0x4
+ 526 0069 04       		.byte	0x4
+ 527 006a 05       		.byte	0x5
+ 528 006b 696E7400 		.ascii	"int\000"
+ 529 006f 02       		.uleb128 0x2
+ 530 0070 04       		.byte	0x4
+ 531 0071 07       		.byte	0x7
+ 532 0072 7B020000 		.4byte	.LASF8
+ 533 0076 03       		.uleb128 0x3
+ 534 0077 F7020000 		.4byte	.LASF10
+ 535 007b 03       		.byte	0x3
+ 536 007c 2C       		.byte	0x2c
+ 537 007d 41000000 		.4byte	0x41
+ 538 0081 05       		.uleb128 0x5
+ 539 0082 CF000000 		.4byte	.LASF11
+ 540 0086 04       		.byte	0x4
+ 541 0087 E401     		.2byte	0x1e4
+ 542 0089 2C000000 		.4byte	0x2c
+ 543 008d 05       		.uleb128 0x5
+ 544 008e A1000000 		.4byte	.LASF12
+ 545 0092 04       		.byte	0x4
+ 546 0093 E501     		.2byte	0x1e5
+ 547 0095 3A000000 		.4byte	0x3a
+ 548 0099 05       		.uleb128 0x5
+ 549 009a 34030000 		.4byte	.LASF13
+ 550 009e 04       		.byte	0x4
+ 551 009f E601     		.2byte	0x1e6
+ 552 00a1 53000000 		.4byte	0x53
+ 553 00a5 05       		.uleb128 0x5
+ 554 00a6 54030000 		.4byte	.LASF14
+ 555 00aa 04       		.byte	0x4
+ 556 00ab E901     		.2byte	0x1e9
+ 557 00ad 4C000000 		.4byte	0x4c
+ 558 00b1 02       		.uleb128 0x2
+ 559 00b2 04       		.byte	0x4
+ 560 00b3 04       		.byte	0x4
+ 561 00b4 29010000 		.4byte	.LASF15
+ 562 00b8 02       		.uleb128 0x2
+ 563 00b9 08       		.byte	0x8
+ 564 00ba 04       		.byte	0x4
+ 565 00bb 5A030000 		.4byte	.LASF16
+ 566 00bf 02       		.uleb128 0x2
+ 567 00c0 01       		.byte	0x1
+ 568 00c1 08       		.byte	0x8
+ 569 00c2 F2020000 		.4byte	.LASF17
+ 570 00c6 02       		.uleb128 0x2
+ 571 00c7 08       		.byte	0x8
+ 572 00c8 04       		.byte	0x4
+ 573 00c9 BE010000 		.4byte	.LASF18
+ 574 00cd 02       		.uleb128 0x2
+ 575 00ce 04       		.byte	0x4
+ 576 00cf 07       		.byte	0x7
+ 577 00d0 C1030000 		.4byte	.LASF19
+ 578 00d4 06       		.uleb128 0x6
+ 579 00d5 88000000 		.4byte	.LASF78
+ 580 00d9 01       		.byte	0x1
+ 581 00da 21       		.byte	0x21
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 14
+
+
+ 582 00db 68000000 		.4byte	0x68
+ 583 00df 00000000 		.4byte	.LFB64
+ 584 00e3 08020000 		.4byte	.LFE64-.LFB64
+ 585 00e7 01       		.uleb128 0x1
+ 586 00e8 9C       		.byte	0x9c
+ 587 00e9 A2010000 		.4byte	0x1a2
+ 588 00ed 07       		.uleb128 0x7
+ 589 00ee 06000000 		.4byte	.LVL0
+ 590 00f2 8B040000 		.4byte	0x48b
+ 591 00f6 07       		.uleb128 0x7
+ 592 00f7 0A000000 		.4byte	.LVL1
+ 593 00fb 96040000 		.4byte	0x496
+ 594 00ff 07       		.uleb128 0x7
+ 595 0100 0E000000 		.4byte	.LVL2
+ 596 0104 A1040000 		.4byte	0x4a1
+ 597 0108 07       		.uleb128 0x7
+ 598 0109 12000000 		.4byte	.LVL3
+ 599 010d AC040000 		.4byte	0x4ac
+ 600 0111 07       		.uleb128 0x7
+ 601 0112 16000000 		.4byte	.LVL4
+ 602 0116 B7040000 		.4byte	0x4b7
+ 603 011a 07       		.uleb128 0x7
+ 604 011b 1A000000 		.4byte	.LVL5
+ 605 011f C2040000 		.4byte	0x4c2
+ 606 0123 07       		.uleb128 0x7
+ 607 0124 1E000000 		.4byte	.LVL6
+ 608 0128 CD040000 		.4byte	0x4cd
+ 609 012c 07       		.uleb128 0x7
+ 610 012d 22000000 		.4byte	.LVL7
+ 611 0131 D8040000 		.4byte	0x4d8
+ 612 0135 07       		.uleb128 0x7
+ 613 0136 26000000 		.4byte	.LVL8
+ 614 013a E3040000 		.4byte	0x4e3
+ 615 013e 07       		.uleb128 0x7
+ 616 013f 44000000 		.4byte	.LVL9
+ 617 0143 EE040000 		.4byte	0x4ee
+ 618 0147 07       		.uleb128 0x7
+ 619 0148 48000000 		.4byte	.LVL10
+ 620 014c 96040000 		.4byte	0x496
+ 621 0150 08       		.uleb128 0x8
+ 622 0151 58000000 		.4byte	.LVL11
+ 623 0155 F9040000 		.4byte	0x4f9
+ 624 0159 63010000 		.4byte	0x163
+ 625 015d 09       		.uleb128 0x9
+ 626 015e 01       		.uleb128 0x1
+ 627 015f 50       		.byte	0x50
+ 628 0160 01       		.uleb128 0x1
+ 629 0161 31       		.byte	0x31
+ 630 0162 00       		.byte	0
+ 631 0163 07       		.uleb128 0x7
+ 632 0164 68000000 		.4byte	.LVL12
+ 633 0168 04050000 		.4byte	0x504
+ 634 016c 07       		.uleb128 0x7
+ 635 016d 76000000 		.4byte	.LVL13
+ 636 0171 0F050000 		.4byte	0x50f
+ 637 0175 07       		.uleb128 0x7
+ 638 0176 6C010000 		.4byte	.LVL14
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 15
+
+
+ 639 017a 1A050000 		.4byte	0x51a
+ 640 017e 08       		.uleb128 0x8
+ 641 017f 7E010000 		.4byte	.LVL15
+ 642 0183 1A050000 		.4byte	0x51a
+ 643 0187 91010000 		.4byte	0x191
+ 644 018b 09       		.uleb128 0x9
+ 645 018c 01       		.uleb128 0x1
+ 646 018d 50       		.byte	0x50
+ 647 018e 01       		.uleb128 0x1
+ 648 018f 30       		.byte	0x30
+ 649 0190 00       		.byte	0
+ 650 0191 0A       		.uleb128 0xa
+ 651 0192 84010000 		.4byte	.LVL16
+ 652 0196 25050000 		.4byte	0x525
+ 653 019a 09       		.uleb128 0x9
+ 654 019b 01       		.uleb128 0x1
+ 655 019c 50       		.byte	0x50
+ 656 019d 02       		.uleb128 0x2
+ 657 019e 08       		.byte	0x8
+ 658 019f C8       		.byte	0xc8
+ 659 01a0 00       		.byte	0
+ 660 01a1 00       		.byte	0
+ 661 01a2 0B       		.uleb128 0xb
+ 662 01a3 F6030000 		.4byte	.LASF20
+ 663 01a7 05       		.byte	0x5
+ 664 01a8 1207     		.2byte	0x712
+ 665 01aa AE010000 		.4byte	0x1ae
+ 666 01ae 0C       		.uleb128 0xc
+ 667 01af 76000000 		.4byte	0x76
+ 668 01b3 0D       		.uleb128 0xd
+ 669 01b4 8F030000 		.4byte	.LASF21
+ 670 01b8 01       		.byte	0x1
+ 671 01b9 08       		.byte	0x8
+ 672 01ba 81000000 		.4byte	0x81
+ 673 01be 05       		.uleb128 0x5
+ 674 01bf 03       		.byte	0x3
+ 675 01c0 00000000 		.4byte	current_l
+ 676 01c4 0D       		.uleb128 0xd
+ 677 01c5 AD010000 		.4byte	.LASF22
+ 678 01c9 01       		.byte	0x1
+ 679 01ca 08       		.byte	0x8
+ 680 01cb 81000000 		.4byte	0x81
+ 681 01cf 05       		.uleb128 0x5
+ 682 01d0 03       		.byte	0x3
+ 683 01d1 00000000 		.4byte	source
+ 684 01d5 0D       		.uleb128 0xd
+ 685 01d6 F0000000 		.4byte	.LASF23
+ 686 01da 01       		.byte	0x1
+ 687 01db 09       		.byte	0x9
+ 688 01dc 99000000 		.4byte	0x99
+ 689 01e0 05       		.uleb128 0x5
+ 690 01e1 03       		.byte	0x3
+ 691 01e2 00000000 		.4byte	adc_wait_count
+ 692 01e6 0D       		.uleb128 0xd
+ 693 01e7 61030000 		.4byte	.LASF24
+ 694 01eb 01       		.byte	0x1
+ 695 01ec 09       		.byte	0x9
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 16
+
+
+ 696 01ed 99000000 		.4byte	0x99
+ 697 01f1 05       		.uleb128 0x5
+ 698 01f2 03       		.byte	0x3
+ 699 01f3 00000000 		.4byte	last_adc_wait_count
+ 700 01f7 0D       		.uleb128 0xd
+ 701 01f8 8B010000 		.4byte	.LASF25
+ 702 01fc 01       		.byte	0x1
+ 703 01fd 09       		.byte	0x9
+ 704 01fe 99000000 		.4byte	0x99
+ 705 0202 05       		.uleb128 0x5
+ 706 0203 03       		.byte	0x3
+ 707 0204 00000000 		.4byte	test_mode
+ 708 0208 0D       		.uleb128 0xd
+ 709 0209 95010000 		.4byte	.LASF26
+ 710 020d 01       		.byte	0x1
+ 711 020e 0A       		.byte	0xa
+ 712 020f 99000000 		.4byte	0x99
+ 713 0213 05       		.uleb128 0x5
+ 714 0214 03       		.byte	0x3
+ 715 0215 00000000 		.4byte	button_not_pushed_count
+ 716 0219 0D       		.uleb128 0xd
+ 717 021a 70020000 		.4byte	.LASF27
+ 718 021e 01       		.byte	0x1
+ 719 021f 0B       		.byte	0xb
+ 720 0220 8D000000 		.4byte	0x8d
+ 721 0224 05       		.uleb128 0x5
+ 722 0225 03       		.byte	0x3
+ 723 0226 00000000 		.4byte	adc_result
+ 724 022a 0D       		.uleb128 0xd
+ 725 022b D8010000 		.4byte	.LASF28
+ 726 022f 01       		.byte	0x1
+ 727 0230 0C       		.byte	0xc
+ 728 0231 8D000000 		.4byte	0x8d
+ 729 0235 05       		.uleb128 0x5
+ 730 0236 03       		.byte	0x3
+ 731 0237 00000000 		.4byte	adc_limit
+ 732 023b 0D       		.uleb128 0xd
+ 733 023c 0F030000 		.4byte	.LASF29
+ 734 0240 01       		.byte	0x1
+ 735 0241 0D       		.byte	0xd
+ 736 0242 68000000 		.4byte	0x68
+ 737 0246 05       		.uleb128 0x5
+ 738 0247 03       		.byte	0x3
+ 739 0248 00000000 		.4byte	sample_count
+ 740 024c 0D       		.uleb128 0xd
+ 741 024d B4010000 		.4byte	.LASF30
+ 742 0251 01       		.byte	0x1
+ 743 0252 11       		.byte	0x11
+ 744 0253 81000000 		.4byte	0x81
+ 745 0257 05       		.uleb128 0x5
+ 746 0258 03       		.byte	0x3
+ 747 0259 00000000 		.4byte	Vmeas_raw
+ 748 025d 0E       		.uleb128 0xe
+ 749 025e 81000000 		.4byte	0x81
+ 750 0262 6E020000 		.4byte	0x26e
+ 751 0266 0F       		.uleb128 0xf
+ 752 0267 CD000000 		.4byte	0xcd
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 17
+
+
+ 753 026b 2B01     		.2byte	0x12b
+ 754 026d 00       		.byte	0
+ 755 026e 0D       		.uleb128 0xd
+ 756 026f 1C030000 		.4byte	.LASF31
+ 757 0273 01       		.byte	0x1
+ 758 0274 11       		.byte	0x11
+ 759 0275 5D020000 		.4byte	0x25d
+ 760 0279 05       		.uleb128 0x5
+ 761 027a 03       		.byte	0x3
+ 762 027b 00000000 		.4byte	Vmeas_buffer
+ 763 027f 0D       		.uleb128 0xd
+ 764 0280 FB010000 		.4byte	.LASF32
+ 765 0284 01       		.byte	0x1
+ 766 0285 12       		.byte	0x12
+ 767 0286 99000000 		.4byte	0x99
+ 768 028a 05       		.uleb128 0x5
+ 769 028b 03       		.byte	0x3
+ 770 028c 00000000 		.4byte	Vmeas_buffer_index
+ 771 0290 0D       		.uleb128 0xd
+ 772 0291 BF020000 		.4byte	.LASF33
+ 773 0295 01       		.byte	0x1
+ 774 0296 12       		.byte	0x12
+ 775 0297 99000000 		.4byte	0x99
+ 776 029b 05       		.uleb128 0x5
+ 777 029c 03       		.byte	0x3
+ 778 029d 00000000 		.4byte	buffer_limit_reached
+ 779 02a1 0D       		.uleb128 0xd
+ 780 02a2 72000000 		.4byte	.LASF34
+ 781 02a6 01       		.byte	0x1
+ 782 02a7 13       		.byte	0x13
+ 783 02a8 A5000000 		.4byte	0xa5
+ 784 02ac 05       		.uleb128 0x5
+ 785 02ad 03       		.byte	0x3
+ 786 02ae 00000000 		.4byte	Vref
+ 787 02b2 0D       		.uleb128 0xd
+ 788 02b3 52000000 		.4byte	.LASF35
+ 789 02b7 01       		.byte	0x1
+ 790 02b8 13       		.byte	0x13
+ 791 02b9 A5000000 		.4byte	0xa5
+ 792 02bd 05       		.uleb128 0x5
+ 793 02be 03       		.byte	0x3
+ 794 02bf 00000000 		.4byte	Vmeas
+ 795 02c3 0D       		.uleb128 0xd
+ 796 02c4 99040000 		.4byte	.LASF36
+ 797 02c8 01       		.byte	0x1
+ 798 02c9 13       		.byte	0x13
+ 799 02ca A5000000 		.4byte	0xa5
+ 800 02ce 05       		.uleb128 0x5
+ 801 02cf 03       		.byte	0x3
+ 802 02d0 00000000 		.4byte	Vmeas_last
+ 803 02d4 0D       		.uleb128 0xd
+ 804 02d5 EA030000 		.4byte	.LASF37
+ 805 02d9 01       		.byte	0x1
+ 806 02da 13       		.byte	0x13
+ 807 02db A5000000 		.4byte	0xa5
+ 808 02df 05       		.uleb128 0x5
+ 809 02e0 03       		.byte	0x3
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 18
+
+
+ 810 02e1 00000000 		.4byte	Vmeas_delta
+ 811 02e5 0D       		.uleb128 0xd
+ 812 02e6 B8020000 		.4byte	.LASF38
+ 813 02ea 01       		.byte	0x1
+ 814 02eb 13       		.byte	0x13
+ 815 02ec A5000000 		.4byte	0xa5
+ 816 02f0 05       		.uleb128 0x5
+ 817 02f1 03       		.byte	0x3
+ 818 02f2 00000000 		.4byte	Verror
+ 819 02f6 0D       		.uleb128 0xd
+ 820 02f7 75030000 		.4byte	.LASF39
+ 821 02fb 01       		.byte	0x1
+ 822 02fc 13       		.byte	0x13
+ 823 02fd A5000000 		.4byte	0xa5
+ 824 0301 05       		.uleb128 0x5
+ 825 0302 03       		.byte	0x3
+ 826 0303 00000000 		.4byte	Vout
+ 827 0307 0D       		.uleb128 0xd
+ 828 0308 A3020000 		.4byte	.LASF40
+ 829 030c 01       		.byte	0x1
+ 830 030d 13       		.byte	0x13
+ 831 030e A5000000 		.4byte	0xa5
+ 832 0312 05       		.uleb128 0x5
+ 833 0313 03       		.byte	0x3
+ 834 0314 00000000 		.4byte	Vout_limited
+ 835 0318 0D       		.uleb128 0xd
+ 836 0319 E7020000 		.4byte	.LASF41
+ 837 031d 01       		.byte	0x1
+ 838 031e 14       		.byte	0x14
+ 839 031f A5000000 		.4byte	0xa5
+ 840 0323 05       		.uleb128 0x5
+ 841 0324 03       		.byte	0x3
+ 842 0325 00000000 		.4byte	Verror_sum
+ 843 0329 0D       		.uleb128 0xd
+ 844 032a 77000000 		.4byte	.LASF42
+ 845 032e 01       		.byte	0x1
+ 846 032f 14       		.byte	0x14
+ 847 0330 A5000000 		.4byte	0xa5
+ 848 0334 05       		.uleb128 0x5
+ 849 0335 03       		.byte	0x3
+ 850 0336 00000000 		.4byte	Verror_sum_limit
+ 851 033a 10       		.uleb128 0x10
+ 852 033b 4B7000   		.ascii	"Kp\000"
+ 853 033e 01       		.byte	0x1
+ 854 033f 15       		.byte	0x15
+ 855 0340 A5000000 		.4byte	0xa5
+ 856 0344 05       		.uleb128 0x5
+ 857 0345 03       		.byte	0x3
+ 858 0346 00000000 		.4byte	Kp
+ 859 034a 10       		.uleb128 0x10
+ 860 034b 4B6400   		.ascii	"Kd\000"
+ 861 034e 01       		.byte	0x1
+ 862 034f 15       		.byte	0x15
+ 863 0350 A5000000 		.4byte	0xa5
+ 864 0354 05       		.uleb128 0x5
+ 865 0355 03       		.byte	0x3
+ 866 0356 00000000 		.4byte	Kd
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 19
+
+
+ 867 035a 10       		.uleb128 0x10
+ 868 035b 4B6900   		.ascii	"Ki\000"
+ 869 035e 01       		.byte	0x1
+ 870 035f 15       		.byte	0x15
+ 871 0360 A5000000 		.4byte	0xa5
+ 872 0364 05       		.uleb128 0x5
+ 873 0365 03       		.byte	0x3
+ 874 0366 00000000 		.4byte	Ki
+ 875 036a 0D       		.uleb128 0xd
+ 876 036b E2010000 		.4byte	.LASF43
+ 877 036f 01       		.byte	0x1
+ 878 0370 16       		.byte	0x16
+ 879 0371 A5000000 		.4byte	0xa5
+ 880 0375 05       		.uleb128 0x5
+ 881 0376 03       		.byte	0x3
+ 882 0377 00000000 		.4byte	Kp_term
+ 883 037b 0D       		.uleb128 0xd
+ 884 037c B0020000 		.4byte	.LASF44
+ 885 0380 01       		.byte	0x1
+ 886 0381 16       		.byte	0x16
+ 887 0382 A5000000 		.4byte	0xa5
+ 888 0386 05       		.uleb128 0x5
+ 889 0387 03       		.byte	0x3
+ 890 0388 00000000 		.4byte	Kd_term
+ 891 038c 0D       		.uleb128 0xd
+ 892 038d 1C000000 		.4byte	.LASF45
+ 893 0391 01       		.byte	0x1
+ 894 0392 16       		.byte	0x16
+ 895 0393 A5000000 		.4byte	0xa5
+ 896 0397 05       		.uleb128 0x5
+ 897 0398 03       		.byte	0x3
+ 898 0399 00000000 		.4byte	Ki_term
+ 899 039d 0D       		.uleb128 0xd
+ 900 039e 34000000 		.4byte	.LASF46
+ 901 03a2 01       		.byte	0x1
+ 902 03a3 16       		.byte	0x16
+ 903 03a4 A5000000 		.4byte	0xa5
+ 904 03a8 05       		.uleb128 0x5
+ 905 03a9 03       		.byte	0x3
+ 906 03aa 00000000 		.4byte	FF_term
+ 907 03ae 0D       		.uleb128 0xd
+ 908 03af BF000000 		.4byte	.LASF47
+ 909 03b3 01       		.byte	0x1
+ 910 03b4 17       		.byte	0x17
+ 911 03b5 A5000000 		.4byte	0xa5
+ 912 03b9 05       		.uleb128 0x5
+ 913 03ba 03       		.byte	0x3
+ 914 03bb 00000000 		.4byte	Kp_term_limited
+ 915 03bf 0D       		.uleb128 0xd
+ 916 03c0 B1030000 		.4byte	.LASF48
+ 917 03c4 01       		.byte	0x1
+ 918 03c5 17       		.byte	0x17
+ 919 03c6 A5000000 		.4byte	0xa5
+ 920 03ca 05       		.uleb128 0x5
+ 921 03cb 03       		.byte	0x3
+ 922 03cc 00000000 		.4byte	Kd_term_limited
+ 923 03d0 0D       		.uleb128 0xd
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 20
+
+
+ 924 03d1 D5000000 		.4byte	.LASF49
+ 925 03d5 01       		.byte	0x1
+ 926 03d6 17       		.byte	0x17
+ 927 03d7 A5000000 		.4byte	0xa5
+ 928 03db 05       		.uleb128 0x5
+ 929 03dc 03       		.byte	0x3
+ 930 03dd 00000000 		.4byte	Ki_term_limited
+ 931 03e1 0D       		.uleb128 0xd
+ 932 03e2 67000000 		.4byte	.LASF50
+ 933 03e6 01       		.byte	0x1
+ 934 03e7 19       		.byte	0x19
+ 935 03e8 99000000 		.4byte	0x99
+ 936 03ec 05       		.uleb128 0x5
+ 937 03ed 03       		.byte	0x3
+ 938 03ee 00000000 		.4byte	loop_count
+ 939 03f2 0D       		.uleb128 0xd
+ 940 03f3 FF020000 		.4byte	.LASF51
+ 941 03f7 01       		.byte	0x1
+ 942 03f8 1B       		.byte	0x1b
+ 943 03f9 99000000 		.4byte	0x99
+ 944 03fd 05       		.uleb128 0x5
+ 945 03fe 03       		.byte	0x3
+ 946 03ff 00000000 		.4byte	Kd_display_gain
+ 947 0403 0D       		.uleb128 0xd
+ 948 0404 A8000000 		.4byte	.LASF52
+ 949 0408 01       		.byte	0x1
+ 950 0409 1C       		.byte	0x1c
+ 951 040a 99000000 		.4byte	0x99
+ 952 040e 05       		.uleb128 0x5
+ 953 040f 03       		.byte	0x3
+ 954 0410 00000000 		.4byte	Ki_term_overflow_count
+ 955 0414 0D       		.uleb128 0xd
+ 956 0415 99030000 		.4byte	.LASF53
+ 957 0419 01       		.byte	0x1
+ 958 041a 1C       		.byte	0x1c
+ 959 041b 99000000 		.4byte	0x99
+ 960 041f 05       		.uleb128 0x5
+ 961 0420 03       		.byte	0x3
+ 962 0421 00000000 		.4byte	Ki_term_underflow_count
+ 963 0425 0D       		.uleb128 0xd
+ 964 0426 0F010000 		.4byte	.LASF54
+ 965 042a 01       		.byte	0x1
+ 966 042b 1D       		.byte	0x1d
+ 967 042c 99000000 		.4byte	0x99
+ 968 0430 05       		.uleb128 0x5
+ 969 0431 03       		.byte	0x3
+ 970 0432 00000000 		.4byte	Vout_term_underflow_count
+ 971 0436 0D       		.uleb128 0xd
+ 972 0437 72010000 		.4byte	.LASF55
+ 973 043b 01       		.byte	0x1
+ 974 043c 1D       		.byte	0x1d
+ 975 043d 99000000 		.4byte	0x99
+ 976 0441 05       		.uleb128 0x5
+ 977 0442 03       		.byte	0x3
+ 978 0443 00000000 		.4byte	Vout_term_overflow_count
+ 979 0447 0D       		.uleb128 0xd
+ 980 0448 0C000000 		.4byte	.LASF56
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 21
+
+
+ 981 044c 01       		.byte	0x1
+ 982 044d 1E       		.byte	0x1e
+ 983 044e A5000000 		.4byte	0xa5
+ 984 0452 05       		.uleb128 0x5
+ 985 0453 03       		.byte	0x3
+ 986 0454 00000000 		.4byte	Kp_scale_factor
+ 987 0458 0D       		.uleb128 0xd
+ 988 0459 FF000000 		.4byte	.LASF57
+ 989 045d 01       		.byte	0x1
+ 990 045e 1E       		.byte	0x1e
+ 991 045f A5000000 		.4byte	0xa5
+ 992 0463 05       		.uleb128 0x5
+ 993 0464 03       		.byte	0x3
+ 994 0465 00000000 		.4byte	Kd_scale_factor
+ 995 0469 0D       		.uleb128 0xd
+ 996 046a 24000000 		.4byte	.LASF58
+ 997 046e 01       		.byte	0x1
+ 998 046f 1E       		.byte	0x1e
+ 999 0470 A5000000 		.4byte	0xa5
+ 1000 0474 05       		.uleb128 0x5
+ 1001 0475 03       		.byte	0x3
+ 1002 0476 00000000 		.4byte	Ki_scale_factor
+ 1003 047a 0D       		.uleb128 0xd
+ 1004 047b EA010000 		.4byte	.LASF59
+ 1005 047f 01       		.byte	0x1
+ 1006 0480 1F       		.byte	0x1f
+ 1007 0481 A5000000 		.4byte	0xa5
+ 1008 0485 05       		.uleb128 0x5
+ 1009 0486 03       		.byte	0x3
+ 1010 0487 00000000 		.4byte	feedforward_only
+ 1011 048b 11       		.uleb128 0x11
+ 1012 048c 5F010000 		.4byte	.LASF60
+ 1013 0490 5F010000 		.4byte	.LASF60
+ 1014 0494 06       		.byte	0x6
+ 1015 0495 34       		.byte	0x34
+ 1016 0496 11       		.uleb128 0x11
+ 1017 0497 CA030000 		.4byte	.LASF61
+ 1018 049b CA030000 		.4byte	.LASF61
+ 1019 049f 06       		.byte	0x6
+ 1020 04a0 D1       		.byte	0xd1
+ 1021 04a1 11       		.uleb128 0x11
+ 1022 04a2 00000000 		.4byte	.LASF62
+ 1023 04a6 00000000 		.4byte	.LASF62
+ 1024 04aa 07       		.byte	0x7
+ 1025 04ab 33       		.byte	0x33
+ 1026 04ac 11       		.uleb128 0x11
+ 1027 04ad 97020000 		.4byte	.LASF63
+ 1028 04b1 97020000 		.4byte	.LASF63
+ 1029 04b5 08       		.byte	0x8
+ 1030 04b6 33       		.byte	0x33
+ 1031 04b7 11       		.uleb128 0x11
+ 1032 04b8 46000000 		.4byte	.LASF64
+ 1033 04bc 46000000 		.4byte	.LASF64
+ 1034 04c0 09       		.byte	0x9
+ 1035 04c1 33       		.byte	0x33
+ 1036 04c2 11       		.uleb128 0x11
+ 1037 04c3 29030000 		.4byte	.LASF65
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 22
+
+
+ 1038 04c7 29030000 		.4byte	.LASF65
+ 1039 04cb 0A       		.byte	0xa
+ 1040 04cc 33       		.byte	0x33
+ 1041 04cd 11       		.uleb128 0x11
+ 1042 04ce E5000000 		.4byte	.LASF66
+ 1043 04d2 E5000000 		.4byte	.LASF66
+ 1044 04d6 0B       		.byte	0xb
+ 1045 04d7 33       		.byte	0x33
+ 1046 04d8 11       		.uleb128 0x11
+ 1047 04d9 7A030000 		.4byte	.LASF67
+ 1048 04dd 7A030000 		.4byte	.LASF67
+ 1049 04e1 0C       		.byte	0xc
+ 1050 04e2 33       		.byte	0x33
+ 1051 04e3 11       		.uleb128 0x11
+ 1052 04e4 54010000 		.4byte	.LASF68
+ 1053 04e8 54010000 		.4byte	.LASF68
+ 1054 04ec 0D       		.byte	0xd
+ 1055 04ed 33       		.byte	0x33
+ 1056 04ee 11       		.uleb128 0x11
+ 1057 04ef 1A020000 		.4byte	.LASF69
+ 1058 04f3 1A020000 		.4byte	.LASF69
+ 1059 04f7 09       		.byte	0x9
+ 1060 04f8 37       		.byte	0x37
+ 1061 04f9 11       		.uleb128 0x11
+ 1062 04fa 8D000000 		.4byte	.LASF70
+ 1063 04fe 8D000000 		.4byte	.LASF70
+ 1064 0502 06       		.byte	0x6
+ 1065 0503 39       		.byte	0x39
+ 1066 0504 11       		.uleb128 0x11
+ 1067 0505 88020000 		.4byte	.LASF71
+ 1068 0509 88020000 		.4byte	.LASF71
+ 1069 050d 06       		.byte	0x6
+ 1070 050e 3A       		.byte	0x3a
+ 1071 050f 11       		.uleb128 0x11
+ 1072 0510 58000000 		.4byte	.LASF72
+ 1073 0514 58000000 		.4byte	.LASF72
+ 1074 0518 08       		.byte	0x8
+ 1075 0519 37       		.byte	0x37
+ 1076 051a 11       		.uleb128 0x11
+ 1077 051b DB030000 		.4byte	.LASF73
+ 1078 051f DB030000 		.4byte	.LASF73
+ 1079 0523 07       		.byte	0x7
+ 1080 0524 37       		.byte	0x37
+ 1081 0525 11       		.uleb128 0x11
+ 1082 0526 91040000 		.4byte	.LASF74
+ 1083 052a 91040000 		.4byte	.LASF74
+ 1084 052e 0E       		.byte	0xe
+ 1085 052f 76       		.byte	0x76
+ 1086 0530 00       		.byte	0
+ 1087              		.section	.debug_abbrev,"",%progbits
+ 1088              	.Ldebug_abbrev0:
+ 1089 0000 01       		.uleb128 0x1
+ 1090 0001 11       		.uleb128 0x11
+ 1091 0002 01       		.byte	0x1
+ 1092 0003 25       		.uleb128 0x25
+ 1093 0004 0E       		.uleb128 0xe
+ 1094 0005 13       		.uleb128 0x13
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 23
+
+
+ 1095 0006 0B       		.uleb128 0xb
+ 1096 0007 03       		.uleb128 0x3
+ 1097 0008 0E       		.uleb128 0xe
+ 1098 0009 1B       		.uleb128 0x1b
+ 1099 000a 0E       		.uleb128 0xe
+ 1100 000b 55       		.uleb128 0x55
+ 1101 000c 17       		.uleb128 0x17
+ 1102 000d 11       		.uleb128 0x11
+ 1103 000e 01       		.uleb128 0x1
+ 1104 000f 10       		.uleb128 0x10
+ 1105 0010 17       		.uleb128 0x17
+ 1106 0011 00       		.byte	0
+ 1107 0012 00       		.byte	0
+ 1108 0013 02       		.uleb128 0x2
+ 1109 0014 24       		.uleb128 0x24
+ 1110 0015 00       		.byte	0
+ 1111 0016 0B       		.uleb128 0xb
+ 1112 0017 0B       		.uleb128 0xb
+ 1113 0018 3E       		.uleb128 0x3e
+ 1114 0019 0B       		.uleb128 0xb
+ 1115 001a 03       		.uleb128 0x3
+ 1116 001b 0E       		.uleb128 0xe
+ 1117 001c 00       		.byte	0
+ 1118 001d 00       		.byte	0
+ 1119 001e 03       		.uleb128 0x3
+ 1120 001f 16       		.uleb128 0x16
+ 1121 0020 00       		.byte	0
+ 1122 0021 03       		.uleb128 0x3
+ 1123 0022 0E       		.uleb128 0xe
+ 1124 0023 3A       		.uleb128 0x3a
+ 1125 0024 0B       		.uleb128 0xb
+ 1126 0025 3B       		.uleb128 0x3b
+ 1127 0026 0B       		.uleb128 0xb
+ 1128 0027 49       		.uleb128 0x49
+ 1129 0028 13       		.uleb128 0x13
+ 1130 0029 00       		.byte	0
+ 1131 002a 00       		.byte	0
+ 1132 002b 04       		.uleb128 0x4
+ 1133 002c 24       		.uleb128 0x24
+ 1134 002d 00       		.byte	0
+ 1135 002e 0B       		.uleb128 0xb
+ 1136 002f 0B       		.uleb128 0xb
+ 1137 0030 3E       		.uleb128 0x3e
+ 1138 0031 0B       		.uleb128 0xb
+ 1139 0032 03       		.uleb128 0x3
+ 1140 0033 08       		.uleb128 0x8
+ 1141 0034 00       		.byte	0
+ 1142 0035 00       		.byte	0
+ 1143 0036 05       		.uleb128 0x5
+ 1144 0037 16       		.uleb128 0x16
+ 1145 0038 00       		.byte	0
+ 1146 0039 03       		.uleb128 0x3
+ 1147 003a 0E       		.uleb128 0xe
+ 1148 003b 3A       		.uleb128 0x3a
+ 1149 003c 0B       		.uleb128 0xb
+ 1150 003d 3B       		.uleb128 0x3b
+ 1151 003e 05       		.uleb128 0x5
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 24
+
+
+ 1152 003f 49       		.uleb128 0x49
+ 1153 0040 13       		.uleb128 0x13
+ 1154 0041 00       		.byte	0
+ 1155 0042 00       		.byte	0
+ 1156 0043 06       		.uleb128 0x6
+ 1157 0044 2E       		.uleb128 0x2e
+ 1158 0045 01       		.byte	0x1
+ 1159 0046 3F       		.uleb128 0x3f
+ 1160 0047 19       		.uleb128 0x19
+ 1161 0048 03       		.uleb128 0x3
+ 1162 0049 0E       		.uleb128 0xe
+ 1163 004a 3A       		.uleb128 0x3a
+ 1164 004b 0B       		.uleb128 0xb
+ 1165 004c 3B       		.uleb128 0x3b
+ 1166 004d 0B       		.uleb128 0xb
+ 1167 004e 49       		.uleb128 0x49
+ 1168 004f 13       		.uleb128 0x13
+ 1169 0050 8701     		.uleb128 0x87
+ 1170 0052 19       		.uleb128 0x19
+ 1171 0053 11       		.uleb128 0x11
+ 1172 0054 01       		.uleb128 0x1
+ 1173 0055 12       		.uleb128 0x12
+ 1174 0056 06       		.uleb128 0x6
+ 1175 0057 40       		.uleb128 0x40
+ 1176 0058 18       		.uleb128 0x18
+ 1177 0059 9742     		.uleb128 0x2117
+ 1178 005b 19       		.uleb128 0x19
+ 1179 005c 01       		.uleb128 0x1
+ 1180 005d 13       		.uleb128 0x13
+ 1181 005e 00       		.byte	0
+ 1182 005f 00       		.byte	0
+ 1183 0060 07       		.uleb128 0x7
+ 1184 0061 898201   		.uleb128 0x4109
+ 1185 0064 00       		.byte	0
+ 1186 0065 11       		.uleb128 0x11
+ 1187 0066 01       		.uleb128 0x1
+ 1188 0067 31       		.uleb128 0x31
+ 1189 0068 13       		.uleb128 0x13
+ 1190 0069 00       		.byte	0
+ 1191 006a 00       		.byte	0
+ 1192 006b 08       		.uleb128 0x8
+ 1193 006c 898201   		.uleb128 0x4109
+ 1194 006f 01       		.byte	0x1
+ 1195 0070 11       		.uleb128 0x11
+ 1196 0071 01       		.uleb128 0x1
+ 1197 0072 31       		.uleb128 0x31
+ 1198 0073 13       		.uleb128 0x13
+ 1199 0074 01       		.uleb128 0x1
+ 1200 0075 13       		.uleb128 0x13
+ 1201 0076 00       		.byte	0
+ 1202 0077 00       		.byte	0
+ 1203 0078 09       		.uleb128 0x9
+ 1204 0079 8A8201   		.uleb128 0x410a
+ 1205 007c 00       		.byte	0
+ 1206 007d 02       		.uleb128 0x2
+ 1207 007e 18       		.uleb128 0x18
+ 1208 007f 9142     		.uleb128 0x2111
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 25
+
+
+ 1209 0081 18       		.uleb128 0x18
+ 1210 0082 00       		.byte	0
+ 1211 0083 00       		.byte	0
+ 1212 0084 0A       		.uleb128 0xa
+ 1213 0085 898201   		.uleb128 0x4109
+ 1214 0088 01       		.byte	0x1
+ 1215 0089 11       		.uleb128 0x11
+ 1216 008a 01       		.uleb128 0x1
+ 1217 008b 31       		.uleb128 0x31
+ 1218 008c 13       		.uleb128 0x13
+ 1219 008d 00       		.byte	0
+ 1220 008e 00       		.byte	0
+ 1221 008f 0B       		.uleb128 0xb
+ 1222 0090 34       		.uleb128 0x34
+ 1223 0091 00       		.byte	0
+ 1224 0092 03       		.uleb128 0x3
+ 1225 0093 0E       		.uleb128 0xe
+ 1226 0094 3A       		.uleb128 0x3a
+ 1227 0095 0B       		.uleb128 0xb
+ 1228 0096 3B       		.uleb128 0x3b
+ 1229 0097 05       		.uleb128 0x5
+ 1230 0098 49       		.uleb128 0x49
+ 1231 0099 13       		.uleb128 0x13
+ 1232 009a 3F       		.uleb128 0x3f
+ 1233 009b 19       		.uleb128 0x19
+ 1234 009c 3C       		.uleb128 0x3c
+ 1235 009d 19       		.uleb128 0x19
+ 1236 009e 00       		.byte	0
+ 1237 009f 00       		.byte	0
+ 1238 00a0 0C       		.uleb128 0xc
+ 1239 00a1 35       		.uleb128 0x35
+ 1240 00a2 00       		.byte	0
+ 1241 00a3 49       		.uleb128 0x49
+ 1242 00a4 13       		.uleb128 0x13
+ 1243 00a5 00       		.byte	0
+ 1244 00a6 00       		.byte	0
+ 1245 00a7 0D       		.uleb128 0xd
+ 1246 00a8 34       		.uleb128 0x34
+ 1247 00a9 00       		.byte	0
+ 1248 00aa 03       		.uleb128 0x3
+ 1249 00ab 0E       		.uleb128 0xe
+ 1250 00ac 3A       		.uleb128 0x3a
+ 1251 00ad 0B       		.uleb128 0xb
+ 1252 00ae 3B       		.uleb128 0x3b
+ 1253 00af 0B       		.uleb128 0xb
+ 1254 00b0 49       		.uleb128 0x49
+ 1255 00b1 13       		.uleb128 0x13
+ 1256 00b2 3F       		.uleb128 0x3f
+ 1257 00b3 19       		.uleb128 0x19
+ 1258 00b4 02       		.uleb128 0x2
+ 1259 00b5 18       		.uleb128 0x18
+ 1260 00b6 00       		.byte	0
+ 1261 00b7 00       		.byte	0
+ 1262 00b8 0E       		.uleb128 0xe
+ 1263 00b9 01       		.uleb128 0x1
+ 1264 00ba 01       		.byte	0x1
+ 1265 00bb 49       		.uleb128 0x49
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 26
+
+
+ 1266 00bc 13       		.uleb128 0x13
+ 1267 00bd 01       		.uleb128 0x1
+ 1268 00be 13       		.uleb128 0x13
+ 1269 00bf 00       		.byte	0
+ 1270 00c0 00       		.byte	0
+ 1271 00c1 0F       		.uleb128 0xf
+ 1272 00c2 21       		.uleb128 0x21
+ 1273 00c3 00       		.byte	0
+ 1274 00c4 49       		.uleb128 0x49
+ 1275 00c5 13       		.uleb128 0x13
+ 1276 00c6 2F       		.uleb128 0x2f
+ 1277 00c7 05       		.uleb128 0x5
+ 1278 00c8 00       		.byte	0
+ 1279 00c9 00       		.byte	0
+ 1280 00ca 10       		.uleb128 0x10
+ 1281 00cb 34       		.uleb128 0x34
+ 1282 00cc 00       		.byte	0
+ 1283 00cd 03       		.uleb128 0x3
+ 1284 00ce 08       		.uleb128 0x8
+ 1285 00cf 3A       		.uleb128 0x3a
+ 1286 00d0 0B       		.uleb128 0xb
+ 1287 00d1 3B       		.uleb128 0x3b
+ 1288 00d2 0B       		.uleb128 0xb
+ 1289 00d3 49       		.uleb128 0x49
+ 1290 00d4 13       		.uleb128 0x13
+ 1291 00d5 3F       		.uleb128 0x3f
+ 1292 00d6 19       		.uleb128 0x19
+ 1293 00d7 02       		.uleb128 0x2
+ 1294 00d8 18       		.uleb128 0x18
+ 1295 00d9 00       		.byte	0
+ 1296 00da 00       		.byte	0
+ 1297 00db 11       		.uleb128 0x11
+ 1298 00dc 2E       		.uleb128 0x2e
+ 1299 00dd 00       		.byte	0
+ 1300 00de 3F       		.uleb128 0x3f
+ 1301 00df 19       		.uleb128 0x19
+ 1302 00e0 3C       		.uleb128 0x3c
+ 1303 00e1 19       		.uleb128 0x19
+ 1304 00e2 6E       		.uleb128 0x6e
+ 1305 00e3 0E       		.uleb128 0xe
+ 1306 00e4 03       		.uleb128 0x3
+ 1307 00e5 0E       		.uleb128 0xe
+ 1308 00e6 3A       		.uleb128 0x3a
+ 1309 00e7 0B       		.uleb128 0xb
+ 1310 00e8 3B       		.uleb128 0x3b
+ 1311 00e9 0B       		.uleb128 0xb
+ 1312 00ea 00       		.byte	0
+ 1313 00eb 00       		.byte	0
+ 1314 00ec 00       		.byte	0
+ 1315              		.section	.debug_aranges,"",%progbits
+ 1316 0000 1C000000 		.4byte	0x1c
+ 1317 0004 0200     		.2byte	0x2
+ 1318 0006 00000000 		.4byte	.Ldebug_info0
+ 1319 000a 04       		.byte	0x4
+ 1320 000b 00       		.byte	0
+ 1321 000c 0000     		.2byte	0
+ 1322 000e 0000     		.2byte	0
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 27
+
+
+ 1323 0010 00000000 		.4byte	.LFB64
+ 1324 0014 08020000 		.4byte	.LFE64-.LFB64
+ 1325 0018 00000000 		.4byte	0
+ 1326 001c 00000000 		.4byte	0
+ 1327              		.section	.debug_ranges,"",%progbits
+ 1328              	.Ldebug_ranges0:
+ 1329 0000 00000000 		.4byte	.LFB64
+ 1330 0004 08020000 		.4byte	.LFE64
+ 1331 0008 00000000 		.4byte	0
+ 1332 000c 00000000 		.4byte	0
+ 1333              		.section	.debug_line,"",%progbits
+ 1334              	.Ldebug_line0:
+ 1335 0000 F7010000 		.section	.debug_str,"MS",%progbits,1
+ 1335      0200A901 
+ 1335      00000201 
+ 1335      FB0E0D00 
+ 1335      01010101 
+ 1336              	.LASF62:
+ 1337 0000 4441435F 		.ascii	"DAC_1_Start\000"
+ 1337      315F5374 
+ 1337      61727400 
+ 1338              	.LASF56:
+ 1339 000c 4B705F73 		.ascii	"Kp_scale_factor\000"
+ 1339      63616C65 
+ 1339      5F666163 
+ 1339      746F7200 
+ 1340              	.LASF45:
+ 1341 001c 4B695F74 		.ascii	"Ki_term\000"
+ 1341      65726D00 
+ 1342              	.LASF58:
+ 1343 0024 4B695F73 		.ascii	"Ki_scale_factor\000"
+ 1343      63616C65 
+ 1343      5F666163 
+ 1343      746F7200 
+ 1344              	.LASF46:
+ 1345 0034 46465F74 		.ascii	"FF_term\000"
+ 1345      65726D00 
+ 1346              	.LASF2:
+ 1347 003c 73686F72 		.ascii	"short int\000"
+ 1347      7420696E 
+ 1347      7400
+ 1348              	.LASF64:
+ 1349 0046 4441435F 		.ascii	"DAC_3_Start\000"
+ 1349      335F5374 
+ 1349      61727400 
+ 1350              	.LASF35:
+ 1351 0052 566D6561 		.ascii	"Vmeas\000"
+ 1351      7300
+ 1352              	.LASF72:
+ 1353 0058 4441435F 		.ascii	"DAC_2_SetValue\000"
+ 1353      325F5365 
+ 1353      7456616C 
+ 1353      756500
+ 1354              	.LASF50:
+ 1355 0067 6C6F6F70 		.ascii	"loop_count\000"
+ 1355      5F636F75 
+ 1355      6E7400
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 28
+
+
+ 1356              	.LASF34:
+ 1357 0072 56726566 		.ascii	"Vref\000"
+ 1357      00
+ 1358              	.LASF42:
+ 1359 0077 56657272 		.ascii	"Verror_sum_limit\000"
+ 1359      6F725F73 
+ 1359      756D5F6C 
+ 1359      696D6974 
+ 1359      00
+ 1360              	.LASF78:
+ 1361 0088 6D61696E 		.ascii	"main\000"
+ 1361      00
+ 1362              	.LASF70:
+ 1363 008d 4144435F 		.ascii	"ADC_IsEndConversion\000"
+ 1363      4973456E 
+ 1363      64436F6E 
+ 1363      76657273 
+ 1363      696F6E00 
+ 1364              	.LASF12:
+ 1365 00a1 75696E74 		.ascii	"uint16\000"
+ 1365      313600
+ 1366              	.LASF52:
+ 1367 00a8 4B695F74 		.ascii	"Ki_term_overflow_count\000"
+ 1367      65726D5F 
+ 1367      6F766572 
+ 1367      666C6F77 
+ 1367      5F636F75 
+ 1368              	.LASF47:
+ 1369 00bf 4B705F74 		.ascii	"Kp_term_limited\000"
+ 1369      65726D5F 
+ 1369      6C696D69 
+ 1369      74656400 
+ 1370              	.LASF11:
+ 1371 00cf 75696E74 		.ascii	"uint8\000"
+ 1371      3800
+ 1372              	.LASF49:
+ 1373 00d5 4B695F74 		.ascii	"Ki_term_limited\000"
+ 1373      65726D5F 
+ 1373      6C696D69 
+ 1373      74656400 
+ 1374              	.LASF66:
+ 1375 00e5 4F415F32 		.ascii	"OA_2_Start\000"
+ 1375      5F537461 
+ 1375      727400
+ 1376              	.LASF23:
+ 1377 00f0 6164635F 		.ascii	"adc_wait_count\000"
+ 1377      77616974 
+ 1377      5F636F75 
+ 1377      6E7400
+ 1378              	.LASF57:
+ 1379 00ff 4B645F73 		.ascii	"Kd_scale_factor\000"
+ 1379      63616C65 
+ 1379      5F666163 
+ 1379      746F7200 
+ 1380              	.LASF54:
+ 1381 010f 566F7574 		.ascii	"Vout_term_underflow_count\000"
+ 1381      5F746572 
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 29
+
+
+ 1381      6D5F756E 
+ 1381      64657266 
+ 1381      6C6F775F 
+ 1382              	.LASF15:
+ 1383 0129 666C6F61 		.ascii	"float\000"
+ 1383      7400
+ 1384              	.LASF6:
+ 1385 012f 6C6F6E67 		.ascii	"long long int\000"
+ 1385      206C6F6E 
+ 1385      6720696E 
+ 1385      7400
+ 1386              	.LASF7:
+ 1387 013d 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1387      206C6F6E 
+ 1387      6720756E 
+ 1387      7369676E 
+ 1387      65642069 
+ 1388              	.LASF68:
+ 1389 0154 4F415F34 		.ascii	"OA_4_Start\000"
+ 1389      5F537461 
+ 1389      727400
+ 1390              	.LASF60:
+ 1391 015f 4144435F 		.ascii	"ADC_Start\000"
+ 1391      53746172 
+ 1391      7400
+ 1392              	.LASF4:
+ 1393 0169 6C6F6E67 		.ascii	"long int\000"
+ 1393      20696E74 
+ 1393      00
+ 1394              	.LASF55:
+ 1395 0172 566F7574 		.ascii	"Vout_term_overflow_count\000"
+ 1395      5F746572 
+ 1395      6D5F6F76 
+ 1395      6572666C 
+ 1395      6F775F63 
+ 1396              	.LASF25:
+ 1397 018b 74657374 		.ascii	"test_mode\000"
+ 1397      5F6D6F64 
+ 1397      6500
+ 1398              	.LASF26:
+ 1399 0195 62757474 		.ascii	"button_not_pushed_count\000"
+ 1399      6F6E5F6E 
+ 1399      6F745F70 
+ 1399      75736865 
+ 1399      645F636F 
+ 1400              	.LASF22:
+ 1401 01ad 736F7572 		.ascii	"source\000"
+ 1401      636500
+ 1402              	.LASF30:
+ 1403 01b4 566D6561 		.ascii	"Vmeas_raw\000"
+ 1403      735F7261 
+ 1403      7700
+ 1404              	.LASF18:
+ 1405 01be 6C6F6E67 		.ascii	"long double\000"
+ 1405      20646F75 
+ 1405      626C6500 
+ 1406              	.LASF1:
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 30
+
+
+ 1407 01ca 756E7369 		.ascii	"unsigned char\000"
+ 1407      676E6564 
+ 1407      20636861 
+ 1407      7200
+ 1408              	.LASF28:
+ 1409 01d8 6164635F 		.ascii	"adc_limit\000"
+ 1409      6C696D69 
+ 1409      7400
+ 1410              	.LASF43:
+ 1411 01e2 4B705F74 		.ascii	"Kp_term\000"
+ 1411      65726D00 
+ 1412              	.LASF59:
+ 1413 01ea 66656564 		.ascii	"feedforward_only\000"
+ 1413      666F7277 
+ 1413      6172645F 
+ 1413      6F6E6C79 
+ 1413      00
+ 1414              	.LASF32:
+ 1415 01fb 566D6561 		.ascii	"Vmeas_buffer_index\000"
+ 1415      735F6275 
+ 1415      66666572 
+ 1415      5F696E64 
+ 1415      657800
+ 1416              	.LASF0:
+ 1417 020e 7369676E 		.ascii	"signed char\000"
+ 1417      65642063 
+ 1417      68617200 
+ 1418              	.LASF69:
+ 1419 021a 4441435F 		.ascii	"DAC_3_SetValue\000"
+ 1419      335F5365 
+ 1419      7456616C 
+ 1419      756500
+ 1420              	.LASF77:
+ 1421 0229 433A5C55 		.ascii	"C:\\Users\\poorn\\Documents\\PSoC Creator\\ESM_Labs"
+ 1421      73657273 
+ 1421      5C706F6F 
+ 1421      726E5C44 
+ 1421      6F63756D 
+ 1422 0257 5C4C6162 		.ascii	"\\Lab6_DC_Motor_PID.cydsn\000"
+ 1422      365F4443 
+ 1422      5F4D6F74 
+ 1422      6F725F50 
+ 1422      49442E63 
+ 1423              	.LASF27:
+ 1424 0270 6164635F 		.ascii	"adc_result\000"
+ 1424      72657375 
+ 1424      6C7400
+ 1425              	.LASF8:
+ 1426 027b 756E7369 		.ascii	"unsigned int\000"
+ 1426      676E6564 
+ 1426      20696E74 
+ 1426      00
+ 1427              	.LASF71:
+ 1428 0288 4144435F 		.ascii	"ADC_GetResult8\000"
+ 1428      47657452 
+ 1428      6573756C 
+ 1428      743800
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 31
+
+
+ 1429              	.LASF63:
+ 1430 0297 4441435F 		.ascii	"DAC_2_Start\000"
+ 1430      325F5374 
+ 1430      61727400 
+ 1431              	.LASF40:
+ 1432 02a3 566F7574 		.ascii	"Vout_limited\000"
+ 1432      5F6C696D 
+ 1432      69746564 
+ 1432      00
+ 1433              	.LASF44:
+ 1434 02b0 4B645F74 		.ascii	"Kd_term\000"
+ 1434      65726D00 
+ 1435              	.LASF38:
+ 1436 02b8 56657272 		.ascii	"Verror\000"
+ 1436      6F7200
+ 1437              	.LASF33:
+ 1438 02bf 62756666 		.ascii	"buffer_limit_reached\000"
+ 1438      65725F6C 
+ 1438      696D6974 
+ 1438      5F726561 
+ 1438      63686564 
+ 1439              	.LASF3:
+ 1440 02d4 73686F72 		.ascii	"short unsigned int\000"
+ 1440      7420756E 
+ 1440      7369676E 
+ 1440      65642069 
+ 1440      6E7400
+ 1441              	.LASF41:
+ 1442 02e7 56657272 		.ascii	"Verror_sum\000"
+ 1442      6F725F73 
+ 1442      756D00
+ 1443              	.LASF17:
+ 1444 02f2 63686172 		.ascii	"char\000"
+ 1444      00
+ 1445              	.LASF10:
+ 1446 02f7 696E7433 		.ascii	"int32_t\000"
+ 1446      325F7400 
+ 1447              	.LASF51:
+ 1448 02ff 4B645F64 		.ascii	"Kd_display_gain\000"
+ 1448      6973706C 
+ 1448      61795F67 
+ 1448      61696E00 
+ 1449              	.LASF29:
+ 1450 030f 73616D70 		.ascii	"sample_count\000"
+ 1450      6C655F63 
+ 1450      6F756E74 
+ 1450      00
+ 1451              	.LASF31:
+ 1452 031c 566D6561 		.ascii	"Vmeas_buffer\000"
+ 1452      735F6275 
+ 1452      66666572 
+ 1452      00
+ 1453              	.LASF65:
+ 1454 0329 4F415F31 		.ascii	"OA_1_Start\000"
+ 1454      5F537461 
+ 1454      727400
+ 1455              	.LASF13:
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 32
+
+
+ 1456 0334 75696E74 		.ascii	"uint32\000"
+ 1456      333200
+ 1457              	.LASF76:
+ 1458 033b 6D61696E 		.ascii	"main.c\000"
+ 1458      2E6300
+ 1459              	.LASF5:
+ 1460 0342 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1460      20756E73 
+ 1460      69676E65 
+ 1460      6420696E 
+ 1460      7400
+ 1461              	.LASF14:
+ 1462 0354 696E7433 		.ascii	"int32\000"
+ 1462      3200
+ 1463              	.LASF16:
+ 1464 035a 646F7562 		.ascii	"double\000"
+ 1464      6C6500
+ 1465              	.LASF24:
+ 1466 0361 6C617374 		.ascii	"last_adc_wait_count\000"
+ 1466      5F616463 
+ 1466      5F776169 
+ 1466      745F636F 
+ 1466      756E7400 
+ 1467              	.LASF39:
+ 1468 0375 566F7574 		.ascii	"Vout\000"
+ 1468      00
+ 1469              	.LASF67:
+ 1470 037a 4F415F33 		.ascii	"OA_3_Start\000"
+ 1470      5F537461 
+ 1470      727400
+ 1471              	.LASF9:
+ 1472 0385 5F5F696E 		.ascii	"__int32_t\000"
+ 1472      7433325F 
+ 1472      7400
+ 1473              	.LASF21:
+ 1474 038f 63757272 		.ascii	"current_l\000"
+ 1474      656E745F 
+ 1474      6C00
+ 1475              	.LASF53:
+ 1476 0399 4B695F74 		.ascii	"Ki_term_underflow_count\000"
+ 1476      65726D5F 
+ 1476      756E6465 
+ 1476      72666C6F 
+ 1476      775F636F 
+ 1477              	.LASF48:
+ 1478 03b1 4B645F74 		.ascii	"Kd_term_limited\000"
+ 1478      65726D5F 
+ 1478      6C696D69 
+ 1478      74656400 
+ 1479              	.LASF19:
+ 1480 03c1 73697A65 		.ascii	"sizetype\000"
+ 1480      74797065 
+ 1480      00
+ 1481              	.LASF61:
+ 1482 03ca 4144435F 		.ascii	"ADC_StartConvert\000"
+ 1482      53746172 
+ 1482      74436F6E 
+ARM GAS  C:\Users\poorn\AppData\Local\Temp\cclIv9rk.s 			page 33
+
+
+ 1482      76657274 
+ 1482      00
+ 1483              	.LASF73:
+ 1484 03db 4441435F 		.ascii	"DAC_1_SetValue\000"
+ 1484      315F5365 
+ 1484      7456616C 
+ 1484      756500
+ 1485              	.LASF37:
+ 1486 03ea 566D6561 		.ascii	"Vmeas_delta\000"
+ 1486      735F6465 
+ 1486      6C746100 
+ 1487              	.LASF20:
+ 1488 03f6 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1488      52784275 
+ 1488      66666572 
+ 1488      00
+ 1489              	.LASF75:
+ 1490 0403 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1490      43313120 
+ 1490      352E342E 
+ 1490      31203230 
+ 1490      31363036 
+ 1491 0436 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1491      20726576 
+ 1491      6973696F 
+ 1491      6E203233 
+ 1491      37373135 
+ 1492 0469 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1492      66756E63 
+ 1492      74696F6E 
+ 1492      2D736563 
+ 1492      74696F6E 
+ 1493              	.LASF74:
+ 1494 0491 43794465 		.ascii	"CyDelay\000"
+ 1494      6C617900 
+ 1495              	.LASF36:
+ 1496 0499 566D6561 		.ascii	"Vmeas_last\000"
+ 1496      735F6C61 
+ 1496      737400
+ 1497              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

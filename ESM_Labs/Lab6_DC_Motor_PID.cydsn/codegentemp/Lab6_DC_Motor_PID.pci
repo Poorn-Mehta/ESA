@@ -1,0 +1,27 @@
+# Lab6_DC_Motor_PID
+# 2019-09-11 01:25:39Z
+
+# IO_0@[IOP=(1)][IoId=(0)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 0
+# IO_1@[IOP=(1)][IoId=(1)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 1
+# IO_3@[IOP=(1)][IoId=(3)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 3
+set_io "Pin_1(0)" iocell 0 1
+set_io "\ADC:Bypass(0)\" iocell 0 2
+set_io "Pin_2(0)" iocell 3 6
+set_io "Pin_3(0)" iocell 0 0
+set_io "Pin_4(0)" iocell 3 7
+set_io "P4_0(0)" iocell 4 0
+set_io "P4_1(0)" iocell 4 1
+set_io "P4_2(0)" iocell 4 2
+set_io "P1_7(0)" iocell 1 7
+set_io "P1_6(0)" iocell 1 6
+set_location "\DAC_1:viDAC8\" vidaccell -1 -1 2
+set_location "\OA_1:ABuf\" abufcell -1 -1 0
+set_location "\OA_2:ABuf\" abufcell -1 -1 1
+set_location "\OA_3:ABuf\" abufcell -1 -1 2
+set_location "\OA_4:ABuf\" abufcell -1 -1 3
+set_location "\DAC_3:viDAC8\" vidaccell -1 -1 0
+set_location "\DAC_2:viDAC8\" vidaccell -1 -1 3
+set_location "\ADC:ADC_SAR\" sarcell -1 -1 1
